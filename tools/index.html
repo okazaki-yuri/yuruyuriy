@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="便利なWebツール一覧">
+  <title>ゆるユーリ | ツール一覧</title>
+
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- Googleフォント -->
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+  <!-- ヘッダー・フッター専用CSS -->
+  <link rel="stylesheet" href="/components/header-footer.css" />
+</head>
+<body>
+  <!-- ヘッダー読み込み -->
+  <div id="header-container"></div>
+
+  <!-- メインコンテンツ -->
+  <main class="tool-list-page">
+
+    <!-- タイトルおよびページ説明 -->
+    <section class="tools-heading-area">
+      <h1>🛠 ツール一覧</h1>
+      <p>現在公開中および今後公開予定のツールたちです。</p>
+    </section>
+
+    <!-- ツールカード一覧 -->
+    <section class="tool-list-container">
+      <div class="tool-card">
+        <a href="wordroulette-chan/index.html" class="tool-link">
+          <div class="tool-icon">🎡</div>
+          <div class="tool-name">ことばルーレットちゃん</div>
+          <p class="tool-description">入力した単語の中からランダムに選びます。</p>
+        </a>
+      </div>
+      <!-- TODO 今後追加される予定のツールたち -->
+      <div class="tool-card coming-soon">
+        <div class="tool-link">
+          <div class="tool-icon">🔧</div>
+          <div class="tool-name">Coming Soon</div>
+          <p class="tool-description">準備中のツールです。お楽しみに！</p>
+        </div>
+      </div>
+      <div class="tool-card coming-soon">
+        <div class="tool-link">
+          <div class="tool-icon">🔧</div>
+          <div class="tool-name">Coming Soon</div>
+          <p class="tool-description">準備中のツールです。お楽しみに！</p>
+        </div>
+      </div>
+      <div class="tool-card coming-soon">
+        <div class="tool-link">
+          <div class="tool-icon">🔧</div>
+          <div class="tool-name">Coming Soon</div>
+          <p class="tool-description">準備中のツールです。お楽しみに！</p>
+        </div>
+      </div>
+      <!-- 必要に応じてツールカードを追加 -->
+    </section>
+  </main>
+
+  <!-- フッター読み込み -->
+  <div id="footer-container"></div>
+
+  <!-- ヘッダー・フッター読み込みスクリプト -->
+  <script src="/components/header-footer.js"></script>
+
+</body>
+</html>

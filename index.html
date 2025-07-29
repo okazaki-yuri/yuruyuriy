@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。">
+  <!-- TODO OGP -->
+  <!-- <meta property="og:title" content="ゆるユーリ | 便利なWebツールを自主制作しているサイト">
+  <meta property="og:description" content="日常で使える便利なWebツールを自主制作しているサイトです。">
+  <meta property="og:image" content="">
+  <meta property="og:url" content="">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ゆるユーリ"> -->
+  <title>ゆるユーリ | かわいいWebツールを集めたサイト</title>
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- Googleフォント -->
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+  <!-- ヘッダー・フッター専用CSS -->
+  <link rel="stylesheet" href="/components/header-footer.css" />
+</head>
+<body>
+  <!-- ヘッダー読み込み -->
+  <div id="header-container"></div>
+
+  <main class="top-page">
+
+    <!-- サイト説明 -->
+    <section class="top-description">
+      <img src="/assets/logo.png" alt="ゆるユーリ ロゴ" class="top-logo" />
+      <p>
+        ゆるユーリは、個人製作サイトです。<br>
+        趣味で制作したツールを公開しています。<br>
+        コンセプトは「かわいい！！」
+      </p>
+    </section>
+
+    <section class="top-section-links">
+      <!-- ツール一覧 -->
+      <div class="top-link-box top-tool-box">
+        <h2>🛠 ツール一覧</h2>
+        <a href="/tools/" class="top-tool-link-button">ツール一覧を見る</a>
+        <p>便利なツールをまとめた一覧ページです。</p>
+      </div>
+      <!-- ブログ一覧 -->
+      <div class="top-link-box top-blog-box">
+        <h2>📝 ブログ一覧</h2>
+        <!-- TODO ブログ一覧ページを作成 -->
+        <a href="#" class="top-blog-link-button">ブログ一覧を見る（準備中）</a>
+        <p>
+          開発メモやアップデート情報の他、<br>
+          日常のあれこれをゆるく書き残していく予定です。
+        </p>
+      </div>
+    </section>
+
+  <!-- フッター読み込み -->
+  <div id="footer-container"></div>
+
+  <!-- ヘッダー・フッター読み込みスクリプト -->
+  <script src="/components/header-footer.js"></script>
+
+  <script src="/js/script.js"></script>
+</body>
+</html>

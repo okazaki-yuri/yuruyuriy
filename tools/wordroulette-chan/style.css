@@ -1,0 +1,296 @@
+* {
+  box-sizing: border-box;
+}
+
+.result-box {
+  margin: 0 auto 1rem;
+  padding: 1rem;
+  font-size: 2rem;
+  border: 2px dashed #999;
+  border-radius: 10px;
+  background-color: #fff;
+  width: 100%;
+  max-width: 600px;
+  word-wrap: break-word;
+  min-height: 3em;
+  color: #222;
+  transition: background-color 0.3s ease;
+}
+
+/* --- 切り替え中：文字を薄めに --- */
+.result-box.spin {
+  background-color: rgba(0, 0, 0, 0.05);       /* 薄い黒 */
+}
+
+/* --- 最終結果：強調アニメーション --- */
+.result-box.final {
+  color: #222;                      /* 通常の濃さ */
+  animation: highlight 0.6s ease-out;
+}
+
+/* 結果強調：一瞬拡大して戻る */
+@keyframes highlight {
+  0%   { transform: scale(1.2); opacity: 0; }
+  50%  { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.result-box:empty::before {
+  content: "ここにルーレット結果が表示されます";
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+/* タブ */
+.tab-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #bbb;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.tab-button {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  background-color: #e0e0e0;
+  border: 1px solid #ccc;
+  border-bottom: none;
+  color: #555;
+  font-weight: bold;
+  cursor: pointer;
+}
+.tab-button:hover {
+  background-color: #d0d0d0;
+}
+.tab-button.active {
+  background-color: #444;
+  color: #fff;
+}
+
+/* 入力エリア */
+.input-area {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 1rem;
+  text-align: center;
+}
+#wordInput,
+#multiInput {
+  width: 100%;
+  font-size: 1rem;
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ボタン行 */
+.button-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1rem;
+}
+.button-row button {
+  flex: 1;
+  min-width: 40%;
+  padding: 0.7rem;
+  font-size: 1rem;
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.button-row button:hover {
+  background-color: #666;
+}
+
+/* 並び替え */
+.sort-controls {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+.sort-link {
+  cursor: pointer;
+  text-decoration: underline;
+  margin: 0 0.5rem;
+}
+
+/* 並び替え＋時間選択レイアウト */
+.sort-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem; /* 各要素の間隔 */
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.sort-link {
+  cursor: pointer;
+  text-decoration: underline;
+  margin: 0 0.25rem;
+}
+
+.duration-label {
+  margin-left: 1rem; /* ソートから少しスペース */
+  font-weight: 500;
+}
+
+.duration-select {
+  padding: 0.2rem 0.4rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.duration-select:hover {
+  background: #f7f7f7;
+}
+
+/* 単語一覧 */
+.word-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.word-tag {
+  background-color: #eee;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  border: 1px solid #ccc;
+}
+.word-tag button {
+  margin-left: 0.6rem;
+  background: #888;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+.word-tag button:hover {
+  background: #555;
+}
+
+/* リセット */
+.reset-area {
+  margin-top: 1rem;
+}
+.reset-area button {
+  padding: 0.6rem 1.5rem;
+  background-color: #888;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.reset-area button:hover {
+  background-color: #666;
+}
+
+.hidden {
+  display: none;
+}
+
+.tab-content.hidden {
+  display: none;
+}
+
+/* スマホ対応 */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  .result-box {
+    font-size: 1.5rem;
+    width: 100%;
+  }
+  .button-row {
+    flex-direction: row;
+  }
+  .button-row button {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+  }
+}
+
+.introduction-area {
+  max-width: 600px;
+  margin: 2rem auto 1rem auto;
+  padding: 1.5rem;
+  background-color: #f6f6f6; /* やさしいグレー系 */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ddd;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.introduction-area h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #555;
+  text-align: center;
+}
+
+.introduction-area p {
+  margin: 0;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.howto-area {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #fdfaf5; /* クリーム系 */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.7;
+  border: 1px solid #ddd;
+  background-image: radial-gradient(#f1f1f1 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+.howto-area h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #666;
+  text-align: center;
+}
+
+.howto-area ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left; /* ← 左寄せ */
+}
+
+.howto-area li {
+  margin-bottom: 0.8rem;
+  padding-left: 1.5em;
+  position: relative;
+  text-indent: -1.5em;
+}

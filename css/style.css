@@ -1,0 +1,186 @@
+/* --- 共通CSS --- */
+body {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h1 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+
+/* ========== TOPページ全体 ========== */
+.top-page {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  text-align: center;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+.top-description {
+  background-color: #fff8f0;
+  border: 2px solid #f1d9c2;
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 2rem auto;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;
+  color: #4b3d2a;
+  text-align: center;
+}
+
+.top-description h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #a47148;
+}
+
+.top-description p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.top-logo {
+  width: 240px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.top-title {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* ツール・ブログ一覧セクション */
+.top-section-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2.5rem;
+  padding: 1rem;
+}
+
+.top-link-box {
+  flex: 1 1 300px;
+  max-width: 400px;
+  background-color: #fdf9f3;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.top-link-box h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+}
+
+.top-link-box p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* ボタン共通スタイル */
+.top-tool-link-button,
+.top-blog-link-button {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  margin-bottom: 0.8rem;
+  background-color: #f1e4cc;
+  color: #333;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.top-tool-link-button:hover,
+.top-blog-link-button:hover {
+  background-color: #e2d6bd;
+}
+
+/* ツール一覧ページ用 */
+.tool-list-page {
+  padding: 2em 1em;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.tools-heading-area {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.tool-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.tool-card {
+  background-color: #f9f7f6;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+  width: 300px;
+  padding: 1em;
+  transition: transform 0.2s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-5px);
+}
+
+.tool-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.tool-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5em;
+}
+
+.tool-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5em;
+}
+
+.tool-description {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.coming-soon {
+  opacity: 0.6;
+}
+
+/* スマホ対応 */
+
+@media (max-width: 600px) {
+  .top-logo {
+    width: 120px;
+  }
+
+  .tool-card {
+    width: 100%;
+  }
+}

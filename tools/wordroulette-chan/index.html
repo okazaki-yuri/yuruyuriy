@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="入力された単語の中からランダムに1つを表示する抽選ツールです。お題決めや、チーム分けなどで活用できます。">
+  <title>ことばルーレットちゃん | 単語抽選ツール</title>
+
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="../../css/style.css" />
+  <!-- ことばルーレットちゃん専用CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Googleフォント -->
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+  <!-- ヘッダー・フッター専用CSS -->
+  <link rel="stylesheet" href="../../components/header-footer.css" />
+</head>
+<body>
+  <!-- ヘッダー読み込み -->
+  <div id="header-container"></div>
+
+  <main>
+    <h1>ことばルーレットちゃん</h1>
+
+    <!-- 優先結果表示 -->
+    <div class="result-box" id="resultBox"></div>
+
+    <!-- 入力モード切替用のタブ -->
+    <div class="tab-container">
+      <button class="tab-button active" data-tab="single">ことば入力</button>
+      <button class="tab-button" data-tab="multi">まとめて入力</button>
+    </div>
+
+    <!-- ことば入力エリア -->
+    <div class="input-area">
+      <!-- ことば入力モード -->
+      <div id="single" class="tab-content">
+        <input id="wordInput" maxlength="50" placeholder="ことばを入力してEnterまたは追加ボタン" />
+      </div>
+      <!-- まとめて入力モード -->
+      <div id="multi" class="tab-content hidden">
+        <textarea id="multiInput" rows="5" placeholder="改行で区切って複数のことばを一括入力"></textarea>
+      </div>
+
+      <!-- 追加＆ルーレットボタン -->
+      <div class="button-row">
+        <button onclick="addWord()">追加</button>
+        <button id="spinBtn" onclick="spinRoulette()">ルーレット</button>
+      </div>
+    </div>
+
+    <!-- 一覧にことばがある場合のみ表示される -->
+    <div class="sort-controls hidden" id="sortControls">
+      <!-- ソート -->
+      並び順：
+      <span class="sort-link" onclick="sortWords('asc')">昇順</span> /
+      <span class="sort-link" onclick="sortWords('desc')">降順</span>
+      
+      <!-- ルーレット時間セレクト -->
+      <label for="durationSelect" class="duration-label">抽選時間：</label>
+      <select id="durationSelect" class="duration-select">
+        <option value="0">なし</option>
+        <option value="1">1秒</option>
+        <option value="3"selected>3秒</option>
+        <option value="5" >5秒</option>
+        <option value="10">10秒</option>
+      </select>
+    </div>
+
+    <!-- ことば一覧 -->
+    <div class="word-list" id="wordList"></div>
+
+    <!-- リセットボタン -->
+    <div class="reset-area">
+      <button id="resetBtn" class="hidden" onclick="resetWords()">リセット</button>
+    </div>
+
+    <!-- ツール概要 -->
+    <div class="introduction-area">
+      <h2>ことばルーレットちゃんとは？</h2>
+      <p>
+        このツールは、入力した「ことば」の中からランダムに1つを選んで表示するシンプルなルーレットです。<br>
+        ゲームのお題決めや、チーム分け、ちょっとした抽選など、さまざまなシーンで活用できます。
+      </p>
+    </div>
+
+    <!-- ツール説明 -->
+    <div class="howto-area">
+      <h2>📖 使い方ガイド</h2>
+      <ul>
+        <li>📝 「ことば入力モード」は1語ずつ登録できます（Enter または「追加」ボタン）。</li>
+        <li>📋 「まとめて入力モード」は改行区切りで一括登録が可能です。</li>
+        <li>⚠️ 同じ「ことば」があると確認ダイアログが表示されます。</li>
+        <li>🎯 「ルーレット」でランダムに1語を選出します。</li>
+        <li>🧹 「リセット」で登録された「ことば」をすべて削除します。</li>
+        <li>🔀 「昇順／降順」切替で「ことば」の並び替えができます。</li>
+        <li>🕒 「抽選時間」切替で演出の時間を調整できます。</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- フッター読み込み -->
+  <div id="footer-container"></div>
+
+  <!-- ヘッダー・フッター読み込みスクリプト -->
+  <script src="/components/header-footer.js"></script>
+  <!-- メインスクリプト -->
+  <script src="script.js"></script>
+
+</body>
+</html>
