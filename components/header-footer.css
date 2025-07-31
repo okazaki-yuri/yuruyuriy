@@ -50,14 +50,16 @@ body {
 }
 .nav-link {
   text-decoration: none;
-  color: #555;
-  background: #e8e6e1;
+  border: 2px solid#555;
+  color: #e8e6e1;
+  background: #555;
   padding: 0.4rem 0.8rem;
   border-radius: 8px;
   transition: background 0.2s;
 }
 .nav-link:hover {
-  background: #d6d4cf;
+  color: #555;
+  background: #e8e6e1;
 }
 
 /* Hamburger */
