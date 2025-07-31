@@ -99,8 +99,9 @@ h1 {
   display: inline-block;
   padding: 0.7rem 1.4rem;
   margin-bottom: 0.8rem;
-  background-color: #f1e4cc;
-  color: #333;
+  border: 2px solid#ffa500;
+  background-color: #ffa500;
+  color: #ffffff;
   text-decoration: none;
   border-radius: 6px;
   font-weight: bold;
@@ -109,7 +110,8 @@ h1 {
 
 .top-tool-link-button:hover,
 .top-blog-link-button:hover {
-  background-color: #e2d6bd;
+  background-color: #ffffff;
+  color: #ffa500;
 }
 
 /* ツール一覧ページ用 */
@@ -140,7 +142,7 @@ h1 {
   transition: transform 0.2s ease;
 }
 
-.tool-card:hover {
+.active-tool:hover {
   transform: translateY(-5px);
 }
 
