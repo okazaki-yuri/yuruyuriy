@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /components/
+Disallow: /assets/
+Allow: /assets/logo.png
+
+Sitemap: https://tools.ylyuriy.com/sitemap.xml
