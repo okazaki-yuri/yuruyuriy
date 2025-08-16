@@ -2,6 +2,7 @@ User-agent: *
 Disallow: /components/
 Disallow: /assets/
 Disallow: /contact/
+Allow: /assets/favicon.ico
 Allow: /assets/logo.png
 
 Sitemap: https://tools.ylyuriy.com/sitemap.xml
