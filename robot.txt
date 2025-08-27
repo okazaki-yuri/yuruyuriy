@@ -4,5 +4,8 @@ Disallow: /assets/
 Disallow: /contact/
 Allow: /assets/favicon.ico
 Allow: /assets/logo.png
+Allow: /assets/instagram_icon.png
+Allow: /assets/x_icon.png
+Allow: /assets/youtube_icon.png
 
 Sitemap: https://tools.ylyuriy.com/sitemap.xml
