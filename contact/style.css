@@ -1,3 +1,7 @@
+/* --- 問い合わせページ専用CSS --- */
+
+/* 全体の設定
+================================================== */
 .contact-main {
   max-width: 800px;
   margin: 0 auto;
@@ -11,6 +15,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
+/* タイトル
+================================================== */
 .contact-title {
   font-size: 1.8em;
   margin-bottom: 20px;
@@ -25,6 +31,8 @@
   text-align: center;
 }
 
+/* Googleフォーム
+================================================== */
 .contact-button-area {
   text-align: center;
   margin-bottom: 48px;
@@ -47,6 +55,8 @@
   background: #e8e6e1;
 }
 
+/* お問い合わせ先一覧
+================================================== */
 .contact-list {
   list-style: none;
   padding: 0;

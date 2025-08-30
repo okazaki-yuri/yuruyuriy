@@ -1,4 +1,7 @@
-/* Reset & Layout */
+/* --- ヘッダー・フッター専用CSS --- */
+
+/* ヘッダー・フッター全体の設定
+================================================== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -14,7 +17,8 @@ body {
   font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
-/* Header */
+/* ヘッダー ! 全体の設定
+================================================== */
 .site-header {
   width: 100%;
   background: #f7f5f2;
@@ -30,6 +34,8 @@ body {
   padding: 0.75rem 1rem;
 }
 
+/* ヘッダー ! ロゴ
+================================================== */
 .logo-area {
   display: flex;
   align-items: center;
@@ -42,7 +48,8 @@ body {
   display: block;
 }
 
-/* Desktop Nav */
+/* ヘッダー ! PC表示用ボタン
+================================================== */
 .nav-desktop {
   display: flex;
   align-items: center;
@@ -62,7 +69,8 @@ body {
   background: #e8e6e1;
 }
 
-/* Hamburger */
+/* ヘッダー ! スマホ表示用ハンバーガーボタン
+================================================== */
 .hamburger {
   display: none;
   width: 30px;
@@ -94,7 +102,8 @@ body {
   transform: rotate(-45deg);
 }
 
-/* Mobile Overlay Menu */
+/* ヘッダー ! ハンバーガー内メニュー
+================================================== */
 .nav-mobile {
   display: none;
   position: fixed;
@@ -121,82 +130,19 @@ body {
   text-align: center;
   padding: 0.75rem;
   margin: 0.5rem 0;
-  background: #e8e6e1;
-  color: #555;
+  background: #555;
+  color: #e8e6e1;
   text-decoration: none;
   border-radius: 8px;
   transition: background 0.2s;
 }
 .nav-mobile a:hover {
-  background: #d6d4cf;
-}
-
-/* Mobile Dropdown */
-.dropdown-mobile {
-  position: relative;    /* 絶対配置の基準 */
-  width: 80%;
-  max-width: 300px;
-  margin: 0.5rem auto;
-}
-.dropbtn-mobile {
-  display: block;
-  width: 100%;
-  text-align: center;
   background: #e8e6e1;
   color: #555;
-  padding: 0.6rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-.dropbtn-mobile:hover {
-  background: #d6d4cf;
-}
-.dropdown-mobile.open .dropdown-content-mobile {
-  visibility: visible;
-  opacity: 1;
-  transition-delay: 0s;
-}
-.dropdown-content-mobile {
-  position: absolute;        /* ここを static→absolute に */
-  top: calc(100% + 4px);     /* ボタンの下、重なる位置 */
-  left: 0;
-  width: 100%;               /* ボタン幅と揃える */
-  background: #fffaf0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-  padding: 0.5rem 0;
-  z-index: 1002;             /* 他要素より前面へ */
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.dropdown-content-mobile a {
-  display: block;
-  width: 100%;
-  padding: 0.6rem 1rem;
-  text-align: center;
-  background: #e8e6e1;
-  color: #555;
-  text-decoration: none;
-  border-radius: 8px;
-  margin: 0.25rem 0;
-  transition: background 0.2s;
-}
-.dropdown-content-mobile a:hover {
-  background: #d6d4cf;
 }
 
-/* Main Content */
-main {
-  flex: 1;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 1rem;
-}
-
-/* Footer */
+/* フッター ! 全体の設定
+================================================== */
 .site-footer {
   width: 100%;
   /* グラデーション：左右を透明→中央色にフェード */
@@ -217,7 +163,7 @@ main {
   box-sizing: border-box;
 }
 
-/* ボーダーの左右をフェードイン・アウトさせたいなら擬似要素で上書き */
+/* フッター ! ボーダーの左右をフェードイン */
 .site-footer::before,
 .site-footer::after {
   content: "";
@@ -237,6 +183,8 @@ main {
   transform: rotate(180deg);
 }
 
+/* フッター ! リンク一覧
+================================================== */
 .footer-nav {
   margin-bottom: 10px;
 }
@@ -252,12 +200,16 @@ main {
   text-decoration: underline;
 }
 
+/* フッター ! コピーライト
+================================================== */
 .footer-copy {
   font-size: 12px;
   color: #999;
 }
 
-/* Responsive */
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                   スマホ表示対応                   
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 @media (max-width: 768px) {
   .nav-desktop { display: none; }
   .hamburger { display: block; }

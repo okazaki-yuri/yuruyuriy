@@ -1,4 +1,7 @@
 /* --- 共通CSS --- */
+
+/* サイト全体の設定
+================================================== */
 body {
   font-family: 'M PLUS Rounded 1c', sans-serif;
   background-color: #f1f1f1;
@@ -9,13 +12,20 @@ body {
   text-align: center;
 }
 
+main {
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
 h1 {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
 
-
-/* ========== TOPページ全体 ========== */
+/* TOPページ ! 全体の設定
+================================================== */
 .top-page {
   width: 100%;
   max-width: 800px;
@@ -25,6 +35,8 @@ h1 {
   font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
+/* TOPページ ! サイト説明
+================================================== */
 .top-description {
   background-color: #fff8f0;
   border: 2px solid #f1d9c2;
@@ -50,19 +62,16 @@ h1 {
   line-height: 1.6;
 }
 
+/* TOPページ ! ロゴ
+================================================== */
 .top-logo {
   width: 240px;
   height: auto;
   margin-bottom: 1rem;
 }
 
-.top-title {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-/* ツール・ブログ一覧セクション */
+/* TOPページ ! 各ページリンク
+================================================== */
 .top-section-links {
   display: flex;
   flex-wrap: wrap;
@@ -114,67 +123,8 @@ h1 {
   color: #ffa500;
 }
 
-/* ツール一覧ページ用 */
-.tool-list-page {
-  padding: 2em 1em;
-  max-width: 1000px;
-  margin: 0 auto;
-}
-
-.tools-heading-area {
-  text-align: center;
-  margin-bottom: 2em;
-}
-
-.tool-list-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5em;
-}
-
-.tool-card {
-  background-color: #f9f7f6;
-  border-radius: 10px;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
-  width: 300px;
-  padding: 1em;
-  transition: transform 0.2s ease;
-}
-
-.active-tool:hover {
-  transform: translateY(-5px);
-}
-
-.tool-link {
-  text-decoration: none;
-  color: inherit;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.tool-icon {
-  font-size: 2.5rem;
-  margin-bottom: 0.5em;
-}
-
-.tool-name {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-bottom: 0.5em;
-}
-
-.tool-description {
-  font-size: 0.95rem;
-  color: #666;
-}
-
-.coming-soon {
-  opacity: 0.6;
-}
-
+/* TOPページ ! 外部リンク
+================================================== */
 .external-links {
   margin: 3em auto;
   padding: 2em;
@@ -245,9 +195,76 @@ h1 {
   text-align: left;
 }
 
+/* ツール一覧ページ ! 全体の設定
+================================================== */
+.tool-list-page {
+  padding: 2em 1em;
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
-/* スマホ対応 */
+/* ツール一覧ページ ! タイトルおよびページ説明
+================================================== */
+.tools-heading-area {
+  text-align: center;
+  margin-bottom: 2em;
+}
 
+/* ツール一覧ページ ! ツールカード一覧
+================================================== */
+.tool-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.tool-card {
+  background-color: #f9f7f6;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+  width: 300px;
+  padding: 1em;
+  transition: transform 0.2s ease;
+}
+
+.active-tool:hover {
+  transform: translateY(-5px);
+}
+
+.tool-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.tool-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5em;
+}
+
+.tool-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5em;
+}
+
+.tool-description {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* 準備中のツール */
+.coming-soon {
+  opacity: 0.6;
+}
+
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                   スマホ表示対応                   
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 @media (max-width: 600px) {
   .top-logo {
     width: 120px;
