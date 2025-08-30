@@ -1,7 +1,13 @@
+/* --- ことばルーレットちゃん専用CSS --- */
+
+/* 全体の設定
+================================================== */
 * {
   box-sizing: border-box;
 }
 
+/* 抽選結果表示
+================================================== */
 .result-box {
   margin: 0 auto 1rem;
   padding: 1rem;
@@ -17,12 +23,12 @@
   transition: background-color 0.3s ease;
 }
 
-/* --- 切り替え中：文字を薄めに --- */
+/* 切り替え中：文字を薄めに */
 .result-box.spin {
   background-color: rgba(0, 0, 0, 0.05);       /* 薄い黒 */
 }
 
-/* --- 最終結果：強調アニメーション --- */
+/* 最終結果：強調アニメーション */
 .result-box.final {
   color: #222;                      /* 通常の濃さ */
   animation: highlight 0.6s ease-out;
@@ -41,7 +47,8 @@
   color: #aaa;
 }
 
-/* タブ */
+/* 入力モード切替用のタブ
+================================================== */
 .tab-container {
   display: flex;
   justify-content: center;
@@ -69,7 +76,8 @@
   color: #fff;
 }
 
-/* 入力エリア */
+/* ことば入力エリア
+================================================== */
 .input-area {
   width: 100%;
   max-width: 600px;
@@ -84,7 +92,8 @@
   margin-bottom: 0.5rem;
 }
 
-/* ボタン行 */
+/* 追加＆ルーレットボタン
+================================================== */
 .button-row {
   display: flex;
   gap: 0.5rem;
@@ -107,19 +116,8 @@
   background-color: #666;
 }
 
-/* 並び替え */
-.sort-controls {
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 1rem;
-}
-.sort-link {
-  cursor: pointer;
-  text-decoration: underline;
-  margin: 0 0.5rem;
-}
-
-/* 並び替え＋時間選択レイアウト */
+/* ソート
+================================================== */
 .sort-controls {
   display: flex;
   align-items: center;
@@ -136,6 +134,8 @@
   margin: 0 0.25rem;
 }
 
+/* ルーレット時間セレクト
+================================================== */
 .duration-label {
   margin-left: 1rem; /* ソートから少しスペース */
   font-weight: 500;
@@ -156,7 +156,8 @@
   background: #f7f7f7;
 }
 
-/* 単語一覧 */
+/* ことば一覧
+================================================== */
 .word-list {
   display: flex;
   flex-wrap: wrap;
@@ -192,7 +193,8 @@
   background: #555;
 }
 
-/* リセット */
+/* リセットボタン
+================================================== */
 .reset-area {
   margin-top: 1rem;
 }
@@ -208,6 +210,8 @@
   background-color: #666;
 }
 
+/* 画面表示制御用
+================================================== */
 .hidden {
   display: none;
 }
@@ -216,7 +220,9 @@
   display: none;
 }
 
-/* スマホ対応 */
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                   スマホ表示対応                   
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 @media (max-width: 600px) {
   h1 {
     font-size: 1.5rem;

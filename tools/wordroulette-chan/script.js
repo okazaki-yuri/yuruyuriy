@@ -1,6 +1,8 @@
 let words = [];
 
-// --- ローカルストレージから読み込む ---
+/**
+ * ローカルストレージから読み込む
+ */
 function loadFromLocalStorage() {
   const saved = localStorage.getItem("wordrouletteWords");
   if (saved) {
@@ -8,16 +10,24 @@ function loadFromLocalStorage() {
       words = JSON.parse(saved);
       updateWordList();
     } catch (e) {
-      console.error("保存データが壊れています");
+      // ローカルストレージのデータが不正な場合は握りつぶす
+      words = [];
+      updateWordList();
+      localStorage.removeItem("wordrouletteWords");
     }
   }
 }
 
-// --- ローカルストレージに保存する ---
+/**
+ * ローカルストレージに保存する
+ */
 function saveToLocalStorage() {
   localStorage.setItem("wordrouletteWords", JSON.stringify(words));
 }
 
+/**
+ * ことば一覧に表示することばを更新する
+ */
 function updateWordList() {
   const list = document.getElementById("wordList");
   list.innerHTML = "";
@@ -41,6 +51,9 @@ function updateWordList() {
   document.getElementById("resetBtn").classList.toggle("hidden", words.length === 0);
 }
 
+/**
+ * ことば一覧にことばを追加する
+ */
 function addWord() {
   const mode = document.querySelector(".tab-button.active").dataset.tab;
   if (mode === "single") {
@@ -48,7 +61,7 @@ function addWord() {
     const word = input.value.trim();
     if (!word) return;
     if (words.includes(word)) {
-      if (!confirm("すでに同じ単語があります。追加しますか？")) return;
+      if (!confirm(`「${word}」はすでにあります。追加しますか？`)) return;
     }
     words.push(word);
     input.value = "";
@@ -74,27 +87,34 @@ function addWord() {
   saveToLocalStorage();
 }
 
+/**
+ * ルーレットボタン押下時に抽選を行う
+ */
 function spinRoulette() {
   const resultBox   = document.getElementById("resultBox");
   const spinBtn     = document.getElementById("spinBtn");
   const durationSec = Number(document.getElementById("durationSelect").value);
 
-  // ボタン無効化
+  // ボタンを非活性、ボタン文言を「抽選中…」に変更
   spinBtn.disabled    = true;
   spinBtn.textContent = "抽選中…";
 
   if (words.length === 0 || durationSec === 0) {
-    // 「なし」または単語なしは即時結果
+    // 抽選時間「なし」または単語なしパターン
+    // 抽選結果を即時反映
     const pick = words.length
       ? words[Math.floor(Math.random() * words.length)]
       : "";
     resultBox.classList.remove("spin", "final");
     resultBox.textContent = pick;
+
+    // ボタンを活性、ボタン文言を「ルーレット」に変更
     spinBtn.disabled      = false;
     spinBtn.textContent   = "ルーレット";
     return;
   }
 
+  // 抽選時間の制御
   const totalMs       = durationSec * 1000;
   const iterations    = 30;
   let baseSpeed       = 30;  // 最速 30ms
@@ -125,18 +145,25 @@ function spinRoulette() {
       const delay = baseSpeed + count * speedStep;
       setTimeout(step, delay);
     } else {
-      // 終了：強調演出 & ボタン復帰
+      // 抽選結果を反映
       resultBox.classList.remove("spin");
       resultBox.classList.add("final");
       resultBox.textContent = finalWord;
+
+      // ボタンを活性、ボタン文言を「ルーレット」に変更
       spinBtn.disabled    = false;
       spinBtn.textContent = "ルーレット";
+      return;
     }
   }
 
   step();
 }
 
+/**
+ * ことば一覧の並べ替えを行う
+ * @param {string} order - 並び順（昇順/降順）
+ */
 function sortWords(order) {
   words.sort((a, b) => {
     if (order === "asc") return a.localeCompare(b);
@@ -146,16 +173,17 @@ function sortWords(order) {
   saveToLocalStorage();
 }
 
+/**
+ * ことば一覧をすべて削除する
+ */
 function resetWords() {
-  if (confirm("単語をすべて削除しますか？")) {
+  if (confirm("ことばをすべて削除しますか？")) {
     words = [];
     updateWordList();
     localStorage.removeItem("wordrouletteWords");
 
     // result-box 初期状態に戻す（空に）
     document.getElementById("resultBox").textContent = "";
-
-    // 入力欄はそのまま（初期化しない）
   }
 }
 
