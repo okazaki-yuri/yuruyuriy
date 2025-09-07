@@ -1,12 +1,7 @@
 name: "Deploy"
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - dist/**
-      - .github/**
+  workflow_dispatch:
 
 jobs:
   deploy-to-xserver:
