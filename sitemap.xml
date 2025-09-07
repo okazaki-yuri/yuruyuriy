@@ -9,12 +9,17 @@
 <url>
   <loc>https://tools.ylyuriy.com/tools/</loc>
   <priority>0.8</priority>
-  <lastmod>2025-08-02</lastmod>
+  <lastmod>2025-09-07</lastmod>
+</url>
+<url>
+  <loc>https://tools.ylyuriy.com/tools/web-dice-chan/</loc>
+  <priority>1.0</priority>
+  <lastmod>2025-09-07</lastmod>
 </url>
 <url>
   <loc>https://tools.ylyuriy.com/tools/wordroulette-chan/</loc>
-  <priority>0.9</priority>
-  <lastmod>2025-08-16</lastmod>
+  <priority>1.0</priority>
+  <lastmod>2025-09-07</lastmod>
 </url>
 
 </urlset>

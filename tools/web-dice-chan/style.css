@@ -1,0 +1,143 @@
+/* --- WEBサイコロちゃん専用CSS --- */
+
+/* 全体の設定
+================================================== */
+* {
+  box-sizing: border-box;
+}
+
+/* 入力エリア
+================================================== */
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  align-items: first baseline;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  align-items: first baseline;
+}
+
+.control-group label {
+  font-weight: bold;  
+  margin-bottom: 5px;
+}
+
+.inputs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.inputs input {
+  width: 60px;
+  padding: 5px 8px;
+}
+
+.inputs .tilde {
+  font-weight: bold;
+}
+
+.control-group input, .control-group select {
+  padding: 5px 8px;
+  width: 80px;
+  max-width: 90vw;
+}
+
+.controls button {
+  padding: 5px 15px;
+}
+
+/* サイコロ表示エリア
+================================================== */
+#dice-area {
+  max-width: 600px;
+  margin: 20px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+}
+
+.dice-card {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border: 2px solid #333;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1em;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+#dice-stats {
+  margin: 10px 0;
+  font-weight: bold;
+}
+
+/* 履歴表示エリア
+================================================== */
+#history-area {
+  max-width: 600px;
+  margin: 20px auto;
+  width: 100%;
+  background-color: #fdfaf5; /* クリーム系 */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ffffff;
+  padding: 10px;
+  text-align: left;
+}
+
+.history-item {
+  margin-bottom: 15px;
+  border: 1px solid #bbb;
+  background: #fff;
+}
+
+#history-area button {
+  margin-top: 10px;
+  padding: 5px 10px;
+}
+
+/* SNSシェア
+================================================== */
+#options {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin: 20px 0;
+}
+
+/* アイコン画像の基本設定 */
+#options img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* ホバー時の効果 */
+#options img:hover {
+  transform: scale(1.2);
+  opacity: 0.8;
+}
+
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                   スマホ表示対応                   
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+@media (max-width: 600px) {
+  #options {
+    gap: 12px;
+  }
+  #options img {
+    width: 32px;
+    height: 32px;
+  }
+}

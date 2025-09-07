@@ -262,6 +262,72 @@ h1 {
   opacity: 0.6;
 }
 
+/* 各種ツール共通 ! ツール概要
+================================================== */
+.introduction-area {
+  max-width: 600px;
+  margin: 2rem auto 1rem auto;
+  padding: 1.5rem;
+  background-color: #f6f6f6; /* やさしいグレー系 */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ddd;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.introduction-area h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #555;
+  text-align: center;
+}
+
+.introduction-area p {
+  margin: 0;
+  line-height: 1.7;
+  text-align: left;
+}
+
+/* 各種ツール共通 ! ツール説明
+================================================== */
+.howto-area {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #fdfaf5; /* クリーム系 */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.7;
+  border: 1px solid #ddd;
+  background-image: radial-gradient(#f1f1f1 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+.howto-area h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #666;
+  text-align: center;
+}
+
+.howto-area ul {
+  list-style: disc;
+  padding: 0;
+  padding-left: 1.5em;
+  margin: 0;
+  text-align: left; /* ← 左寄せ */
+}
+
+.howto-area li {
+  margin-bottom: 0.8rem;
+  position: relative;
+
+}
+
+
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                    スマホ表示対応                   
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。">
+  <meta property="og:title" content="WEBサイコロちゃん">
+  <meta property="og:description" content="指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。">
+  <meta property="og:image" content="https://tools.ylyuriy.com/assets/logo.png">
+  <meta property="og:url" content="https://tools.ylyuriy.com/tools/web-dice-chan/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ゆるユーリ">
+  <title>WEBサイコロちゃん</title>
+
+  <!-- ファビコン -->
+  <link rel="icon" href="/assets/favicon.ico">
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <!-- WEBサイコロちゃん専用CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Googleフォント -->
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
+  <!-- ヘッダー・フッター専用CSS -->
+  <link rel="stylesheet" href="/components/header-footer.css" />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WP93BYLBD9"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-WP93BYLBD9');
+  </script>
+</head>
+<body>
+  <!-- ヘッダー読み込み -->
+  <div id="header-container"></div>
+
+  <!-- メインコンテンツ -->
+  <main>
+    <h1>WEBサイコロちゃん</h1>
+
+    <!-- 入力エリア -->
+    <section class="controls">
+      <!-- 最小値 ~ 最大値 -->
+      <div class="control-group">
+        <label>サイコロの出目（最小値 ~ 最大値）</label>
+        <div class="inputs">
+          <input type="number" id="minValue" value="1" min="0" max="100">
+          <span class="tilde">~</span>
+          <input type="number" id="maxValue" value="6" min="0" max="100">
+        </div>
+        <small>サイコロの出目を0~100で入力してください。</small>
+      </div>
+
+      <!-- 個数 -->
+      <div class="control-group">
+        <label>サイコロの個数</label>
+        <input type="number" id="diceCount" value="1" min="1" max="30">
+        <small>サイコロの個数を1~30で入力してください。</small>
+      </div>
+
+      <!-- 演出時間 -->
+      <div class="control-group">
+        <label>演出時間</label>
+        <select id="duration">
+          <option value="500">0.5秒</option>
+          <option value="1000" selected>1秒</option>
+          <option value="2000">2秒</option>
+          <option value="3000">3秒</option>
+        </select>
+        <small>演出時間を指定できます。</small>
+      </div>
+
+      <button id="rollBtn">サイコロを振る</button>
+    </section>
+
+    <section id="dice-area">
+      <div id="dice-stats"></div>
+    </section>
+
+    <section id="history-area">
+      <h2>履歴</h2>
+      <div id="history"></div>
+      <button id="resetHistory">履歴をリセット</button>
+    </section>
+
+    <section id="options">
+      <img src="/assets/x_icon.png" id="share-x" alt="Xアイコン">
+      <!-- TODO 他のSNSシェア -->
+      <!-- CSSで横並びに設定済み -->
+    </section>
+
+    <!-- ツール概要 -->
+    <div class="introduction-area">
+      <h2>WEBサイコロちゃんとは？</h2>
+      <p>
+        このツールでは、好きな範囲の数字でサイコロを振ることができます。<br>
+        サイコロの個数や演出時間を設定することもできます。<br>
+        平均値・最大値・最小値なども表示されるので、ゲームや抽選に活用できます！
+      </p>  
+    </div>
+
+    <!-- ツール説明 -->
+    <div class="howto-area">
+      <h2>📖 使い方ガイド</h2>
+      <ul>
+        <li>「サイコロの出目（最小値 ~ 最大値）」に0~100の数字を入力します。</li>
+        <li>最小値が最大値より大きい場合は抽選できません。</li>
+        <li>「サイコロの個数」は30まで指定できます。</li>
+        <li>「演出時間」切替で演出の時間を調整できます。</li>
+        <li>「サイコロを振る」ボタン押下で抽選開始です。</li>
+        <li>2個以上のサイコロを振った場合は「合計」「平均」「最大」「最小」がそれぞれ表示されます。</li>
+        <li>その他詳細なご利用については<a href="/legal/terms-of-service/">利用規約</a>をご確認ください。</li>
+      </ul>
+    </div>
+  </main>
+
+  <!-- フッター読み込み -->
+  <div id="footer-container"></div>
+
+  <!-- ヘッダー・フッター読み込みスクリプト -->
+  <script src="/components/header-footer.js"></script>
+  <!-- WEBサイコロちゃん専用スクリプト -->
+  <script src="script.js"></script>
+
+</body>
+</html>
