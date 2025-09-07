@@ -1,0 +1,27 @@
+name: "Deploy"
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - dist/**
+      - .github/**
+
+jobs:
+  deploy-to-xserver:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      ## FTP deployを使用したFTPアップロードの記述
+      - name: Upload files on Xserver
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.6
+        ## step2でGitHub secretsに登録した認証情報をここで呼び出します
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          server-dir: /yl-yuriy.com/public_html/tools.yl-yuriy.com/
