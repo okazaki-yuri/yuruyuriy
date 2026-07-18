@@ -1,15 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // プレースホルダ作成
-  const hdr = document.createElement("div");
-  const ftr = document.createElement("div");
-  hdr.id = "header-container";
-  ftr.id = "footer-container";
-  document.body.prepend(hdr);
-  document.body.appendChild(ftr);
+  const hdr = document.getElementById("header-container");
+  const ftr = document.getElementById("footer-container");
 
   // ヘッダー読み込み
   fetch("/components/header.html")
-    .then(r => r.text())
+    .then(r => {
+      if (!r.ok) throw new Error(`header.html の取得に失敗しました (${r.status})`);
+      return r.text();
+    })
     .then(html => {
       hdr.innerHTML = html;
 
@@ -36,12 +34,17 @@ document.addEventListener("DOMContentLoaded", () => {
           nav.classList.remove("show");
         }
       });
-    });
+    })
+    .catch(err => console.error(err));
 
   // フッター読み込み
   fetch("/components/footer.html")
-    .then(r => r.text())
+    .then(r => {
+      if (!r.ok) throw new Error(`footer.html の取得に失敗しました (${r.status})`);
+      return r.text();
+    })
     .then(html => {
       ftr.innerHTML = html;
-    });
+    })
+    .catch(err => console.error(err));
 });

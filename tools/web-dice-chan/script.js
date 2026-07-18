@@ -65,8 +65,10 @@ function createDiceCards(values) {
 
 // サイコロを振る
 rollBtn.addEventListener("click", () => {
-  const min = parseInt(document.getElementById("minValue").value) || 1;
-  const max = parseInt(document.getElementById("maxValue").value) || 6;
+  const minRaw = parseInt(document.getElementById("minValue").value);
+  const maxRaw = parseInt(document.getElementById("maxValue").value);
+  const min = Number.isNaN(minRaw) ? 1 : minRaw;
+  const max = Number.isNaN(maxRaw) ? 6 : maxRaw;
   const count = parseInt(document.getElementById("diceCount").value) || 1;
   const duration = parseInt(document.getElementById("duration").value) || 1000;
   let alertMessage = "";
