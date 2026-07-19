@@ -17,6 +17,13 @@ body {
   font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
+/* ヘッダー・フッター読み込み時のレイアウトシフト(CLS)防止
+   JSでfetch挿入されるまでの間、あらかじめ高さを確保しておく
+================================================== */
+#header-container {
+  min-height: 69px; /* ロゴ44px + 上下padding24px + border1px 相当 */
+}
+
 /* ヘッダー ! 全体の設定
 ================================================== */
 .site-header {
