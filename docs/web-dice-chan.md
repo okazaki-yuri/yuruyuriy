@@ -50,7 +50,7 @@
 - バリデーション: 最小/最大が0〜100か、最小 ≤ 最大か、個数が1〜30か。違反時はアラートで通知し中断。
 
 ## 5. 依存・外部連携
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./common-components.md)）
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./legacy/common-components.md)）
 - Xシェア: `https://twitter.com/intent/tweet` を利用（外部遷移）。
 - Xアイコン画像 `/assets/x_icon.png`（`width`/`height` 指定済み）。
 - 使い方ガイドから[利用規約](./terms-of-service.md)へリンク。

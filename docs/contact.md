@@ -27,7 +27,7 @@
 
 ## 4. 依存・外部連携
 - Google フォーム（問い合わせ受付）
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./common-components.md)）
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./legacy/common-components.md)）
 
 ## 5. 特記事項
 - 問い合わせ先メールアドレス・フォームURL・SNSアカウントを変更する場合は本ページのリンクを更新すること。

@@ -39,7 +39,7 @@
 ## 5. 依存・外部連携
 - Google Analytics（gtag.js）
 - Google Fonts（M PLUS Rounded 1c）
-- ヘッダー・フッター（[共通コンポーネント](./common-components.md)）
+- ヘッダー・フッター（[共通コンポーネント](./legacy/common-components.md)）
 
 ## 6. 拡張時の指針
 - 新規ツールを追加する際は、`active-tool` カードを1枚追加し、対応する `coming-soon` 枠を1枚減らす運用。

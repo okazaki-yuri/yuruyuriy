@@ -30,7 +30,7 @@
 - 静的表示のみで独自JavaScriptは持たない。
 
 ## 4. 依存・外部連携
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./common-components.md)）
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./legacy/common-components.md)）
 
 ## 5. 特記事項
 - 規約改定時は本文の更新日表記も更新すること。

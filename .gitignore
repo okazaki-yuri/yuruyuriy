@@ -1,5 +1,4 @@
 # 画像最適化の原本バックアップ（リポジトリには含めない）
-assets/_original_backup/
 apps/web/public/assets/_original_backup/
 
 # Node.js / pnpm

@@ -1,5 +1,9 @@
 # 手順書 : デプロイ
 
+> ⚠️ **旧構成（アーカイブ）**: 本書は Next.js 移行前の「リポジトリ全体をそのままFTPSアップロード（ビルド工程なし）」方式を記述したものです。
+> 現行は `pnpm --filter web build` で生成した `apps/web/out/` のみをアップロードします。手順の正は [docs/migration/04-deploy.md](../migration/04-deploy.md) を参照してください。
+> 下記の Xserver 側の注意点（FTP制限・FTPS）やトラブルシューティングは現行でも有効なため、記録として保存しています。
+
 GitHub Actions を用いて Xserver（レンタルサーバー）へ FTPS でアップロードする。ビルド工程はない。
 
 - ワークフロー: `.github/workflows/deploy.yaml`
