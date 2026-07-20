@@ -1,0 +1,342 @@
+/* --- 共通CSS --- */
+
+/* サイト全体の設定
+================================================== */
+body {
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background-color: #f1f1f1;
+  color: #333;
+  padding: 0;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+main {
+  flex: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h1 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+/* TOPページ ! 全体の設定
+================================================== */
+.top-page {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  text-align: center;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+}
+
+/* TOPページ ! サイト説明
+================================================== */
+.top-description {
+  background-color: #fff8f0;
+  border: 2px solid #f1d9c2;
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 2rem auto;
+  width: 100%;
+  max-width: 800px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;
+  color: #4b3d2a;
+  text-align: center;
+}
+
+.top-description h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #a47148;
+}
+
+.top-description p {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* TOPページ ! ロゴ
+================================================== */
+.top-logo {
+  width: 240px;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+/* TOPページ ! 各ページリンク
+================================================== */
+.top-section-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2.5rem;
+  padding: 1rem;
+}
+
+.top-link-box {
+  flex: 1 1 300px;
+  max-width: 400px;
+  background-color: #fdf9f3;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+.top-link-box h2 {
+  font-size: 1.3rem;
+  margin-bottom: 0.8rem;
+}
+
+.top-link-box p {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* ボタン共通スタイル */
+.top-tool-link-button,
+.top-blog-link-button {
+  display: inline-block;
+  padding: 0.7rem 1.4rem;
+  margin-bottom: 0.8rem;
+  border: 2px solid#ffa500;
+  background-color: #ffa500;
+  color: #ffffff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.2s ease;
+}
+
+.top-tool-link-button:hover,
+.top-blog-link-button:hover {
+  background-color: #ffffff;
+  color: #ffa500;
+}
+
+/* TOPページ ! 外部リンク
+================================================== */
+.external-links {
+  margin: 3em auto;
+  padding: 2em;
+  max-width: 1000px;
+  text-align: center;
+}
+
+.external-links h2 {
+  font-size: 1.8em;
+  margin-bottom: 0.5em;
+}
+
+.external-links p {
+  font-size: 1em;
+  color: #555;
+  margin-bottom: 2em;
+}
+
+.external-links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5em;
+}
+
+.link-card {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  padding: 1em;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #ddd;
+  text-decoration: none;
+  color: #333;
+  transition: all 0.2s ease;
+}
+
+.link-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.icon-area {
+  flex-shrink: 0;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.icon-area img {
+  width: 100%;
+  height: auto;
+}
+
+.text-area h3 {
+  font-size: 1.1em;
+  margin: 0 0 0.3em;
+  text-align: left;
+}
+
+.text-area p {
+  font-size: 0.9em;
+  color: #666;
+  margin: 0;
+  text-align: left;
+}
+
+/* ツール一覧ページ ! 全体の設定
+================================================== */
+.tool-list-page {
+  padding: 2em 1em;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ツール一覧ページ ! タイトルおよびページ説明
+================================================== */
+.tools-heading-area {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+/* ツール一覧ページ ! ツールカード一覧
+================================================== */
+.tool-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5em;
+}
+
+.tool-card {
+  background-color: #f9f7f6;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+  width: 300px;
+  padding: 1em;
+  transition: transform 0.2s ease;
+}
+
+.active-tool:hover {
+  transform: translateY(-5px);
+}
+
+.tool-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.tool-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.5em;
+}
+
+.tool-name {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5em;
+}
+
+.tool-description {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+/* 準備中のツール */
+.coming-soon {
+  opacity: 0.6;
+}
+
+/* 各種ツール共通 ! ツール概要
+================================================== */
+.introduction-area {
+  max-width: 600px;
+  margin: 2rem auto 1rem auto;
+  padding: 1.5rem;
+  background-color: #f6f6f6; /* やさしいグレー系 */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ddd;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.introduction-area h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #555;
+  text-align: center;
+}
+
+.introduction-area p {
+  margin: 0;
+  line-height: 1.7;
+  text-align: left;
+}
+
+/* 各種ツール共通 ! ツール説明
+================================================== */
+.howto-area {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #fdfaf5; /* クリーム系 */
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  font-size: 0.95rem;
+  color: #444;
+  line-height: 1.7;
+  border: 1px solid #ddd;
+  background-image: radial-gradient(#f1f1f1 1px, transparent 1px);
+  background-size: 10px 10px;
+}
+
+.howto-area h2 {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #666;
+  text-align: center;
+}
+
+.howto-area ul {
+  list-style: disc;
+  padding: 0;
+  padding-left: 1.5em;
+  margin: 0;
+  text-align: left; /* ← 左寄せ */
+}
+
+.howto-area li {
+  margin-bottom: 0.8rem;
+  position: relative;
+
+}
+
+
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                   スマホ表示対応                   
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+@media (max-width: 600px) {
+  .top-logo {
+    width: 120px;
+  }
+
+  .tool-card {
+    width: 100%;
+  }
+}
