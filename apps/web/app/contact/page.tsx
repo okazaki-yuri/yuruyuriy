@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../og';
 import './contact.css';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | お問い合わせ',
+  title: 'お問い合わせ',
   description: 'お問い合わせページです。',
+  alternates: { canonical: '/contact/' },
   openGraph: {
     title: 'ゆるユーリ | お問い合わせ',
     description: 'お問い合わせはこちらから',
     url: 'https://tools.yl-yuriy.com/contact/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };

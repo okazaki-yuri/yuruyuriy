@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../../og';
 import '../legal.css';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | プライバシーポリシー',
+  title: 'プライバシーポリシー',
   description: 'プライバシーポリシーページです。',
+  alternates: { canonical: '/legal/privacy-policy/' },
   openGraph: {
     title: 'ゆるユーリ | プライバシーポリシー',
     description: 'プライバシーポリシー',
     url: 'https://tools.yl-yuriy.com/legal/privacy-policy/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };

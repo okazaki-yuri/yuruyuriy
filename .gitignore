@@ -8,3 +8,9 @@ node_modules/
 apps/web/.next/
 apps/web/out/
 *.tsbuildinfo
+
+# 生成物：OGP画像・アイコン（ビルド時に scripts/generate-*.cjs が生成）
+apps/web/public/assets/og-image.png
+apps/web/public/assets/apple-touch-icon.png
+apps/web/public/assets/icon-192.png
+apps/web/public/assets/icon-512.png

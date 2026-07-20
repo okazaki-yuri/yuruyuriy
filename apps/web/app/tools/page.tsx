@@ -1,15 +1,20 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../og';
 import { toolsRepository } from '@yuruyuriy/core/data/toolsRepository';
+import JsonLd from '../components/JsonLd';
+
+const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | ツール一覧',
+  title: 'ツール一覧',
   description: '便利なWebツール一覧です。',
+  alternates: { canonical: '/tools/' },
   openGraph: {
     title: 'ゆるユーリ | 便利なWebツール一覧',
     description: '便利なWebツール一覧です。',
     url: 'https://tools.yl-yuriy.com/tools/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };
@@ -18,8 +23,31 @@ export default async function ToolsPage() {
   // データ実体（JSON/API）を知らず、repository I/F 経由でのみ取得する
   const tools = await toolsRepository.getTools();
 
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'ツール一覧', item: `${SITE_URL}/tools/` },
+    ],
+  };
+
+  const itemListLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'ゆるユーリ ツール一覧',
+    itemListElement: tools.map((tool, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: tool.name,
+      url: `${SITE_URL}${tool.href}`,
+    })),
+  };
+
   return (
     <main className="tool-list-page">
+      <JsonLd data={breadcrumbLd} />
+      <JsonLd data={itemListLd} />
       {/* タイトルおよびページ説明 */}
       <section className="tools-heading-area">
         <h1>🛠 ツール一覧</h1>

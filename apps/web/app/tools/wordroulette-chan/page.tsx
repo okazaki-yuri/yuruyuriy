@@ -1,23 +1,54 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../../og';
 import WordRoulette from './WordRoulette';
+import JsonLd from '../../components/JsonLd';
 import './roulette.css';
 
+const SITE_URL = 'https://tools.yl-yuriy.com';
+
 export const metadata: Metadata = {
-  title: 'ことばルーレットちゃん | 単語抽選ツール',
+  title: 'ことばルーレットちゃん',
   description: '入力された単語の中からランダムに1つを表示する抽選ツールです。お題決めや、チーム分けなどで活用できます。',
+  alternates: { canonical: '/tools/wordroulette-chan/' },
   openGraph: {
     title: 'ゆるユーリ | ことばルーレットちゃん',
     description: '入力された単語の中からランダムに1つを表示する抽選ツールです。お題決めや、チーム分けなどで活用できます。',
     url: 'https://tools.yl-yuriy.com/tools/wordroulette-chan/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };
 
 export default function WordRoulettePage() {
+  const url = `${SITE_URL}/tools/wordroulette-chan/`;
+  const appLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'ことばルーレットちゃん',
+    url,
+    description:
+      '入力された単語の中からランダムに1つを表示する抽選ツールです。お題決めや、チーム分けなどで活用できます。',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Web',
+    inLanguage: 'ja',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+    publisher: { '@type': 'Organization', name: 'ゆるユーリ', url: SITE_URL },
+  };
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'ツール一覧', item: `${SITE_URL}/tools/` },
+      { '@type': 'ListItem', position: 3, name: 'ことばルーレットちゃん', item: url },
+    ],
+  };
+
   return (
     <main>
+      <JsonLd data={appLd} />
+      <JsonLd data={breadcrumbLd} />
       <h1>ことばルーレットちゃん</h1>
 
       {/* 入力・抽選（インタラクティブ部分） */}

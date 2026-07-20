@@ -1,21 +1,47 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from './og';
+import JsonLd from './components/JsonLd';
+
+const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | かわいいWebツールを集めたサイト',
+  // title はレイアウトの default（'ゆるユーリ | かわいいWebツールを集めたサイト'）を使用
   description: 'ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。',
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'ゆるユーリ | 便利なWebツールを自主制作しているサイト',
     description: '日常で使える便利なWebツールを自主制作しているサイトです。',
     url: 'https://tools.yl-yuriy.com',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };
 
 export default function HomePage() {
+  const websiteLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'ゆるユーリ',
+    url: SITE_URL,
+    description: 'ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。',
+    inLanguage: 'ja',
+    publisher: {
+      '@type': 'Organization',
+      name: 'ゆるユーリ',
+      url: SITE_URL,
+      logo: `${SITE_URL}/assets/logo.png`,
+      sameAs: [
+        'https://x.com/ylyuriy_1st',
+        'https://www.instagram.com/ylyuriy_1st',
+        'https://www.youtube.com/@ylyuriy',
+      ],
+    },
+  };
+
   return (
     <main className="top-page">
+      <JsonLd data={websiteLd} />
       <h1>ゆるユーリ</h1>
 
       {/* サイト説明 */}

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | ページが見つかりません',
+  title: 'ページが見つかりません',
   description: 'お探しのページは見つかりませんでした。',
 };
 

@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../../og';
 import '../legal.css';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | 利用規約',
+  title: '利用規約',
   description: '利用規約ページです。',
+  alternates: { canonical: '/legal/terms-of-service/' },
   openGraph: {
     title: 'ゆるユーリ | 利用規約',
     description: '利用規約',
     url: 'https://tools.yl-yuriy.com/legal/terms-of-service/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };
