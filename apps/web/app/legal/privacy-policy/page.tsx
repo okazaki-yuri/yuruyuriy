@@ -4,6 +4,7 @@ import '../legal.css';
 export const metadata: Metadata = {
   title: 'ゆるユーリ | プライバシーポリシー',
   description: 'プライバシーポリシーページです。',
+  alternates: { canonical: '/legal/privacy-policy/' },
   openGraph: {
     title: 'ゆるユーリ | プライバシーポリシー',
     description: 'プライバシーポリシー',

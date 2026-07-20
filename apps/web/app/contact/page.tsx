@@ -4,6 +4,7 @@ import './contact.css';
 export const metadata: Metadata = {
   title: 'ゆるユーリ | お問い合わせ',
   description: 'お問い合わせページです。',
+  alternates: { canonical: '/contact/' },
   openGraph: {
     title: 'ゆるユーリ | お問い合わせ',
     description: 'お問い合わせはこちらから',

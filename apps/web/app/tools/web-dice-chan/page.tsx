@@ -5,6 +5,7 @@ import './dice.css';
 export const metadata: Metadata = {
   title: 'WEBサイコロちゃん',
   description: '指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。',
+  alternates: { canonical: '/tools/web-dice-chan/' },
   openGraph: {
     title: 'WEBサイコロちゃん',
     description: '指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。',

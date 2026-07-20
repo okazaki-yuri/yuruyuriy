@@ -4,6 +4,7 @@ import { toolsRepository } from '@yuruyuriy/core/data/toolsRepository';
 export const metadata: Metadata = {
   title: 'ゆるユーリ | ツール一覧',
   description: '便利なWebツール一覧です。',
+  alternates: { canonical: '/tools/' },
   openGraph: {
     title: 'ゆるユーリ | 便利なWebツール一覧',
     description: '便利なWebツール一覧です。',

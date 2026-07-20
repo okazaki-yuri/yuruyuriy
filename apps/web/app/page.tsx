@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'ゆるユーリ | かわいいWebツールを集めたサイト',
   description: 'ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。',
+  alternates: { canonical: '/' },
   openGraph: {
     title: 'ゆるユーリ | 便利なWebツールを自主制作しているサイト',
     description: '日常で使える便利なWebツールを自主制作しているサイトです。',

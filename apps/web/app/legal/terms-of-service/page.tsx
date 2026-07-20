@@ -4,6 +4,7 @@ import '../legal.css';
 export const metadata: Metadata = {
   title: 'ゆるユーリ | 利用規約',
   description: '利用規約ページです。',
+  alternates: { canonical: '/legal/terms-of-service/' },
   openGraph: {
     title: 'ゆるユーリ | 利用規約',
     description: '利用規約',
