@@ -3,6 +3,9 @@
 「かわいい！！」をコンセプトに、日常で使える便利なWebツールを自主制作・公開している個人サイトです。
 本ドキュメントはサイト全体のシステム設計をまとめたものです。各ページの詳細設計は [`docs/`](./docs/) 配下を参照してください。
 
+> 旧・素のHTML/CSS/JS構成から **Next.js（静的エクスポート）＋ pnpm モノレポ** へ移行済みです。
+> 移行の経緯・設計判断は [`docs/migration/`](./docs/migration/) にまとまっています。
+
 ---
 
 ## 1. システム概要
@@ -12,90 +15,77 @@
 | サイト名 | ゆるユーリ |
 | 公開URL | https://tools.yl-yuriy.com |
 | 関連ブログ | https://yl-yuriy.com （別サイト・外部リンク） |
-| 構成 | 静的サイト（HTML / CSS / Vanilla JS のみ、ビルド工程なし） |
+| 構成 | Next.js 15（App Router）+ React 19 の**静的エクスポート**（`output: 'export'`）／pnpm モノレポ |
+| パッケージ管理 | pnpm 11（`packageManager` で固定） / Node.js 22 |
 | ホスティング | Xserver（レンタルサーバー） |
-| デプロイ | GitHub Actions による FTPS アップロード |
-| アクセス解析 | Google Analytics|
+| デプロイ | GitHub Actions でビルド → 生成物 `out/` を FTPS アップロード |
+| アクセス解析 | Google Analytics（gtag.js） |
 | フォント | Google Fonts「M PLUS Rounded 1c」 |
 | 対応 | レスポンシブ（PC / スマホ） |
 
 ### 設計方針
-- **フレームワーク・ビルドツールを使わない**シンプルな静的構成。ファイルをそのままサーバーへ配置すれば動作する。
-- ツールはすべて**クライアントサイド完結**。サーバーサイド処理・DBは持たない。
-- ユーザーデータの永続化が必要なツールは**ブラウザの localStorage** を利用する（サーバーに送信しない）。
-- ヘッダー・フッターは共通部品化し、各ページから**JavaScript（fetch）で読み込む**。
+- **静的サイトとして配信**する。Next.js でビルドし、生成された静的HTML（`apps/web/out/`）をサーバーへ配置する（サーバーサイド処理・DBは持たない）。
+- ツールはすべて**クライアントサイド完結**。ユーザーデータの永続化が必要なものは**ブラウザの localStorage** を利用する（サーバーに送信しない）。
+- **ツールの純粋ロジック（抽選・バリデーション等）は `@yuruyuriy/core` に集約**し、UI（`apps/web`）から分離する。DOM操作・localStorage・演出は Web 側が担う。
+- URL は現行と一致させる（`trailingSlash: true` により `/tools/` 形式のディレクトリURLを維持）。
 
 ---
 
 ## 2. ディレクトリ構成
 
+pnpm ワークスペース（`pnpm-workspace.yaml` の `apps/*` `packages/*`）によるモノレポ。
+
 ```
 /
-├── index.html                  … トップページ
-├── tools/
-│   ├── index.html              … ツール一覧ページ
-│   ├── wordroulette-chan/      … ことばルーレットちゃん（単語抽選ツール）
-│   │   ├── index.html
-│   │   ├── style.css
-│   │   └── script.js
-│   └── web-dice-chan/          … WEBサイコロちゃん（サイコロツール）
-│       ├── index.html
-│       ├── style.css
-│       └── script.js
-├── contact/
-│   ├── index.html              … お問い合わせページ
-│   └── style.css
-├── legal/
-│   ├── privacy-policy/index.html … プライバシーポリシー
-│   ├── terms-of-service/index.html … 利用規約
-│   └── style.css               … 規約・ポリシー共通CSS
-├── components/                 … 全ページ共通のヘッダー・フッター
-│   ├── header.html
-│   ├── footer.html
-│   ├── header-footer.css
-│   └── header-footer.js
-├── css/
-│   └── style.css               … サイト共通CSS
-├── assets/                     … 画像・アイコン類（ロゴ、SNSアイコン、favicon）
-├── sitemap.xml                 … サイトマップ（SEO）
-├── robots.txt                  … クローラ制御（SEO）
-└── .github/workflows/deploy.yaml … デプロイ用ワークフロー
+├── apps/
+│   └── web/                      … Next.js アプリ（App Router / 静的エクスポート）
+│       ├── app/
+│       │   ├── layout.tsx        … 共通レイアウト（ヘッダ/フッタ/GA/フォント）
+│       │   ├── page.tsx          … トップページ（/）
+│       │   ├── sitemap.ts        … sitemap.xml を生成
+│       │   ├── not-found.tsx     … 404
+│       │   ├── components/       … Header / Footer（Reactコンポーネント）
+│       │   ├── styles/           … style.css / header-footer.css
+│       │   ├── tools/            … ツール一覧（/tools/）と各ツールページ
+│       │   │   ├── wordroulette-chan/  … ことばルーレットちゃん
+│       │   │   └── web-dice-chan/      … WEBサイコロちゃん
+│       │   ├── contact/          … お問い合わせ（/contact/）
+│       │   └── legal/            … プライバシーポリシー / 利用規約
+│       ├── public/               … 静的資産（/assets/** favicon・ロゴ・SNSアイコン、robots.txt）
+│       ├── next.config.js        … output:'export' / trailingSlash / transpilePackages
+│       └── out/                  … ビルド生成物（gitignore・デプロイ対象）
+├── packages/
+│   └── core/                     … @yuruyuriy/core：ツールの純粋ロジック（UI非依存）
+│       └── src/
+│           ├── index.ts          … 公開APIのバレル
+│           ├── roulette.ts       … 抽選ロジック（pickRandom / sortWords）
+│           ├── dice.ts           … サイコロロジック（rollDice / validate / stats）
+│           └── data/             … ツールメタのデータI/F（toolsRepository / types）
+├── data/
+│   └── tools.json                … ツール一覧のマスタデータ（core が取り込む）
+├── docs/                         … 設計書・移行手順（docs/migration/ ほか）
+├── pnpm-workspace.yaml
+├── package.json                  … ルート（dev / build スクリプト、pnpm を固定）
+└── .github/workflows/deploy.yaml … ビルド & FTPS デプロイ用ワークフロー
 ```
 
 ---
 
 ## 3. 共通アーキテクチャ
 
-### 3.1 ページ共通の読み込み構造
-すべてのHTMLページは概ね以下の構造を持つ。
+### 3.1 共通レイアウト（ヘッダー・フッター）
+- `apps/web/app/layout.tsx` が全ページ共通の枠組み（`<html>`/`<body>`、ヘッダー・フッター、Googleフォント、Google Analytics）を提供する。
+- ヘッダー・フッターは `app/components/Header.tsx` / `Footer.tsx` の **React コンポーネント**として常時描画される（旧方式の `header-footer.js` による fetch 挿入は廃止）。
+- 共通スタイルは `app/styles/style.css`（サイト全体）と `app/styles/header-footer.css`（ヘッダー・フッター専用）を layout で読み込む。
 
-1. `<head>` 内で以下を読み込む
-   - ファビコン（`/assets/favicon.ico`）
-   - サイト共通CSS（`/css/style.css`）
-   - Google Fonts（M PLUS Rounded 1c）
-   - ヘッダー・フッター共通CSS（`/components/header-footer.css`）
-   - ページ専用CSS（存在する場合）
-   - Google Analytics（gtag.js）
-   - OGP / SEO 用の `<meta>` 群
-2. `<body>` に空のプレースホルダ `<div id="header-container">` / `<div id="footer-container">` を配置
-3. ページ末尾で `/components/header-footer.js` を読み込み、ヘッダー・フッターを動的に挿入
-4. ツールページはさらにページ専用 `script.js` を読み込む
+### 3.2 ツールロジック（`@yuruyuriy/core`）
+- 抽選・サイコロ・バリデーションなどの**純粋ロジックは `packages/core`** に置き、UI から分離する（DOM・localStorage・演出は含めない）。
+- `next.config.js` の `transpilePackages: ['@yuruyuriy/core']` により、生の TypeScript を Next 側でコンパイルして利用する。
+- ページ側（`app/tools/*/`）は Client Component（`'use client'`）で入力・localStorage・アニメーションを担当し、抽選部分だけ `core` を呼ぶ。
 
-詳細は [共通コンポーネント設計書](./docs/common-components.md) を参照。
-
-### 3.2 共通コンポーネント（ヘッダー・フッター）
-- `components/header-footer.js` が `DOMContentLoaded` 後に `header.html` / `footer.html` を `fetch` して挿入する。
-- ヘッダーはPC用ナビとスマホ用ハンバーガーメニューを内包し、開閉制御もこのJSが担う。
-- fetch挿入までのレイアウトシフト（CLS）を防ぐため、`#header-container` に `min-height` を予約している。
-
-### 3.3 スタイル構成
-- `css/style.css` … サイト全体で使う共通スタイル（トップ、ツール一覧、ツール共通の概要/使い方エリアなど）。
-- `components/header-footer.css` … ヘッダー・フッター専用。全ページで読み込む。
-- 各ページ / ツールディレクトリの `style.css` … そのページ固有のスタイル。
-- カラーは全体的に**クリーム・ベージュ系のやさしいトーン**で統一。
-
-### 3.4 データの扱い
-- サーバー送信は行わず、ツールの状態は **localStorage** に保存する。
+### 3.3 データの扱い
+- ツール一覧のマスタは `data/tools.json`。`@yuruyuriy/core` の `toolsRepository` 経由で取得する（将来 API 化する際も呼び出し側を無改修にできる I/F）。
+- ツールの状態はサーバー送信せず **localStorage** に保存する。
   - `wordrouletteWords` … ことばルーレットちゃんの登録単語一覧
   - `diceHistory` … WEBサイコロちゃんの抽選履歴
 - 個人を特定する情報は保存しない（[プライバシーポリシー](./docs/privacy-policy.md)参照）。
@@ -106,17 +96,18 @@
 
 - ワークフロー: `.github/workflows/deploy.yaml`
 - トリガー: `workflow_dispatch`（GitHub上から手動実行）
-- 処理: リポジトリをチェックアウトし、`SamKirkland/FTP-Deploy-Action` で Xserver へアップロード
+- 処理: チェックアウト → pnpm/Node 22 セットアップ → `pnpm install --frozen-lockfile` → `pnpm --filter web build`（`apps/web/out/` を生成）→ `SamKirkland/FTP-Deploy-Action` で Xserver へ **`out/` だけ**をアップロード
 - 認証情報は GitHub Secrets（`FTP_SERVER` / `FTP_USERNAME` / `FTP_PASSWORD`）で管理
 - Xserver は FTPS（明示的FTP over TLS）を利用。サーバー側の「FTP制限設定」が有効だとランナーIPが弾かれるため注意。
+- FTP-Deploy-Action は差分同期。`local-dir` を `out/` に絞っているため、ソースや `node_modules` は本番に上がらない。詳細は [docs/migration/04-deploy.md](./docs/migration/04-deploy.md)。
 
 ---
 
 ## 5. SEO
 
-- `sitemap.xml` … 主要ページのURL・優先度・更新頻度を記載。
-- `robots.txt` … 全クローラを許可し、`sitemap.xml` の場所を通知。
-- 各ページに `description` / OGP（`og:title`・`og:description`・`og:image`・`og:url` 等）メタを設定。
+- `apps/web/app/sitemap.ts` … 主要ページのURL等を記載した `sitemap.xml` をビルド時に生成。
+- `apps/web/public/robots.txt` … 全クローラを許可し、`sitemap.xml` の場所を通知。
+- 各ページの `<title>` / `description` / OGP は各 `page.tsx` の `metadata` で設定。方針は [docs/migration/03-seo.md](./docs/migration/03-seo.md)。
 
 ---
 
@@ -131,7 +122,8 @@
 | お問い合わせ | `/contact/` | [docs/contact.md](./docs/contact.md) |
 | プライバシーポリシー | `/legal/privacy-policy/` | [docs/privacy-policy.md](./docs/privacy-policy.md) |
 | 利用規約 | `/legal/terms-of-service/` | [docs/terms-of-service.md](./docs/terms-of-service.md) |
-| 共通コンポーネント（ヘッダー・フッター） | `/components/` | [docs/common-components.md](./docs/common-components.md) |
+
+> 一部の設計書は旧・素のHTML構成を前提に書かれています。現行アーキテクチャの正は [`docs/migration/`](./docs/migration/) を参照してください。
 
 ---
 
@@ -139,19 +131,25 @@
 
 | ドキュメント | 内容 |
 | --- | --- |
-| [docs/add-new-tool.md](./docs/add-new-tool.md) | 新しいツールを追加する手順（チェックリスト付き） |
-| [docs/deploy.md](./docs/deploy.md) | デプロイ手順・Secrets・Xserver注意点・トラブルシューティング |
+| [docs/migration/](./docs/migration/) | Next.js 静的エクスポート構成への移行手順・設計判断（現行構成の正） |
 | [docs/style-guide.md](./docs/style-guide.md) | デザイン / コーディング規約（カラーパレット・命名・共通クラス） |
 | [CHANGELOG.md](./CHANGELOG.md) | 変更履歴 |
 
 ---
 
-## 8. ローカルでの動作確認
+## 8. ローカルでの開発・確認
 
-ビルド不要。任意の静的HTTPサーバーで配信すればよい（ルート相対パス `/...` を使っているため、リポジトリのルートをドキュメントルートとして起動すること）。
+Node.js 22 と pnpm（`corepack enable` で有効化）が必要。
 
 ```bash
-# 例: Python の簡易サーバー
-python3 -m http.server 8000
-# → http://localhost:8000/ で確認
+pnpm install
+
+# 開発サーバー（http://localhost:3000）
+pnpm dev            # = pnpm --filter web dev
+
+# 静的エクスポートのビルド → apps/web/out/ を生成
+pnpm build          # = pnpm --filter web build
+
+# 生成物をローカル配信して最終確認
+npx serve apps/web/out
 ```
