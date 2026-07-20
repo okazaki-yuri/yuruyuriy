@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -18,7 +18,14 @@ export const metadata: Metadata = {
     site: '@ylyuriy_1st',
     creator: '@ylyuriy_1st',
   },
-  icons: { icon: '/assets/favicon.ico' },
+  icons: {
+    icon: '/assets/favicon.ico',
+    apple: '/assets/apple-touch-icon.png',
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: '#ffe3f1',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
