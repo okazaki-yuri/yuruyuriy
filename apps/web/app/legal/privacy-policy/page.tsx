@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import '../legal.css';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | プライバシーポリシー',
+  title: 'プライバシーポリシー',
   description: 'プライバシーポリシーページです。',
   alternates: { canonical: '/legal/privacy-policy/' },
   openGraph: {

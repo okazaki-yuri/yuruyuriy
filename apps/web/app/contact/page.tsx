@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import './contact.css';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | お問い合わせ',
+  title: 'お問い合わせ',
   description: 'お問い合わせページです。',
   alternates: { canonical: '/contact/' },
   openGraph: {

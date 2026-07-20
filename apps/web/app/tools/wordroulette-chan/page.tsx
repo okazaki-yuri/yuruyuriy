@@ -6,7 +6,7 @@ import './roulette.css';
 const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
-  title: 'ことばルーレットちゃん | 単語抽選ツール',
+  title: 'ことばルーレットちゃん',
   description: '入力された単語の中からランダムに1つを表示する抽選ツールです。お題決めや、チーム分けなどで活用できます。',
   alternates: { canonical: '/tools/wordroulette-chan/' },
   openGraph: {

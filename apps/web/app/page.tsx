@@ -4,7 +4,7 @@ import JsonLd from './components/JsonLd';
 const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
-  title: 'ゆるユーリ | かわいいWebツールを集めたサイト',
+  // title はレイアウトの default（'ゆるユーリ | かわいいWebツールを集めたサイト'）を使用
   description: 'ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。',
   alternates: { canonical: '/' },
   openGraph: {

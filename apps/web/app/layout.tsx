@@ -7,6 +7,12 @@ import './styles/header-footer.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tools.yl-yuriy.com'),
+  title: {
+    // 各ページは title に「ページ名」のみ設定すれば「ページ名 | ゆるユーリ」になる。
+    // title 未設定のページ（トップなど）は default が使われる。
+    default: 'ゆるユーリ | かわいいWebツールを集めたサイト',
+    template: '%s | ゆるユーリ',
+  },
   icons: { icon: '/assets/favicon.ico' },
 };
 
