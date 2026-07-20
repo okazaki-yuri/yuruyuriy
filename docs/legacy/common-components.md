@@ -1,5 +1,9 @@
 # 設計書 : 共通コンポーネント（ヘッダー・フッター）
 
+> ⚠️ **旧構成（アーカイブ）**: 本書は Next.js 移行前の `components/header-footer.js`（fetch挿入）方式を記述したものです。
+> 現行はヘッダー・フッターを `apps/web/app/layout.tsx` の React コンポーネント（`app/components/Header.tsx` / `Footer.tsx`）として常時描画します。
+> 現行構成は [README](../../README.md) と [docs/migration/](../migration/) を参照してください。本書は経緯・仕様の記録として保存しています。
+
 全ページで共有するヘッダー・フッターの部品群。各ページのHTMLには含めず、JavaScriptで動的に読み込む。
 
 - 関連ファイル

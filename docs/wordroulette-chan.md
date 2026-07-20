@@ -61,7 +61,7 @@
 - ボタン: `onclick` 属性で `addWord()` / `spinRoulette()` を直接呼び出し。
 
 ## 6. 依存・外部連携
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./common-components.md)）
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./legacy/common-components.md)）
 - 使い方ガイドから[利用規約](./terms-of-service.md)へリンク。
 
 ## 7. 特記事項

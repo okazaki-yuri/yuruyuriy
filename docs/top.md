@@ -44,7 +44,7 @@
 ## 5. 依存・外部連携
 - Google Analytics（gtag.js）
 - Google Fonts（M PLUS Rounded 1c）
-- ヘッダー・フッター（[共通コンポーネント](./common-components.md)）
+- ヘッダー・フッター（[共通コンポーネント](./legacy/common-components.md)）
 
 ## 6. 特記事項
 - ページ自体は静的表示のみで、独自のJavaScript処理は持たない。
