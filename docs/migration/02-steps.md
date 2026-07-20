@@ -7,7 +7,7 @@
 ## Step 0. 準備・ブランチ作成
 
 ```bash
-node -v      # 20 LTS 以上（CIの node-version: 20 と揃える）
+node -v      # 22 LTS 以上（CIの node-version: 22 と揃える。pnpm 11 が Node 22.13 以上を要求）
 corepack enable && corepack prepare pnpm@latest --activate
 
 git switch -c feature/nextjs-migration
