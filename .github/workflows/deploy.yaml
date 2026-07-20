@@ -17,7 +17,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          # pnpm 11 (packageManagerで固定) が Node.js v22.13 以上を要求する
+          node-version: 22
           cache: pnpm
 
       - name: Install dependencies

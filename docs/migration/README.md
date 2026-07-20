@@ -33,7 +33,7 @@
 
 ## 前提環境
 
-- Node.js 20 LTS 以上（CIのビルド環境が Node 20 のため揃える。18 は 2025年4月にEOL済み）
+- Node.js 22 LTS 以上（CIのビルド環境が Node 22 のため揃える。pnpm 11 が Node 22.13 以上を要求する）
 - pnpm（corepack で有効化。セットアップ手順は [02-steps.md](./02-steps.md) の Step 0 を参照）
 
 ## 進め方の推奨順序
