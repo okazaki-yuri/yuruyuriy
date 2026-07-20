@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import WebDice from './WebDice';
+import JsonLd from '../../components/JsonLd';
 import './dice.css';
+
+const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: 'WEBサイコロちゃん',
@@ -17,8 +20,34 @@ export const metadata: Metadata = {
 };
 
 export default function WebDicePage() {
+  const url = `${SITE_URL}/tools/web-dice-chan/`;
+  const appLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebApplication',
+    name: 'WEBサイコロちゃん',
+    url,
+    description:
+      '指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。',
+    applicationCategory: 'UtilitiesApplication',
+    operatingSystem: 'Web',
+    inLanguage: 'ja',
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'JPY' },
+    publisher: { '@type': 'Organization', name: 'ゆるユーリ', url: SITE_URL },
+  };
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'ツール一覧', item: `${SITE_URL}/tools/` },
+      { '@type': 'ListItem', position: 3, name: 'WEBサイコロちゃん', item: url },
+    ],
+  };
+
   return (
     <main>
+      <JsonLd data={appLd} />
+      <JsonLd data={breadcrumbLd} />
       <h1>WEBサイコロちゃん</h1>
 
       {/* 入力・抽選・履歴（インタラクティブ部分） */}

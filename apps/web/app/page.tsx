@@ -1,4 +1,7 @@
 import type { Metadata } from 'next';
+import JsonLd from './components/JsonLd';
+
+const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: 'ゆるユーリ | かわいいWebツールを集めたサイト',
@@ -15,8 +18,29 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const websiteLd = {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'ゆるユーリ',
+    url: SITE_URL,
+    description: 'ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。',
+    inLanguage: 'ja',
+    publisher: {
+      '@type': 'Organization',
+      name: 'ゆるユーリ',
+      url: SITE_URL,
+      logo: `${SITE_URL}/assets/logo.png`,
+      sameAs: [
+        'https://x.com/ylyuriy_1st',
+        'https://www.instagram.com/ylyuriy_1st',
+        'https://www.youtube.com/@ylyuriy',
+      ],
+    },
+  };
+
   return (
     <main className="top-page">
+      <JsonLd data={websiteLd} />
       <h1>ゆるユーリ</h1>
 
       {/* サイト説明 */}
