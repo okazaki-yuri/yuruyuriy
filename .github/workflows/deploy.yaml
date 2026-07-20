@@ -1,7 +1,7 @@
 name: "XServerDeploy"
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:   # 手動トリガーは維持
 
 jobs:
   deploy-to-xserver:
@@ -9,23 +9,29 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        # バージョンはルート package.json の packageManager フィールドから解決される
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 0
-      ## FTP deployを使用したFTPアップロードの記述
-      - name: Upload files on Xserver
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build (static export)
+        run: pnpm --filter web build      # → apps/web/out/ を生成
+
+      - name: Upload to Xserver (only built output)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
-        ## step2でGitHub secretsに登録した認証情報をここで呼び出します
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
+          protocol: ftps                    # 指定しないと平文FTPになる（デフォルトは ftp）
+          local-dir: ./apps/web/out/        # ビルド生成物だけを上げる（末尾スラッシュ必須）
           server-dir: /
-          ## exclude を指定するとデフォルト除外（.git*/node_modules）も上書きされるため再指定している
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/node_modules/**
-            docs/**
-            README.md
-            CHANGELOG.md

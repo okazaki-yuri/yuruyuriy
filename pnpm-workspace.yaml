@@ -1,0 +1,6 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+# 静的エクスポート（images.unoptimized）のため sharp のネイティブビルドは不要
+allowBuilds:
+  sharp: false

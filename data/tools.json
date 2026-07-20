@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "wordroulette-chan",
+    "name": "ことばルーレットちゃん",
+    "description": "入力した単語の中からランダムに選びます。",
+    "href": "/tools/wordroulette-chan/",
+    "icon": "🎡"
+  },
+  {
+    "slug": "web-dice-chan",
+    "name": "WEBサイコロちゃん",
+    "description": "サイコロツールです。",
+    "href": "/tools/web-dice-chan/",
+    "icon": "🎲"
+  }
+]
