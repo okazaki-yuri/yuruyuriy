@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../../og';
 import '../legal.css';
 
 export const metadata: Metadata = {
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
     description: '利用規約',
     url: 'https://tools.yl-yuriy.com/legal/terms-of-service/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };

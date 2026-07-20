@@ -8,3 +8,6 @@ node_modules/
 apps/web/.next/
 apps/web/out/
 *.tsbuildinfo
+
+# 生成物：OGP画像（ビルド時に scripts/generate-og.cjs が生成）
+apps/web/public/assets/og-image.png

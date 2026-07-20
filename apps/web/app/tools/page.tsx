@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../og';
 import { toolsRepository } from '@yuruyuriy/core/data/toolsRepository';
 import JsonLd from '../components/JsonLd';
 
@@ -13,7 +14,7 @@ export const metadata: Metadata = {
     description: '便利なWebツール一覧です。',
     url: 'https://tools.yl-yuriy.com/tools/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };

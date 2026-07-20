@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../../og';
 import WebDice from './WebDice';
 import JsonLd from '../../components/JsonLd';
 import './dice.css';
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     description: '指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。',
     url: 'https://tools.yl-yuriy.com/tools/web-dice-chan/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };

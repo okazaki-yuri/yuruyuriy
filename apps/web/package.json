@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build"
+    "generate:og": "node scripts/generate-og.cjs",
+    "build": "node scripts/generate-og.cjs && next build"
   },
   "dependencies": {
     "@yuruyuriy/core": "workspace:*",

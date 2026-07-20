@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from '../../og';
 import WordRoulette from './WordRoulette';
 import JsonLd from '../../components/JsonLd';
 import './roulette.css';
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     description: '入力された単語の中からランダムに1つを表示する抽選ツールです。お題決めや、チーム分けなどで活用できます。',
     url: 'https://tools.yl-yuriy.com/tools/wordroulette-chan/',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { OG_IMAGE } from './og';
 import JsonLd from './components/JsonLd';
 
 const SITE_URL = 'https://tools.yl-yuriy.com';
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
     description: '日常で使える便利なWebツールを自主制作しているサイトです。',
     url: 'https://tools.yl-yuriy.com',
     siteName: 'ゆるユーリ',
-    images: ['/assets/logo.png'],
+    images: [OG_IMAGE],
     type: 'website',
   },
 };

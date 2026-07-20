@@ -13,6 +13,11 @@ export const metadata: Metadata = {
     default: 'ゆるユーリ | かわいいWebツールを集めたサイト',
     template: '%s | ゆるユーリ',
   },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@ylyuriy_1st',
+    creator: '@ylyuriy_1st',
+  },
   icons: { icon: '/assets/favicon.ico' },
 };
 
