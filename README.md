@@ -56,8 +56,6 @@
 │   └── header-footer.js
 ├── css/
 │   └── style.css               … サイト共通CSS
-├── js/
-│   └── script.js               … サイト共通JS（現状は空のプレースホルダ）
 ├── assets/                     … 画像・アイコン類（ロゴ、SNSアイコン、favicon）
 ├── sitemap.xml                 … サイトマップ（SEO）
 ├── robots.txt                  … クローラ制御（SEO）

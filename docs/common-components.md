@@ -17,8 +17,7 @@
 
 ## 2. 読み込みの仕組み（`header-footer.js`）
 1. `DOMContentLoaded` を契機に実行。
-2. `<div id="header-container">` を `body` 先頭に、`<div id="footer-container">` を `body` 末尾にプレースホルダとして生成・配置する。
-   - ※各ページ側にも同名の空divが置かれているが、スクリプトでも生成しているため二重構造になっている（現状の実装仕様）。
+2. 各ページの `body` に置かれた空のプレースホルダ `<div id="header-container">`（先頭）/ `<div id="footer-container">`（末尾）を `getElementById` で取得する（スクリプト側で要素の生成は行わない）。
 3. `fetch("/components/header.html")` でヘッダーを取得し `innerHTML` に挿入。挿入後にメニュー開閉のイベントを登録する。
 4. `fetch("/components/footer.html")` でフッターを取得し `innerHTML` に挿入。
 
@@ -47,5 +46,5 @@
 
 ## 6. 特記事項・改善余地
 - ヘッダー・フッターは fetch 後に描画されるため、初回表示時にわずかな遅延がある。`min-height` 予約でレイアウトシフトは抑制済み。
-- `header-footer.js` はページ側の空divとスクリプト生成divが重複し得る構造になっている。整理の余地あり。
+- fetch 失敗時は `console.error` に出力するのみで、ユーザー向けのフォールバック表示はない。
 - 予約している高さ（69px）は実レイアウトに合わせた概算値。デザイン変更時は要調整。

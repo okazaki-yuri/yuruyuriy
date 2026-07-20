@@ -12,6 +12,9 @@ GitHub Actions を用いて Xserver（レンタルサーバー）へ FTPS でア
 - 処理内容:
   1. `actions/checkout` でリポジトリを取得。
   2. `SamKirkland/FTP-Deploy-Action` でリポジトリの内容を Xserver の公開ディレクトリへアップロード（`server-dir: /`）。
+- **アップロード除外**: `docs/` / `README.md` / `CHANGELOG.md` は `exclude` 指定により本番へアップロードされない（Git管理のみ）。
+  除外パターンを編集する場合、デフォルト除外（`.git*` / `node_modules`）が上書きされるため必ず併記すること。
+- 除外ファイルは差分同期の仕様上「ローカルに無い」扱いとなり、**サーバー上に残っていても次回デプロイで削除される**。
 
 ## 2. デプロイ手順
 1. 変更を `master` に反映する（PRマージ等）。

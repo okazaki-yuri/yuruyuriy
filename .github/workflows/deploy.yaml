@@ -19,4 +19,13 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
           server-dir: /
+          ## exclude を指定するとデフォルト除外（.git*/node_modules）も上書きされるため再指定している
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            docs/**
+            README.md
+            CHANGELOG.md
