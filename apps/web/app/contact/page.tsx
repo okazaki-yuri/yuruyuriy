@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { OG_IMAGE } from '../og';
+import JsonLd from '../components/JsonLd';
 import './contact.css';
+
+const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: 'お問い合わせ',
@@ -17,8 +20,18 @@ export const metadata: Metadata = {
 };
 
 export default function ContactPage() {
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'お問い合わせ', item: `${SITE_URL}/contact/` },
+    ],
+  };
+
   return (
     <main className="contact-main">
+      <JsonLd data={breadcrumbLd} />
       <section className="contact-section">
         <h1 className="contact-title">お問い合わせ</h1>
         <p className="contact-intro">

@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
   title: 'ページが見つかりません',
   description: 'お探しのページは見つかりませんでした。',
+  robots: { index: false, follow: true },
 };
 
 export default function NotFound() {

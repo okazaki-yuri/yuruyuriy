@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { OG_IMAGE } from '../../og';
+import JsonLd from '../../components/JsonLd';
 import '../legal.css';
+
+const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: 'プライバシーポリシー',
@@ -17,8 +20,18 @@ export const metadata: Metadata = {
 };
 
 export default function PrivacyPolicyPage() {
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: 'プライバシーポリシー', item: `${SITE_URL}/legal/privacy-policy/` },
+    ],
+  };
+
   return (
     <main className="legal-container">
+      <JsonLd data={breadcrumbLd} />
       <h1>プライバシーポリシー</h1>
 
       <section>

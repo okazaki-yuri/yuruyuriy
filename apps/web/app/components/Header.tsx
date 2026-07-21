@@ -28,7 +28,7 @@ export default function Header() {
         <div className="logo-area">
           {/* ヘッダーに表示するロゴ */}
           <a href="/">
-            <img src="/assets/logo.png" alt="ユーリツール ロゴ" className="logo-img" width={480} height={320} />
+            <img src="/assets/logo.png" alt="ゆるユーリ ロゴ" className="logo-img" width={480} height={320} />
           </a>
         </div>
 
