@@ -1,22 +1,101 @@
 /* --- 共通CSS --- */
 
+/* デザイントークン（くすみカラー・グレー×クリーム）
+   色・角丸・影・タイポグラフィはここで一元管理する。個別ページはこの変数を参照する。
+================================================== */
+:root {
+  /* ベース（グレー×クリーム） */
+  --bg: #f5f2ec;          /* 背景：温かみのあるクリームグレー */
+  --surface: #fdfbf7;     /* カード：ほぼ白のクリーム */
+  --surface-alt: #f7f4ee; /* ヘッダー・補助面 */
+  --border: #e5ded3;      /* やわらかい罫線 */
+
+  /* テキスト */
+  --text: #4a4642;        /* 本文：くすんだ墨色 */
+  --text-muted: #6f6a62;  /* 補助テキスト（AA準拠） */
+  --text-faint: #8a837b;  /* 註釈など大きめ文字専用 */
+
+  /* くすみカラー・主アクセント（ダスティローズ） */
+  --primary: #7f4f56;
+  --primary-hover: #6d4046;
+  --on-primary: #ffffff;
+
+  /* 補助アクセント（スモーキーセージ） */
+  --accent: #7f8c7a;
+  --accent-hover: #6b7767;
+
+  /* かたち */
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-pill: 999px;
+  --shadow-card: 0 4px 10px rgba(74, 70, 66, 0.06);
+  --shadow-hover: 0 6px 16px rgba(74, 70, 66, 0.12);
+
+  /* タイポグラフィ
+     フォントは M PLUS Rounded 1c。読み込み前・失敗時に備え、
+     日本語の丸ゴ/ゴシック系システムフォントをフォールバックに置く。 */
+  --font-sans: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN',
+    'Hiragino Kaku Gothic ProN', 'Yu Gothic', Meiryo, sans-serif;
+
+  /* ウェイト（400/500/700 のみ読み込む。合成ボールドを避ける） */
+  --fw-normal: 400;
+  --fw-medium: 500;
+  --fw-bold: 700;
+
+  /* タイプスケール（rem に統一。em/px 直書きはしない） */
+  --fs-2xl: 2rem;     /* ページ見出し（h1 相当） */
+  --fs-xl: 1.8rem;    /* セクション大見出し */
+  --fs-lg: 1.3rem;    /* カード見出し */
+  --fs-md: 1.2rem;    /* パネル見出し・ツール名 */
+  --fs-base: 1rem;    /* 本文 */
+  --fs-sm: 0.9rem;    /* 補助・説明文 */
+  --fs-xs: 0.85rem;   /* 註釈・小ラベル */
+  --fs-2xs: 0.75rem;  /* コピーライトなど極小 */
+
+  /* 行間 */
+  --lh-base: 1.7;     /* 日本語本文は広め */
+  --lh-heading: 1.3;
+
+  /* レイアウト（コンテナ幅）
+     body には max-width を掛けず、各リージョンがこの幅で中央寄せする。
+     ヘッダー／フッターは背景を全幅・中身だけ --content-wide で中央寄せ。 */
+  --content-wide: 1000px; /* ヘッダー・フッター中身・ツール一覧 */
+  --content: 960px;       /* 標準の本文カラム */
+  --reading: 800px;       /* 読み物・ヒーロー列（やや狭め） */
+  --panel: 600px;         /* パネル・入力エリア */
+  --gutter: 1rem;         /* 左右の最小余白 */
+
+  /* 余白スケール（ページ構造の縦リズム） */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+}
+
 /* サイト全体の設定
 ================================================== */
 body {
-  font-family: 'M PLUS Rounded 1c', sans-serif;
-  background-color: #f1f1f1;
-  color: #333;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
+  background-color: var(--bg);
+  color: var(--text);
   padding: 0;
-  max-width: 900px;
-  margin: 0 auto;
+  margin: 0;
   text-align: center;
 }
 
 main {
   flex: 1;
-  max-width: 900px;
+  width: 100%;
+  max-width: var(--content);
   margin: 0 auto;
-  padding: 1rem;
+  padding: var(--space-sm) var(--gutter);
+}
+
+h1, h2, h3 {
+  line-height: var(--lh-heading);
 }
 
 h1 {
@@ -28,38 +107,36 @@ h1 {
 ================================================== */
 .top-page {
   width: 100%;
-  max-width: 800px;
+  max-width: var(--reading);
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: var(--space-lg) var(--gutter);
   text-align: center;
-  font-family: 'M PLUS Rounded 1c', sans-serif;
 }
 
 /* TOPページ ! サイト説明
 ================================================== */
 .top-description {
-  background-color: #fff8f0;
-  border: 2px solid #f1d9c2;
-  border-radius: 10px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 2rem;
   margin: 2rem auto;
   width: 100%;
   max-width: 800px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  font-family: 'Yu Gothic', 'Hiragino Kaku Gothic ProN', sans-serif;
-  color: #4b3d2a;
+  box-shadow: var(--shadow-card);
+  color: var(--text);
   text-align: center;
 }
 
 .top-description h2 {
-  font-size: 1.8rem;
+  font-size: var(--fs-xl);
   margin-bottom: 1rem;
-  color: #a47148;
+  color: var(--primary);
 }
 
 .top-description p {
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
 }
 
 /* TOPページ ! ロゴ
@@ -84,22 +161,22 @@ h1 {
 .top-link-box {
   flex: 1 1 300px;
   max-width: 400px;
-  background-color: #fdf9f3;
+  background-color: var(--surface);
   padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
   text-align: center;
 }
 
 .top-link-box h2 {
-  font-size: 1.3rem;
+  font-size: var(--fs-lg);
   margin-bottom: 0.8rem;
 }
 
 .top-link-box p {
   margin-bottom: 1rem;
-  font-size: 0.95rem;
-  color: #555;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
 }
 
 /* ボタン共通スタイル */
@@ -108,38 +185,38 @@ h1 {
   display: inline-block;
   padding: 0.7rem 1.4rem;
   margin-bottom: 0.8rem;
-  border: 2px solid#ffa500;
-  background-color: #ffa500;
-  color: #ffffff;
+  border: 2px solid var(--primary);
+  background-color: var(--primary);
+  color: var(--on-primary);
   text-decoration: none;
-  border-radius: 6px;
-  font-weight: bold;
-  transition: background-color 0.2s ease;
+  border-radius: var(--radius-sm);
+  font-weight: var(--fw-bold);
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .top-tool-link-button:hover,
 .top-blog-link-button:hover {
-  background-color: #ffffff;
-  color: #ffa500;
+  background-color: var(--surface);
+  color: var(--primary);
 }
 
 /* TOPページ ! 外部リンク
 ================================================== */
 .external-links {
-  margin: 3em auto;
-  padding: 2em;
-  max-width: 1000px;
+  margin: var(--space-xl) auto;
+  padding: var(--space-lg);
+  max-width: var(--content-wide);
   text-align: center;
 }
 
 .external-links h2 {
-  font-size: 1.8em;
+  font-size: var(--fs-xl);
   margin-bottom: 0.5em;
 }
 
 .external-links p {
-  font-size: 1em;
-  color: #555;
+  font-size: var(--fs-base);
+  color: var(--text-muted);
   margin-bottom: 2em;
 }
 
@@ -154,17 +231,17 @@ h1 {
   align-items: center;
   gap: 1em;
   padding: 1em;
-  border-radius: 10px;
-  background: #fff;
-  border: 1px solid #ddd;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
   text-decoration: none;
-  color: #333;
-  transition: all 0.2s ease;
+  color: var(--text);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .link-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-hover);
 }
 
 .icon-area {
@@ -183,14 +260,14 @@ h1 {
 }
 
 .text-area h3 {
-  font-size: 1.1em;
+  font-size: var(--fs-md);
   margin: 0 0 0.3em;
   text-align: left;
 }
 
 .text-area p {
-  font-size: 0.9em;
-  color: #666;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
   margin: 0;
   text-align: left;
 }
@@ -198,8 +275,9 @@ h1 {
 /* ツール一覧ページ ! 全体の設定
 ================================================== */
 .tool-list-page {
-  padding: 2em 1em;
-  max-width: 1000px;
+  width: 100%;
+  padding: var(--space-lg) var(--gutter);
+  max-width: var(--content-wide);
   margin: 0 auto;
 }
 
@@ -220,16 +298,18 @@ h1 {
 }
 
 .tool-card {
-  background-color: #f9f7f6;
-  border-radius: 10px;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
   width: 300px;
   padding: 1em;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .active-tool:hover {
   transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
 }
 
 .tool-link {
@@ -242,19 +322,19 @@ h1 {
 }
 
 .tool-icon {
-  font-size: 2.5rem;
+  font-size: 2.5rem; /* 装飾的な絵文字アイコン */
   margin-bottom: 0.5em;
 }
 
 .tool-name {
-  font-weight: bold;
-  font-size: 1.2rem;
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-md);
   margin-bottom: 0.5em;
 }
 
 .tool-description {
-  font-size: 0.95rem;
-  color: #666;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
 }
 
 /* 準備中のツール */
@@ -265,51 +345,51 @@ h1 {
 /* 各種ツール共通 ! ツール概要
 ================================================== */
 .introduction-area {
-  max-width: 600px;
-  margin: 2rem auto 1rem auto;
+  max-width: var(--panel);
+  margin: var(--space-lg) auto var(--space-sm) auto;
   padding: 1.5rem;
-  background-color: #f6f6f6; /* やさしいグレー系 */
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  border: 1px solid #ddd;
-  font-size: 0.95rem;
-  color: #444;
+  background-color: var(--surface-alt);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text);
 }
 
 .introduction-area h2 {
-  font-size: 1.2rem;
+  font-size: var(--fs-md);
   margin-bottom: 1rem;
-  color: #555;
+  color: var(--primary);
   text-align: center;
 }
 
 .introduction-area p {
   margin: 0;
-  line-height: 1.7;
+  line-height: var(--lh-base);
   text-align: left;
 }
 
 /* 各種ツール共通 ! ツール説明
 ================================================== */
 .howto-area {
-  max-width: 600px;
-  margin: 2rem auto;
+  max-width: var(--panel);
+  margin: var(--space-lg) auto;
   padding: 1.5rem;
-  background-color: #fdfaf5; /* クリーム系 */
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  font-size: 0.95rem;
-  color: #444;
-  line-height: 1.7;
-  border: 1px solid #ddd;
-  background-image: radial-gradient(#f1f1f1 1px, transparent 1px);
+  background-color: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  font-size: var(--fs-sm);
+  color: var(--text);
+  line-height: var(--lh-base);
+  border: 1px solid var(--border);
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
   background-size: 10px 10px;
 }
 
 .howto-area h2 {
-  font-size: 1.2rem;
+  font-size: var(--fs-md);
   margin-bottom: 1rem;
-  color: #666;
+  color: var(--primary);
   text-align: center;
 }
 
@@ -329,7 +409,7 @@ h1 {
 
 
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                   スマホ表示対応                   
+                   スマホ表示対応
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 @media (max-width: 600px) {
   .top-logo {

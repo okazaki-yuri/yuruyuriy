@@ -3,16 +3,17 @@
 /* 規約・ポリシー全体の設定
 ================================================== */
 .legal-container {
-  max-width: 800px;
-  margin: 60px auto;
-  padding: 0 1em;
+  width: 100%;
+  max-width: var(--reading);
+  margin: var(--space-xl) auto;
+  padding: 0 var(--gutter);
 }
 
 .legal-container h1 {
-  font-size: 2em;
+  font-size: var(--fs-2xl);
   margin-bottom: 1em;
   text-align: center;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid var(--border);
   padding-bottom: 0.5em;
 }
 
@@ -22,15 +23,15 @@
 }
 
 .legal-container h2 {
-  font-size: 1.2em;
-  color: #333;
+  font-size: var(--fs-md);
+  color: var(--text);
   margin-bottom: 0.5em;
 }
 
 .legal-container p,
 .legal-container ul {
-  font-size: 1em;
-  line-height: 1.6;
+  font-size: var(--fs-base);
+  line-height: var(--lh-base);
 }
 
 .legal-container ul {

@@ -12,8 +12,13 @@
   display: flex;
   flex-direction: column;
   gap: 15px;
-  margin-bottom: 20px;
+  /* 履歴・サイコロ表示エリアと幅を揃えてブロックごと中央寄せ。
+     中身（ラベル・入力欄）は左寄せのまま。 */
+  width: 100%;
+  max-width: var(--panel);
+  margin: 0 auto 20px;
   align-items: flex-start;
+  text-align: left;
 }
 
 .control-group {
@@ -23,7 +28,7 @@
 }
 
 .control-group label {
-  font-weight: bold;  
+  font-weight: var(--fw-bold);  
   margin-bottom: 5px;
 }
 
@@ -39,7 +44,7 @@
 }
 
 .inputs .tilde {
-  font-weight: bold;
+  font-weight: var(--fw-bold);
 }
 
 .control-group input, .control-group select {
@@ -49,14 +54,24 @@
 }
 
 .controls button {
-  padding: 5px 15px;
+  padding: 0.5rem 1.2rem;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.controls button:hover {
+  background-color: var(--primary-hover);
 }
 
 /* サイコロ表示エリア
 ================================================== */
 #dice-area {
-  max-width: 600px;
-  margin: 20px 0;
+  max-width: var(--panel);
+  margin: 20px auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -66,44 +81,56 @@
 .dice-card {
   width: 40px;
   height: 40px;
-  background: #fff;
-  border: 2px solid #333;
+  background: var(--surface);
+  border: 2px solid var(--primary);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
-  font-size: 1em;
-  box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+  font-weight: var(--fw-bold);
+  font-size: var(--fs-base);
+  color: var(--text);
+  box-shadow: 1px 1px 3px rgba(74, 70, 66, 0.15);
 }
 
 #dice-stats {
   margin: 10px 0;
-  font-weight: bold;
+  font-weight: var(--fw-bold);
 }
 
 /* 履歴表示エリア
 ================================================== */
 #history-area {
-  max-width: 600px;
+  max-width: var(--panel);
   margin: 20px auto;
   width: 100%;
-  background-color: #fdfaf5; /* クリーム系 */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-  border: 1px solid #ffffff;
+  background-color: var(--surface-alt); /* クリーム系 */
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
   padding: 10px;
   text-align: left;
 }
 
 .history-item {
   margin-bottom: 15px;
-  border: 1px solid #bbb;
-  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
 }
 
 #history-area button {
   margin-top: 10px;
-  padding: 5px 10px;
+  padding: 0.4rem 1rem;
+  background-color: var(--accent);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+#history-area button:hover {
+  background-color: var(--accent-hover);
 }
 
 /* SNSシェア

@@ -3,30 +3,32 @@
 /* 全体の設定
 ================================================== */
 .contact-main {
-  max-width: 800px;
+  width: 100%;
+  max-width: var(--reading);
   margin: 0 auto;
-  padding: 40px 16px;
+  padding: var(--space-lg) var(--gutter);
 }
 
 .contact-section {
-  background-color: #fff;
-  border-radius: 8px;
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
   padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-card);
 }
 
 /* タイトル
 ================================================== */
 .contact-title {
-  font-size: 1.8em;
+  font-size: var(--fs-xl);
   margin-bottom: 20px;
   text-align: center;
-  color: #333;
+  color: var(--text);
 }
 
 .contact-intro,
 .contact-sub {
-  font-size: 1em;
+  font-size: var(--fs-base);
   margin-bottom: 16px;
   text-align: center;
 }
@@ -41,18 +43,18 @@
 .contact-button {
   display: inline-block;
   padding: 12px 24px;
-  border: 2px solid#555;
-  color: #e8e6e1;
-  background: #555;
-  border-radius: 6px;
+  border: 2px solid var(--primary);
+  color: var(--on-primary);
+  background: var(--primary);
+  border-radius: var(--radius-sm);
   text-decoration: none;
-  font-weight: bold;
-  transition: background-color 0.3s;
+  font-weight: var(--fw-bold);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .contact-button:hover {
-  color: #555;
-  background: #e8e6e1;
+  color: var(--primary);
+  background: var(--surface);
 }
 
 /* お問い合わせ先一覧
@@ -61,7 +63,7 @@
   list-style: none;
   padding: 0;
   text-align: center;
-  font-size: 1em;
+  font-size: var(--fs-base);
 }
 
 .contact-list li {
@@ -69,7 +71,7 @@
 }
 
 .contact-list a {
-  color: #336699;
+  color: var(--primary);
   text-decoration: none;
 }
 

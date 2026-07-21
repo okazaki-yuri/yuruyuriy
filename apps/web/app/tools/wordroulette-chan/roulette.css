@@ -11,26 +11,26 @@
 .result-box {
   margin: 0 auto 1rem;
   padding: 1rem;
-  font-size: 2rem;
-  border: 2px dashed #999;
-  border-radius: 10px;
-  background-color: #fff;
+  font-size: var(--fs-2xl);
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius);
+  background-color: var(--surface);
   width: 100%;
-  max-width: 600px;
+  max-width: var(--panel);
   word-wrap: break-word;
   min-height: 3em;
-  color: #222;
+  color: var(--text);
   transition: background-color 0.3s ease;
 }
 
-/* 切り替え中：文字を薄めに */
+/* 切り替え中：背景をほんのり */
 .result-box.spin {
-  background-color: rgba(0, 0, 0, 0.05);       /* 薄い黒 */
+  background-color: var(--surface-alt);
 }
 
 /* 最終結果：強調アニメーション */
 .result-box.final {
-  color: #222;                      /* 通常の濃さ */
+  color: var(--text);
   animation: highlight 0.6s ease-out;
 }
 
@@ -43,8 +43,8 @@
 
 .result-box:empty::before {
   content: "ここにルーレット結果が表示されます";
-  font-size: 0.85rem;
-  color: #aaa;
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
 }
 
 /* 入力モード切替用のタブ
@@ -53,41 +53,42 @@
   display: flex;
   justify-content: center;
   margin-bottom: 1rem;
-  border-bottom: 2px solid #bbb;
-  max-width: 600px;
+  border-bottom: 2px solid var(--border);
+  max-width: var(--panel);
   margin-left: auto;
   margin-right: auto;
 }
 .tab-button {
   flex: 1;
   padding: 0.6rem 1rem;
-  background-color: #e0e0e0;
-  border: 1px solid #ccc;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
   border-bottom: none;
-  color: #555;
-  font-weight: bold;
+  color: var(--text-muted);
+  font-weight: var(--fw-bold);
   cursor: pointer;
 }
 .tab-button:hover {
-  background-color: #d0d0d0;
+  background-color: var(--border);
 }
 .tab-button.active {
-  background-color: #444;
-  color: #fff;
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
 }
 
 /* ことば入力エリア
 ================================================== */
 .input-area {
   width: 100%;
-  max-width: 600px;
+  max-width: var(--panel);
   margin: 0 auto 1rem;
   text-align: center;
 }
 #wordInput,
 #multiInput {
   width: 100%;
-  font-size: 1rem;
+  font-size: var(--fs-base);
   padding: 0.6rem;
   margin-bottom: 0.5rem;
 }
@@ -105,15 +106,16 @@
   flex: 1;
   min-width: 40%;
   padding: 0.7rem;
-  font-size: 1rem;
-  background-color: #444;
-  color: #fff;
+  font-size: var(--fs-base);
+  background-color: var(--primary);
+  color: var(--on-primary);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 .button-row button:hover {
-  background-color: #666;
+  background-color: var(--primary-hover);
 }
 
 /* ソート
@@ -124,8 +126,8 @@
   justify-content: center;
   gap: 0.5rem; /* 各要素の間隔 */
   margin-bottom: 1rem;
-  font-size: 0.9rem;
-  color: #555;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
 }
 
 .sort-link {
@@ -144,22 +146,22 @@
 ================================================== */
 .duration-label {
   margin-left: 1rem; /* ソートから少しスペース */
-  font-weight: 500;
+  font-weight: var(--fw-medium);
 }
 
 .duration-select {
   padding: 0.2rem 0.4rem;
-  font-size: 0.9rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  background: #fff;
-  color: #333;
+  font-size: var(--fs-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .duration-select:hover {
-  background: #f7f7f7;
+  background: var(--surface-alt);
 }
 
 /* ことば一覧
@@ -172,23 +174,23 @@
   margin-bottom: 1rem;
 }
 .word-tag {
-  background-color: #eee;
+  background-color: var(--surface-alt);
   padding: 0.4rem 0.8rem;
-  border-radius: 20px;
+  border-radius: var(--radius-pill);
   display: flex;
   align-items: center;
-  font-size: 0.95rem;
-  border: 1px solid #ccc;
+  font-size: var(--fs-sm);
+  border: 1px solid var(--border);
 }
 .word-tag button {
   margin-left: 0.6rem;
-  background: #888;
-  color: #fff;
+  background: var(--primary);
+  color: var(--on-primary);
   border: none;
   border-radius: 50%;
   width: 1.2rem;
   height: 1.2rem;
-  font-size: 0.8rem;
+  font-size: var(--fs-xs);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -196,7 +198,7 @@
   padding: 0;
 }
 .word-tag button:hover {
-  background: #555;
+  background: var(--primary-hover);
 }
 
 /* リセットボタン
@@ -206,14 +208,15 @@
 }
 .reset-area button {
   padding: 0.6rem 1.5rem;
-  background-color: #888;
-  color: #fff;
+  background-color: var(--accent);
+  color: var(--on-primary);
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  transition: background-color 0.2s;
 }
 .reset-area button:hover {
-  background-color: #666;
+  background-color: var(--accent-hover);
 }
 
 /* 画面表示制御用
@@ -241,7 +244,7 @@
     flex-direction: row;
   }
   .button-row button {
-    font-size: 0.9rem;
+    font-size: var(--fs-sm);
     padding: 0.6rem;
   }
 }
