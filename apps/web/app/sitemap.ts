@@ -4,25 +4,25 @@ import type { MetadataRoute } from 'next';
 // 現行 sitemap.xml に欠落していた /legal/privacy-policy/ もここで解消される。
 export const dynamic = 'force-static';
 
-// 静的エクスポートのため lastModified はビルド時刻を用いる。
-const lastModified = new Date();
-
+// lastmod はビルド時刻（new Date()）ではなく、ページごとの実更新日を明示する。
+// ビルド時刻を使うと無変更ページも毎回 lastmod が更新され、誤った鮮度シグナルになるため。
+// コンテンツを更新したら、そのページの lastmod（YYYY-MM-DD）だけを書き換える。
 // パス → 優先度。Google は priority をほぼ無視するが、サイト内の相対的な重要度の目安として付与する。
-const routes: { path: string; priority: number }[] = [
-  { path: '', priority: 1.0 },
-  { path: 'tools/', priority: 0.8 },
-  { path: 'tools/wordroulette-chan/', priority: 0.7 },
-  { path: 'tools/web-dice-chan/', priority: 0.7 },
-  { path: 'contact/', priority: 0.5 },
-  { path: 'legal/privacy-policy/', priority: 0.3 },
-  { path: 'legal/terms-of-service/', priority: 0.3 },
+const routes: { path: string; priority: number; lastmod: string }[] = [
+  { path: '', priority: 1.0, lastmod: '2026-07-20' },
+  { path: 'tools/', priority: 0.8, lastmod: '2026-07-20' },
+  { path: 'tools/wordroulette-chan/', priority: 0.7, lastmod: '2026-07-20' },
+  { path: 'tools/web-dice-chan/', priority: 0.7, lastmod: '2026-07-20' },
+  { path: 'contact/', priority: 0.5, lastmod: '2026-07-20' },
+  { path: 'legal/privacy-policy/', priority: 0.3, lastmod: '2026-07-20' },
+  { path: 'legal/terms-of-service/', priority: 0.3, lastmod: '2025-08-16' },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = 'https://tools.yl-yuriy.com';
-  return routes.map(({ path, priority }) => ({
+  return routes.map(({ path, priority, lastmod }) => ({
     url: `${base}/${path}`,
-    lastModified,
+    lastModified: lastmod,
     changeFrequency: 'monthly',
     priority,
   }));

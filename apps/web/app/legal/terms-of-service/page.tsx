@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import { OG_IMAGE } from '../../og';
+import JsonLd from '../../components/JsonLd';
 import '../legal.css';
+
+const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: '利用規約',
@@ -17,8 +20,18 @@ export const metadata: Metadata = {
 };
 
 export default function TermsOfServicePage() {
+  const breadcrumbLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'ホーム', item: `${SITE_URL}/` },
+      { '@type': 'ListItem', position: 2, name: '利用規約', item: `${SITE_URL}/legal/terms-of-service/` },
+    ],
+  };
+
   return (
     <main className="legal-container">
+      <JsonLd data={breadcrumbLd} />
       <h1>利用規約</h1>
 
       <section>
