@@ -1,22 +1,17 @@
 import type { Metadata } from 'next';
-import { OG_IMAGE } from '../og';
+import { SITE_URL, buildOpenGraph } from '../site';
 import JsonLd from '../components/JsonLd';
 import './contact.css';
-
-const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: 'お問い合わせ',
   description: 'お問い合わせページです。',
   alternates: { canonical: '/contact/' },
-  openGraph: {
+  openGraph: buildOpenGraph({
     title: 'ゆるユーリ | お問い合わせ',
     description: 'お問い合わせはこちらから',
-    url: 'https://tools.yl-yuriy.com/contact/',
-    siteName: 'ゆるユーリ',
-    images: [OG_IMAGE],
-    type: 'website',
-  },
+    path: '/contact/',
+  }),
 };
 
 export default function ContactPage() {

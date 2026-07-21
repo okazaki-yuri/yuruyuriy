@@ -1,21 +1,16 @@
 import type { Metadata } from 'next';
-import { OG_IMAGE } from './og';
+import { SITE_URL, buildOpenGraph } from './site';
 import JsonLd from './components/JsonLd';
-
-const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   // title はレイアウトの default（'ゆるユーリ | かわいいWebツールを集めたサイト'）を使用
   description: 'ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。',
   alternates: { canonical: '/' },
-  openGraph: {
+  openGraph: buildOpenGraph({
     title: 'ゆるユーリ | 便利なWebツールを自主制作しているサイト',
     description: '日常で使える便利なWebツールを自主制作しているサイトです。',
-    url: 'https://tools.yl-yuriy.com',
-    siteName: 'ゆるユーリ',
-    images: [OG_IMAGE],
-    type: 'website',
-  },
+    path: '/',
+  }),
 };
 
 export default function HomePage() {

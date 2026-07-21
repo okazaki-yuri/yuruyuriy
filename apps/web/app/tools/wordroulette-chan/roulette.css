@@ -132,6 +132,12 @@
   cursor: pointer;
   text-decoration: underline;
   margin: 0 0.25rem;
+  /* button 化に伴う既定スタイルのリセット（テキストリンク調を維持） */
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
 }
 
 /* ルーレット時間セレクト

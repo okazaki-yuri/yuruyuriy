@@ -4,8 +4,9 @@ export default function JsonLd({ data }: { data: Record<string, unknown> }) {
   return (
     <script
       type="application/ld+json"
-      // JSON.stringify 済みの信頼できる自前データのみを渡す
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+      // 自前データのみを渡すが、将来 name/description 等に "<" が混入した場合でも
+      // "</script>" でタグを閉じられないよう、"<" を Unicode エスケープ（<）しておく。
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data).replace(/</g, '\\u003c') }}
     />
   );
 }

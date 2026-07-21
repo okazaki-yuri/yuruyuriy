@@ -1,22 +1,17 @@
 import type { Metadata } from 'next';
-import { OG_IMAGE } from '../og';
+import { SITE_URL, buildOpenGraph } from '../site';
 import { toolsRepository } from '@yuruyuriy/core/data/toolsRepository';
 import JsonLd from '../components/JsonLd';
-
-const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: 'ツール一覧',
   description: '便利なWebツール一覧です。',
   alternates: { canonical: '/tools/' },
-  openGraph: {
+  openGraph: buildOpenGraph({
     title: 'ゆるユーリ | 便利なWebツール一覧',
     description: '便利なWebツール一覧です。',
-    url: 'https://tools.yl-yuriy.com/tools/',
-    siteName: 'ゆるユーリ',
-    images: [OG_IMAGE],
-    type: 'website',
-  },
+    path: '/tools/',
+  }),
 };
 
 export default async function ToolsPage() {

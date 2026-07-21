@@ -5,6 +5,11 @@ import { pickRandom, sortWords } from '@yuruyuriy/core';
 
 const STORAGE_KEY = 'wordrouletteWords';
 
+/** localStorage から復元した値が「文字列配列」であることを検証する */
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((w) => typeof w === 'string');
+}
+
 export default function WordRoulette() {
   const [words, setWords] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<'single' | 'multi'>('single');
@@ -21,7 +26,12 @@ export default function WordRoulette() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        setWords(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        if (isStringArray(parsed)) {
+          setWords(parsed);
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
       } catch {
         // ローカルストレージのデータが不正な場合は握りつぶす
         localStorage.removeItem(STORAGE_KEY);
@@ -141,8 +151,15 @@ export default function WordRoulette() {
 
   return (
     <>
-      {/* 抽選結果表示 */}
-      <div className={`result-box${resultState ? ` ${resultState}` : ''}`}>{result}</div>
+      {/* 抽選結果表示（確定値をスクリーンリーダーへ通知） */}
+      <div
+        className={`result-box${resultState ? ` ${resultState}` : ''}`}
+        role="status"
+        aria-live="polite"
+        aria-atomic="true"
+      >
+        {result}
+      </div>
 
       {/* 入力モード切替用のタブ */}
       <div className="tab-container">
@@ -199,8 +216,8 @@ export default function WordRoulette() {
       <div className={`sort-controls${words.length === 0 ? ' hidden' : ''}`}>
         {/* ソート */}
         並び順：
-        <span className="sort-link" onClick={() => handleSort('asc')}>昇順</span> /
-        <span className="sort-link" onClick={() => handleSort('desc')}>降順</span>
+        <button type="button" className="sort-link" onClick={() => handleSort('asc')}>昇順</button> /
+        <button type="button" className="sort-link" onClick={() => handleSort('desc')}>降順</button>
 
         {/* ルーレット時間セレクト */}
         <label htmlFor="durationSelect" className="duration-label">抽選時間：</label>

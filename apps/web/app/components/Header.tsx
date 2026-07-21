@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const hamburgerRef = useRef<HTMLDivElement>(null);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
   const mobileNavRef = useRef<HTMLElement>(null);
 
   // メニュー外クリックで閉じる
@@ -39,19 +39,23 @@ export default function Header() {
           <a href="https://yl-yuriy.com/" className="nav-link">ブログ</a>
         </nav>
 
-        {/* スマホ表示用ハンバーガーボタン */}
-        <div
+        {/* スマホ表示用ハンバーガーボタン（スマホのスクリーンリーダー向けに button で公開する） */}
+        <button
+          type="button"
           ref={hamburgerRef}
           className={`hamburger${menuOpen ? ' open' : ''}`}
+          aria-label="メニュー"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-nav"
           onClick={() => setMenuOpen((v) => !v)}
         >
           <span></span><span></span><span></span>
-        </div>
+        </button>
       </div>
 
       {/* ハンバーガー内メニュー */}
-      <nav ref={mobileNavRef} className={`nav-mobile${menuOpen ? ' show' : ''}`}>
-        <button className="close-btn" onClick={() => setMenuOpen(false)}>&times;</button>
+      <nav id="mobile-nav" ref={mobileNavRef} className={`nav-mobile${menuOpen ? ' show' : ''}`}>
+        <button type="button" className="close-btn" aria-label="メニューを閉じる" onClick={() => setMenuOpen(false)}>&times;</button>
         <a href="/">TOP</a>
         <a href="/tools/">ツール一覧</a>
         <a href="https://yl-yuriy.com/">ブログ</a>

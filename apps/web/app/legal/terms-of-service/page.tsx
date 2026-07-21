@@ -1,22 +1,17 @@
 import type { Metadata } from 'next';
-import { OG_IMAGE } from '../../og';
+import { SITE_URL, buildOpenGraph } from '../../site';
 import JsonLd from '../../components/JsonLd';
 import '../legal.css';
-
-const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: '利用規約',
   description: '利用規約ページです。',
   alternates: { canonical: '/legal/terms-of-service/' },
-  openGraph: {
+  openGraph: buildOpenGraph({
     title: 'ゆるユーリ | 利用規約',
     description: '利用規約',
-    url: 'https://tools.yl-yuriy.com/legal/terms-of-service/',
-    siteName: 'ゆるユーリ',
-    images: [OG_IMAGE],
-    type: 'website',
-  },
+    path: '/legal/terms-of-service/',
+  }),
 };
 
 export default function TermsOfServicePage() {

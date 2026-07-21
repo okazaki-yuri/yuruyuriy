@@ -18,7 +18,8 @@ export function pickRandom<T>(items: T[], rng: () => number = Math.random): T | 
  * @param order 並び順（asc: 昇順 / desc: 降順）
  */
 export function sortWords(words: string[], order: 'asc' | 'desc'): string[] {
+  // 日本語（かな/漢字混在）でも直感的な並びになるよう 'ja' ロケールで比較する。
   return [...words].sort((a, b) =>
-    order === 'asc' ? a.localeCompare(b) : b.localeCompare(a)
+    order === 'asc' ? a.localeCompare(b, 'ja') : b.localeCompare(a, 'ja')
   );
 }
