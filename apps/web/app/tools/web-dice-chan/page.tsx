@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: '指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。',
   alternates: { canonical: '/tools/web-dice-chan/' },
   openGraph: buildOpenGraph({
-    title: 'WEBサイコロちゃん',
+    title: 'ゆるユーリ | WEBサイコロちゃん',
     description: '指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。',
     path: '/tools/web-dice-chan/',
   }),
