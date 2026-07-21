@@ -96,6 +96,7 @@
 #dice-stats {
   margin: 10px 0;
   font-weight: var(--fw-bold);
+  text-align: center;
 }
 
 /* 履歴表示エリア
