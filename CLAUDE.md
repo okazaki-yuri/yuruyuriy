@@ -22,7 +22,15 @@
 - `apps/web/app/layout.tsx` の `metadataBase` を基準に、canonical・OGP 画像などは相対パスで指定してよい。
 - 正規 URL（canonical）は各ページで `alternates.canonical` に**トレイリングスラッシュ付き**で指定する（`next.config.js` の `trailingSlash: true` と一致させる）。
 - sitemap は `apps/web/app/sitemap.ts` で自動生成する。ページ追加時はこのリストにも追記する。
+- **`sitemap.ts` の `lastmod` は各ページの実更新日（`YYYY-MM-DD`）を手動で指定する。** ビルド時刻（`new Date()`）は使わない（無変更ページも毎回更新され、誤った鮮度シグナルになるため）。
+  - あるページのコンテンツや見た目を変更したら、その**該当ページの `lastmod` だけ**を更新日へ書き換える。
+  - デザイントークン・共通CSS・レイアウトなど**全ページに影響する変更**をした場合は、**全エントリの `lastmod`** を更新する。
 - 構造化データ（JSON-LD）は `apps/web/app/components/JsonLd.tsx` を用いて各ページに埋め込む。
 - OGP 画像（1200×630 の `og-image.png`）は `apps/web/scripts/generate-og.cjs` が **build 時に生成**する（`apps/web` の `build` スクリプトが `next build` の前に実行）。生成物 `apps/web/public/assets/og-image.png` は `.gitignore` 済みでコミットしない。各ページは `apps/web/app/og.ts` の `OG_IMAGE` を `openGraph.images` に指定する。
 - PWA / apple-touch-icon 用の正方形アイコン（`apple-touch-icon.png` / `icon-192.png` / `icon-512.png`）も `apps/web/scripts/generate-icons.cjs` が **build 時に生成**する（同じく `.gitignore` 済み）。Web App Manifest は `apps/web/app/manifest.ts` で `/manifest.webmanifest` として静的生成する。
 - OGP/アイコンは日本語をロゴ画像に委ね、`ImageResponse` で latin のみ描画している（同梱フォントが日本語非対応のため）。
+
+## Git 運用
+
+- **コミット前に必ず作業ブランチを切る。** `master`（デフォルトブランチ）へ直接コミットしない。作業内容に応じた名前でブランチを作成してから作業・コミットする（例: `feature/design-system`、`fix/...`）。
+- 1つのブランチ／コミットには**関連する変更のみ**を含める。無関係の変更（例: 別目的の `.gitignore` 変更）は別コミット・別ブランチに分ける。
