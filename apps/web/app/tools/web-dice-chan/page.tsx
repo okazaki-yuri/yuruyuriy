@@ -1,23 +1,18 @@
 import type { Metadata } from 'next';
-import { OG_IMAGE } from '../../og';
+import { SITE_URL, buildOpenGraph } from '../../site';
 import WebDice from './WebDice';
 import JsonLd from '../../components/JsonLd';
 import './dice.css';
-
-const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: 'WEBサイコロちゃん',
   description: '指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。',
   alternates: { canonical: '/tools/web-dice-chan/' },
-  openGraph: {
+  openGraph: buildOpenGraph({
     title: 'ゆるユーリ | WEBサイコロちゃん',
     description: '指定した数字の範囲でサイコロを振ることができます。複数のサイコロを同時に振ることもできます。',
-    url: 'https://tools.yl-yuriy.com/tools/web-dice-chan/',
-    siteName: 'ゆるユーリ',
-    images: [OG_IMAGE],
-    type: 'website',
-  },
+    path: '/tools/web-dice-chan/',
+  }),
 };
 
 export default function WebDicePage() {

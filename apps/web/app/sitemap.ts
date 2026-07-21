@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { SITE_URL } from './site';
 
 // 方法B（自動生成）：ページ追加時はこのリストに追記する。
 // 現行 sitemap.xml に欠落していた /legal/privacy-policy/ もここで解消される。
@@ -19,9 +20,8 @@ const routes: { path: string; priority: number; lastmod: string }[] = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = 'https://tools.yl-yuriy.com';
   return routes.map(({ path, priority, lastmod }) => ({
-    url: `${base}/${path}`,
+    url: `${SITE_URL}/${path}`,
     lastModified: lastmod,
     changeFrequency: 'monthly',
     priority,

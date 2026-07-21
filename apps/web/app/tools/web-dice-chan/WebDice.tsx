@@ -4,6 +4,15 @@ import { useEffect, useRef, useState } from 'react';
 import { calcDiceStats, rollDice, validateDiceConfig } from '@yuruyuriy/core';
 
 const STORAGE_KEY = 'diceHistory';
+const HISTORY_LIMIT = 50; // 履歴の保持上限（localStorage の無制限肥大を防ぐ）
+
+/** localStorage から復元した履歴が「数値配列の配列」であることを検証する */
+function isValidHistory(value: unknown): value is number[][] {
+  return (
+    Array.isArray(value) &&
+    value.every((row) => Array.isArray(row) && row.every((n) => typeof n === 'number'))
+  );
+}
 
 /** 「合計」「平均」「最大」「最小」の表示文字列を作る（1個の場合は表示しない） */
 function statsText(results: number[]): string {
@@ -28,7 +37,12 @@ export default function WebDice() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        setHistory(JSON.parse(saved) || []);
+        const parsed = JSON.parse(saved);
+        if (isValidHistory(parsed)) {
+          setHistory(parsed);
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
       } catch {
         localStorage.removeItem(STORAGE_KEY);
       }
@@ -68,7 +82,7 @@ export default function WebDice() {
 
       // 履歴保存
       setHistory((prev) => {
-        const next = [results, ...prev];
+        const next = [results, ...prev].slice(0, HISTORY_LIMIT);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
         return next;
       });
@@ -132,7 +146,7 @@ export default function WebDice() {
         <button disabled={rolling} onClick={roll}>サイコロを振る</button>
       </section>
 
-      <section id="dice-area">
+      <section id="dice-area" role="status" aria-live="polite" aria-atomic="true">
         {currentDice.map((val, i) => (
           <div className="dice-card" key={i}>{val}</div>
         ))}
@@ -158,7 +172,9 @@ export default function WebDice() {
       </section>
 
       <section id="options">
-        <img src="/assets/x_icon.png" alt="Xアイコン" width={128} height={128} onClick={shareToX} />
+        <button type="button" className="share-button" aria-label="結果をXでシェア" onClick={shareToX}>
+          <img src="/assets/x_icon.png" alt="" width={128} height={128} />
+        </button>
         {/* TODO 他のSNSシェア */}
         {/* CSSで横並びに設定済み */}
       </section>

@@ -2,11 +2,12 @@ import type { Metadata, Viewport } from 'next';
 import Script from 'next/script';
 import Header from './components/Header';
 import Footer from './components/Footer';
+import { SITE_URL } from './site';
 import './styles/style.css';
 import './styles/header-footer.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://tools.yl-yuriy.com'),
+  metadataBase: new URL(SITE_URL),
   title: {
     // 各ページは title に「ページ名」のみ設定すれば「ページ名 | ゆるユーリ」になる。
     // title 未設定のページ（トップなど）は default が使われる。

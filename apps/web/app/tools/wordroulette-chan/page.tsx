@@ -1,23 +1,18 @@
 import type { Metadata } from 'next';
-import { OG_IMAGE } from '../../og';
+import { SITE_URL, buildOpenGraph } from '../../site';
 import WordRoulette from './WordRoulette';
 import JsonLd from '../../components/JsonLd';
 import './roulette.css';
-
-const SITE_URL = 'https://tools.yl-yuriy.com';
 
 export const metadata: Metadata = {
   title: 'ことばルーレットちゃん',
   description: '入力された単語の中からランダムに1つを表示する抽選ツールです。お題決めや、チーム分けなどで活用できます。',
   alternates: { canonical: '/tools/wordroulette-chan/' },
-  openGraph: {
+  openGraph: buildOpenGraph({
     title: 'ゆるユーリ | ことばルーレットちゃん',
     description: '入力された単語の中からランダムに1つを表示する抽選ツールです。お題決めや、チーム分けなどで活用できます。',
-    url: 'https://tools.yl-yuriy.com/tools/wordroulette-chan/',
-    siteName: 'ゆるユーリ',
-    images: [OG_IMAGE],
-    type: 'website',
-  },
+    path: '/tools/wordroulette-chan/',
+  }),
 };
 
 export default function WordRoulettePage() {
