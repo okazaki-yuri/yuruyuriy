@@ -60,21 +60,16 @@ export default async function ToolsPage() {
             </a>
           </div>
         ))}
-        {/* TODO 今後追加される予定のツールたち */}
-        <div className="tool-card coming-soon">
-          <div className="tool-link">
-            <div className="tool-icon">🔧</div>
-            <div className="tool-name">Coming Soon</div>
-            <p className="tool-description">準備中のツールです。お楽しみに！</p>
+        {/* TODO 今後追加される予定のツールたち（準備中プレースホルダー） */}
+        {Array.from({ length: 2 }).map((_, i) => (
+          <div className="tool-card coming-soon" key={`coming-soon-${i}`}>
+            <div className="tool-link">
+              <div className="tool-icon">🔧</div>
+              <div className="tool-name">Coming Soon</div>
+              <p className="tool-description">準備中のツールです。お楽しみに！</p>
+            </div>
           </div>
-        </div>
-        <div className="tool-card coming-soon">
-          <div className="tool-link">
-            <div className="tool-icon">🔧</div>
-            <div className="tool-name">Coming Soon</div>
-            <p className="tool-description">準備中のツールです。お楽しみに！</p>
-          </div>
-        </div>
+        ))}
       </section>
     </main>
   );
