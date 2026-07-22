@@ -1,4 +1,4 @@
-// 英語辞書（ドラフト。運営者レビュー前）。キーの過不足は satisfies Dictionary でコンパイル時に検出される。
+// 英語辞書（運営者レビュー済み）。キーの過不足は satisfies Dictionary でコンパイル時に検出される。
 // 表記の決定事項: サイト名は「Ylyuriy」、ツール名は「〜ちゃん」を付けないシンプルな英語名
 // （Word Roulette / Web Dice）とする（docs/i18n-plan.md §9）。
 import type { Dictionary } from './types';
