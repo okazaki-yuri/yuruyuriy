@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     'ゆるユーリへのお問い合わせ方法のご案内です。Googleフォーム・メール・X（旧Twitter）のDMで受け付けています。',
   alternates: { canonical: '/contact/' },
   openGraph: buildOpenGraph({
-    title: 'ゆるユーリ | お問い合わせ',
+    title: 'お問い合わせ | ゆるユーリ',
     description:
       'ゆるユーリへのお問い合わせ方法のご案内です。Googleフォーム・メール・X（旧Twitter）のDMで受け付けています。',
     path: '/contact/',

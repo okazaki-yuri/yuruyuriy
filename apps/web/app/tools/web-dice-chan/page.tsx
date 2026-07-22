@@ -5,12 +5,12 @@ import JsonLd from '../../components/JsonLd';
 import './dice.css';
 
 export const metadata: Metadata = {
-  title: 'オンラインサイコロ｜WEBサイコロちゃん',
+  title: 'オンラインサイコロ（WEBサイコロちゃん）',
   description:
     'ブラウザでサイコロを振れる無料のオンラインサイコロ。出目の範囲を0〜100で指定でき、最大30個を同時に振って合計・平均も表示。すごろく・TRPGのダイス・順番決めなどに。登録不要・スマホ対応。',
   alternates: { canonical: '/tools/web-dice-chan/' },
   openGraph: buildOpenGraph({
-    title: 'ゆるユーリ | オンラインサイコロ（WEBサイコロちゃん）',
+    title: 'オンラインサイコロ（WEBサイコロちゃん） | ゆるユーリ',
     description:
       'ブラウザでサイコロを振れる無料のオンラインサイコロ。出目の範囲指定・複数個の同時ロールに対応し、合計・平均も表示します。',
     path: '/tools/web-dice-chan/',
@@ -113,7 +113,7 @@ export default function WebDicePage() {
       <div className="howto-area">
         <h2>📖 使い方ガイド</h2>
         <ul>
-          <li>「サイコロの出目（最小値 ~ 最大値）」に0~100の数字を入力します。</li>
+          <li>「サイコロの出目（最小値〜最大値）」に0〜100の数字を入力します。</li>
           <li>最小値が最大値より大きい場合は抽選できません。</li>
           <li>「サイコロの個数」は30まで指定できます。</li>
           <li>「演出時間」切替で演出の時間を調整できます。</li>

@@ -5,12 +5,12 @@ import JsonLd from '../../components/JsonLd';
 import './roulette.css';
 
 export const metadata: Metadata = {
-  title: '単語ルーレット｜ことばルーレットちゃん',
+  title: '単語ルーレット（ことばルーレットちゃん）',
   description:
     'ランダムに単語を1つ選ぶ無料の単語ルーレット。入力したことばの中から抽選します。お題決め・チーム分け・順番決め・罰ゲーム・英単語の学習などに。登録不要・スマホ対応。',
   alternates: { canonical: '/tools/wordroulette-chan/' },
   openGraph: buildOpenGraph({
-    title: 'ゆるユーリ | 単語ルーレット（ことばルーレットちゃん）',
+    title: '単語ルーレット（ことばルーレットちゃん） | ゆるユーリ',
     description:
       'ランダムに単語を1つ選ぶ無料の単語ルーレット。入力したことばの中から抽選します。お題決め・チーム分け・順番決め・罰ゲームなどに。',
     path: '/tools/wordroulette-chan/',

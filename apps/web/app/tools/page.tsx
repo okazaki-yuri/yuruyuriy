@@ -9,7 +9,7 @@ export const metadata: Metadata = {
     '単語ルーレット・オンラインサイコロなど、登録不要で使える無料Webツールの一覧です。すべてスマホ対応で、ブラウザからすぐに使えます。',
   alternates: { canonical: '/tools/' },
   openGraph: buildOpenGraph({
-    title: 'ゆるユーリ | 無料Webツール一覧',
+    title: '無料Webツール一覧 | ゆるユーリ',
     description:
       '単語ルーレット・オンラインサイコロなど、登録不要で使える無料Webツールの一覧です。すべてスマホ対応で、ブラウザからすぐに使えます。',
     path: '/tools/',
