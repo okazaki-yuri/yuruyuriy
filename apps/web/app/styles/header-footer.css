@@ -69,6 +69,69 @@ body {
   background: var(--surface);
 }
 
+/* ヘッダー ! 言語スイッチャー（🌐 ドロップダウン）
+================================================== */
+.lang-switcher {
+  position: relative;
+}
+/* ナビリンク（塗りつぶし）と区別するアウトライン調のボタン */
+.lang-switcher-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: inherit;
+  font-size: inherit;
+  background: var(--surface);
+  color: var(--text-muted);
+  border: 2px solid var(--border);
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.lang-switcher-button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.lang-caret {
+  font-size: 0.7em;
+}
+.lang-switcher-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 100%;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(74, 70, 66, 0.12);
+  padding: 0.25rem;
+  z-index: 100;
+}
+.lang-switcher-menu a {
+  display: block;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.lang-switcher-menu a:hover {
+  background: var(--surface-alt);
+  color: var(--primary);
+}
+.lang-switcher-menu a.lang-current {
+  color: var(--primary);
+  font-weight: var(--fw-medium);
+}
+/* モバイルメニュー内の言語項目（現在言語はアウトライン表示で区別） */
+.nav-mobile a.lang-current {
+  background: var(--surface);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+}
+
 /* ヘッダー ! スマホ表示用ハンバーガーボタン
 ================================================== */
 .hamburger {

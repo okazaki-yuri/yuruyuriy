@@ -7,6 +7,12 @@ import { DEFAULT_LOCALE, type Dictionary, type Locale } from './types';
 export { DEFAULT_LOCALE, LOCALES } from './types';
 export type { Dictionary, FaqItem, LinkedText, Locale } from './types';
 
+/** 各言語の表示名。言語スイッチャーではどのページでも「その言語自身の表記」で表示する */
+export const LOCALE_NAMES: Record<Locale, string> = {
+  ja: '日本語',
+  en: 'English',
+};
+
 const dictionaries: Record<Locale, Dictionary> = {
   ja,
   en,

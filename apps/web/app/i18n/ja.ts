@@ -15,17 +15,19 @@ export const ja = {
     privacy: 'プライバシーポリシー',
     terms: '利用規約',
     contact: 'お問い合わせ',
-    otherLanguage: 'English',
   },
   header: {
     logoAlt: 'ゆるユーリ ロゴ',
     menuLabel: 'メニュー',
     menuCloseLabel: 'メニューを閉じる',
+    showBlog: true,
+    langSwitcherLabel: '言語を選択',
   },
   footer: {
     copyright: '© 2025 Ylyuriy All rights reserved.',
   },
   share: {
+    showLine: true,
     resultSectionLabel: '結果をシェア',
     xLabel: 'シェア',
     xAria: '結果をXでシェア',

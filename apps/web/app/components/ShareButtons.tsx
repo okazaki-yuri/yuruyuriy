@@ -88,18 +88,21 @@ export default function ShareButtons({ locale, text, hashtags = [], disabled = f
         {d.share.xLabel}
       </button>
 
-      <button
-        type="button"
-        className="share-button share-line"
-        aria-label={d.share.lineAria}
-        disabled={disabled}
-        onClick={shareToLine}
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 3C6.5 3 2 6.6 2 11c0 2.9 1.9 5.4 4.8 6.9-.2.7-.7 2.4-.8 2.8 0 0-.1.4.2.6.3.1.5 0 .5 0 .7-.1 3.1-2 4.2-2.8.4.1.7.1 1.1.1 5.5 0 10-3.6 10-8s-4.5-8-10-8z" />
-        </svg>
-        {d.share.lineLabel}
-      </button>
+      {/* LINE は利用実態のある言語のみ表示（辞書の showLine フラグで制御） */}
+      {d.share.showLine && (
+        <button
+          type="button"
+          className="share-button share-line"
+          aria-label={d.share.lineAria}
+          disabled={disabled}
+          onClick={shareToLine}
+        >
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 3C6.5 3 2 6.6 2 11c0 2.9 1.9 5.4 4.8 6.9-.2.7-.7 2.4-.8 2.8 0 0-.1.4.2.6.3.1.5 0 .5 0 .7-.1 3.1-2 4.2-2.8.4.1.7.1 1.1.1 5.5 0 10-3.6 10-8s-4.5-8-10-8z" />
+          </svg>
+          {d.share.lineLabel}
+        </button>
+      )}
 
       <button
         type="button"

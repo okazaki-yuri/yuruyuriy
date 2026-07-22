@@ -39,19 +39,23 @@ export type Dictionary = {
     privacy: string;
     terms: string;
     contact: string;
-    /** 言語スイッチャーのラベル。切替先の言語で表記する（ja ページには「English」、en ページには「日本語」） */
-    otherLanguage: string;
   };
   header: {
     logoAlt: string;
     menuLabel: string;
     menuCloseLabel: string;
+    /** ブログリンクをヘッダーに表示するか（ブログは日本語のみのため en では非表示） */
+    showBlog: boolean;
+    /** 言語スイッチャー（🌐 ドロップダウン）の aria-label */
+    langSwitcherLabel: string;
   };
   footer: {
     copyright: string;
   };
   /** SNS シェアボタン（各ツール共通） */
   share: {
+    /** LINE ボタンを表示するか（LINE は日本・アジア圏中心のため、利用実態のない言語では非表示） */
+    showLine: boolean;
     /** 抽選結果シェアセクションの aria-label */
     resultSectionLabel: string;
     xLabel: string;

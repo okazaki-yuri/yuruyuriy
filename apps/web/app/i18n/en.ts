@@ -16,17 +16,19 @@ export const en = {
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
     contact: 'Contact',
-    otherLanguage: '日本語',
   },
   header: {
     logoAlt: 'Ylyuriy logo',
     menuLabel: 'Menu',
     menuCloseLabel: 'Close menu',
+    showBlog: false,
+    langSwitcherLabel: 'Select language',
   },
   footer: {
     copyright: '© 2025 Ylyuriy All rights reserved.',
   },
   share: {
+    showLine: false,
     resultSectionLabel: 'Share your result',
     xLabel: 'Share',
     xAria: 'Share your result on X',
