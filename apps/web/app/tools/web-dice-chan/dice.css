@@ -134,36 +134,7 @@
   background-color: var(--accent-hover);
 }
 
-/* SNSシェア
-================================================== */
-#options {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin: 20px 0;
-}
-
-/* シェアボタン：button 既定スタイルをリセットし、アイコンのみを見せる */
-#options .share-button {
-  padding: 0;
-  border: none;
-  background: none;
-  cursor: pointer;
-  line-height: 0;
-}
-
-/* アイコン画像の基本設定 */
-#options img {
-  width: 40px;
-  height: 40px;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-/* ホバー時の効果 */
-#options .share-button:hover img {
-  transform: scale(1.2);
-  opacity: 0.8;
-}
+/* SNSシェアのスタイルは共通CSS（style.css の .share-area / .share-button）を参照 */
 
 /* 検索意図に合わせたリード文
 ================================================== */
