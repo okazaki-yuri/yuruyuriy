@@ -159,6 +159,8 @@ export const en = {
       modeText: 'Text',
       modeWheel: 'Wheel',
       wheelEmptyText: 'Add some words!',
+      resultPlaceholder: 'Your result will appear here',
+      resultSpinning: 'Spinning…',
       tabSingle: 'Single entry',
       tabMulti: 'Bulk entry',
       singlePlaceholder: 'Type a word, then press Enter or "Add"',

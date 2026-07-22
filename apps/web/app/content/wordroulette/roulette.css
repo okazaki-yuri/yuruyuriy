@@ -142,15 +142,16 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
+/* 案内文の文言はハードコードせず、data 属性（辞書由来。WordRoulette.tsx が設定）から表示する */
 .result-box:empty::before {
-  content: "ここにルーレット結果が表示されます";
+  content: attr(data-placeholder);
   font-size: var(--fs-xs);
   color: var(--text-faint);
 }
 
 /* ホイール回転中（結果は空）の表示 */
 .result-box.spin:empty::before {
-  content: "抽選中…";
+  content: attr(data-spinning);
 }
 
 /* 入力モード切替用のタブ

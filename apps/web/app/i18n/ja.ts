@@ -158,6 +158,8 @@ export const ja = {
       modeText: 'テキスト式',
       modeWheel: 'ホイール式',
       wheelEmptyText: 'ことばを追加してね',
+      resultPlaceholder: 'ここにルーレット結果が表示されます',
+      resultSpinning: '抽選中…',
       tabSingle: 'ことば入力',
       tabMulti: 'まとめて入力',
       singlePlaceholder: 'ことばを入力してEnterまたは追加ボタン',

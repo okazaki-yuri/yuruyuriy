@@ -134,6 +134,10 @@ export type Dictionary = {
       modeWheel: string;
       /** ホイールにことばが未登録のときの案内文 */
       wheelEmptyText: string;
+      /** 結果ボックスが空のときの案内文（CSS の ::before から attr(data-placeholder) で参照） */
+      resultPlaceholder: string;
+      /** 抽選中の結果ボックス表示（CSS の ::before から attr(data-spinning) で参照） */
+      resultSpinning: string;
       tabSingle: string;
       tabMulti: string;
       singlePlaceholder: string;

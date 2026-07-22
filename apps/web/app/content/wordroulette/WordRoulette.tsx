@@ -250,12 +250,15 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
         <RouletteWheel words={words} rotation={wheelRotation} durationSec={wheelDuration} emptyText={t.wheelEmptyText} />
       )}
 
-      {/* 抽選結果表示（確定値をスクリーンリーダーへ通知） */}
+      {/* 抽選結果表示（確定値をスクリーンリーダーへ通知）。
+          空のとき・抽選中の案内文は CSS の ::before が data 属性から表示する（辞書由来） */}
       <div
         className={`result-box${resultState ? ` ${resultState}` : ''}`}
         role="status"
         aria-live="polite"
         aria-atomic="true"
+        data-placeholder={t.resultPlaceholder}
+        data-spinning={t.resultSpinning}
       >
         {result}
       </div>
