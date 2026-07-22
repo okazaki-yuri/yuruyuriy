@@ -116,20 +116,20 @@ export default function WebDice() {
       <section className="controls">
         {/* 最小値 ~ 最大値 */}
         <div className="control-group">
-          <label>サイコロの出目（最小値 ~ 最大値）</label>
+          <label>サイコロの出目（最小値〜最大値）</label>
           <div className="inputs">
             <input type="number" min={0} max={100} value={minValue} onChange={(e) => setMinValue(e.target.value)} />
-            <span className="tilde">~</span>
+            <span className="tilde">〜</span>
             <input type="number" min={0} max={100} value={maxValue} onChange={(e) => setMaxValue(e.target.value)} />
           </div>
-          <small>サイコロの出目を0~100で入力してください。</small>
+          <small>サイコロの出目を0〜100で入力してください。</small>
         </div>
 
         {/* 個数 */}
         <div className="control-group">
           <label>サイコロの個数</label>
           <input type="number" min={1} max={30} value={diceCount} onChange={(e) => setDiceCount(e.target.value)} />
-          <small>サイコロの個数を1~30で入力してください。</small>
+          <small>サイコロの個数を1〜30で入力してください。</small>
         </div>
 
         {/* 演出時間 */}

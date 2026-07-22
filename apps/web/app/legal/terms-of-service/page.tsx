@@ -5,11 +5,13 @@ import '../legal.css';
 
 export const metadata: Metadata = {
   title: '利用規約',
-  description: '利用規約ページです。',
+  description:
+    'ゆるユーリの利用規約です。ツールの利用条件（動画・ブログでの利用や収益化もOK）、禁止事項、著作権について説明しています。',
   alternates: { canonical: '/legal/terms-of-service/' },
   openGraph: buildOpenGraph({
-    title: 'ゆるユーリ | 利用規約',
-    description: '利用規約',
+    title: '利用規約 | ゆるユーリ',
+    description:
+      'ゆるユーリの利用規約です。ツールの利用条件（動画・ブログでの利用や収益化もOK）、禁止事項、著作権について説明しています。',
     path: '/legal/terms-of-service/',
   }),
 };
@@ -81,7 +83,7 @@ export default function TermsOfServicePage() {
         <h2>著作権など</h2>
         <p>
           サイト内の文章・画像・ツールなどのコンテンツは、運営者または正当な権利者に帰属します。<br />
-          不正な転載や商標利用はお控えください。<br />
+          無断での転載や再配布はお控えください。<br />
           ※ツールやコンテンツを利用した動画・ブログでの収益化は自由ですが、サイト名やロゴなどを使用しての商用展開（商品販売、アプリ名への使用など）はご遠慮ください。
         </p>
       </section>
@@ -103,7 +105,7 @@ export default function TermsOfServicePage() {
       </section>
 
       <p style={{ marginTop: '2em', fontSize: '0.9em', color: '#666' }}>
-        （2025年8月16日更新）
+        （2026年7月22日更新）
       </p>
     </main>
   );

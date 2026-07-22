@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   title: {
     // 各ページは title に「ページ名」のみ設定すれば「ページ名 | ゆるユーリ」になる。
     // title 未設定のページ（トップなど）は default が使われる。
-    default: 'ゆるユーリ | かわいいWebツールを集めたサイト',
+    default: 'ゆるユーリ | かわいくて便利な無料Webツール',
     template: '%s | ゆるユーリ',
   },
   twitter: {

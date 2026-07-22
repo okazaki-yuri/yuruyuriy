@@ -5,12 +5,12 @@ import JsonLd from '../../components/JsonLd';
 import './roulette.css';
 
 export const metadata: Metadata = {
-  title: '単語ルーレット｜ことばルーレットちゃん',
+  title: '単語ルーレット（ことばルーレットちゃん）',
   description:
     'ランダムに単語を1つ選ぶ無料の単語ルーレット。入力したことばの中から抽選します。お題決め・チーム分け・順番決め・罰ゲーム・英単語の学習などに。登録不要・スマホ対応。',
   alternates: { canonical: '/tools/wordroulette-chan/' },
   openGraph: buildOpenGraph({
-    title: 'ゆるユーリ | 単語ルーレット（ことばルーレットちゃん）',
+    title: '単語ルーレット（ことばルーレットちゃん） | ゆるユーリ',
     description:
       'ランダムに単語を1つ選ぶ無料の単語ルーレット。入力したことばの中から抽選します。お題決め・チーム分け・順番決め・罰ゲームなどに。',
     path: '/tools/wordroulette-chan/',
@@ -115,11 +115,11 @@ export default function WordRoulettePage() {
           <li>📝 「ことば入力モード」は1語ずつ登録できます（Enter または「追加」ボタン）。</li>
           <li>📋 「まとめて入力モード」は改行区切りで一括登録が可能です。</li>
           <li>⚠️ 同じ「ことば」があると確認ダイアログが表示されます。</li>
-          <li>🎯 「ルーレット」でランダムに1語を選出します。</li>
+          <li>🎯 「ルーレット」でランダムに1語を選びます。</li>
           <li>🧹 「リセット」で登録された「ことば」をすべて削除します。</li>
           <li>🔀 「昇順／降順」切替で「ことば」の並び替えができます。</li>
           <li>🕒 「抽選時間」切替で演出の時間を調整できます。</li>
-          <li>📄  その他詳細なご利用については<a href="/legal/terms-of-service/">利用規約</a>をご確認ください。</li>
+          <li>📄 そのほか詳しいご利用条件は<a href="/legal/terms-of-service/">利用規約</a>をご確認ください。</li>
         </ul>
       </div>
 

@@ -5,11 +5,13 @@ import './contact.css';
 
 export const metadata: Metadata = {
   title: 'お問い合わせ',
-  description: 'お問い合わせページです。',
+  description:
+    'ゆるユーリへのお問い合わせ方法のご案内です。Googleフォーム・メール・X（旧Twitter）のDMで受け付けています。',
   alternates: { canonical: '/contact/' },
   openGraph: buildOpenGraph({
-    title: 'ゆるユーリ | お問い合わせ',
-    description: 'お問い合わせはこちらから',
+    title: 'お問い合わせ | ゆるユーリ',
+    description:
+      'ゆるユーリへのお問い合わせ方法のご案内です。Googleフォーム・メール・X（旧Twitter）のDMで受け付けています。',
     path: '/contact/',
   }),
 };
@@ -30,7 +32,7 @@ export default function ContactPage() {
       <section className="contact-section">
         <h1 className="contact-title">お問い合わせ</h1>
         <p className="contact-intro">
-          当サイトへのご連絡は、下記のGoogleフォームよりお願いいたします。
+          当サイトへのご連絡には、下記のGoogleフォームが便利です。
         </p>
 
         {/* Googleフォーム */}

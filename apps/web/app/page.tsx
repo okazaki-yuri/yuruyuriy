@@ -3,12 +3,13 @@ import { SITE_URL, buildOpenGraph } from './site';
 import JsonLd from './components/JsonLd';
 
 export const metadata: Metadata = {
-  // title はレイアウトの default（'ゆるユーリ | かわいいWebツールを集めたサイト'）を使用
-  description: 'ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。',
+  // title はレイアウトの default（'ゆるユーリ | かわいくて便利な無料Webツール'）を使用
+  description:
+    'ゆるユーリは、かわいくて便利な無料Webツールを個人開発しているサイトです。単語ルーレット・オンラインサイコロなど、登録不要・スマホ対応のツールを公開しています。',
   alternates: { canonical: '/' },
   openGraph: buildOpenGraph({
-    title: 'ゆるユーリ | 便利なWebツールを自主制作しているサイト',
-    description: '日常で使える便利なWebツールを自主制作しているサイトです。',
+    title: 'ゆるユーリ | かわいくて便利な無料Webツール',
+    description: 'かわいくて便利な無料Webツールを個人開発しているサイトです。登録不要・スマホ対応。',
     path: '/',
   }),
 };
@@ -19,7 +20,8 @@ export default function HomePage() {
     '@type': 'WebSite',
     name: 'ゆるユーリ',
     url: SITE_URL,
-    description: 'ゆるユーリは、日常で使える便利なWebツールを自主制作しているサイトです。',
+    description:
+      'ゆるユーリは、かわいくて便利な無料Webツールを個人開発しているサイトです。単語ルーレット・オンラインサイコロなど、登録不要・スマホ対応のツールを公開しています。',
     inLanguage: 'ja',
     publisher: {
       '@type': 'Organization',
@@ -43,7 +45,7 @@ export default function HomePage() {
       <section className="top-description">
         <img src="/assets/logo.png" alt="ゆるユーリ ロゴ" className="top-logo" width={480} height={320} />
         <p>
-          ゆるユーリは、個人製作サイトです。<br />
+          ゆるユーリは、個人開発のサイトです。<br />
           趣味で制作したツールを公開しています。<br />
           コンセプトは「かわいい！！」
         </p>
