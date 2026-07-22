@@ -15,6 +15,7 @@ export const ja = {
     privacy: 'プライバシーポリシー',
     terms: '利用規約',
     contact: 'お問い合わせ',
+    otherLanguage: 'English',
   },
   header: {
     logoAlt: 'ゆるユーリ ロゴ',

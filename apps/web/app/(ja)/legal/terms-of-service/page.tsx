@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { SITE_URL, buildOpenGraph } from '../../../site';
 import JsonLd from '../../../components/JsonLd';
-import '../legal.css';
+import '../../../content/legal.css';
 
 export const metadata: Metadata = {
   title: '利用規約',

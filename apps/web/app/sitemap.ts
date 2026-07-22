@@ -10,13 +10,13 @@ export const dynamic = 'force-static';
 // コンテンツを更新したら、そのページの lastmod（YYYY-MM-DD）だけを書き換える。
 // パス → 優先度。Google は priority をほぼ無視するが、サイト内の相対的な重要度の目安として付与する。
 const routes: { path: string; priority: number; lastmod: string }[] = [
-  { path: '', priority: 1.0, lastmod: '2026-07-22' },
-  { path: 'tools/', priority: 0.8, lastmod: '2026-07-22' },
-  { path: 'tools/wordroulette-chan/', priority: 0.7, lastmod: '2026-07-22' },
-  { path: 'tools/web-dice-chan/', priority: 0.7, lastmod: '2026-07-22' },
-  { path: 'contact/', priority: 0.5, lastmod: '2026-07-22' },
-  { path: 'legal/privacy-policy/', priority: 0.3, lastmod: '2026-07-22' },
-  { path: 'legal/terms-of-service/', priority: 0.3, lastmod: '2026-07-22' },
+  { path: '', priority: 1.0, lastmod: '2026-07-23' },
+  { path: 'tools/', priority: 0.8, lastmod: '2026-07-23' },
+  { path: 'tools/wordroulette-chan/', priority: 0.7, lastmod: '2026-07-23' },
+  { path: 'tools/web-dice-chan/', priority: 0.7, lastmod: '2026-07-23' },
+  { path: 'contact/', priority: 0.5, lastmod: '2026-07-23' },
+  { path: 'legal/privacy-policy/', priority: 0.3, lastmod: '2026-07-23' },
+  { path: 'legal/terms-of-service/', priority: 0.3, lastmod: '2026-07-23' },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

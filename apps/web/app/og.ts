@@ -8,3 +8,10 @@ export const OG_IMAGE = {
   height: 630,
   alt: 'ゆるユーリ | かわいいWebツールを集めたサイト',
 } as const;
+
+// 英語ページ用。画像本体はロゴ + ドメイン表記（latin のみ）のため日本語版と共用し、alt だけ英語にする。
+// 海外向けロゴを用意したら url を差し替える（docs/i18n-plan.md §9）。
+export const OG_IMAGE_EN = {
+  ...OG_IMAGE,
+  alt: 'Ylyuriy | Cute & Handy Free Web Tools',
+} as const;

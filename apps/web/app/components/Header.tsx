@@ -1,10 +1,23 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { getDictionary, localizePath, type Locale } from '../i18n';
 
+/** トレイリングスラッシュを保証する（next.config.js の trailingSlash: true と揃える） */
+function withSlash(path: string): string {
+  return path.endsWith('/') ? path : `${path}/`;
+}
+
 export default function Header({ locale }: { locale: Locale }) {
   const d = getDictionary(locale);
+  // 言語スイッチャー: 現在ページの「もう一方の言語版」への相互リンク。
+  // 対応ページが無い場合（未翻訳ページ等）は 404 になるが、現状は全ページ対で存在する。
+  const pathname = usePathname() ?? '/';
+  const otherLocalePath =
+    locale === 'ja'
+      ? withSlash(pathname === '/' ? '/en/' : `/en${pathname}`)
+      : withSlash(pathname.replace(/^\/en(?=\/|$)/, '') || '/');
   const [menuOpen, setMenuOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const mobileNavRef = useRef<HTMLElement>(null);
@@ -39,6 +52,9 @@ export default function Header({ locale }: { locale: Locale }) {
           <a href={localizePath(locale, '/')} className="nav-link">{d.nav.top}</a>
           <a href={localizePath(locale, '/tools/')} className="nav-link">{d.nav.tools}</a>
           <a href="https://yl-yuriy.com/" className="nav-link">{d.nav.blog}</a>
+          <a href={otherLocalePath} className="nav-link" rel="alternate" hrefLang={locale === 'ja' ? 'en' : 'ja'}>
+            {d.nav.otherLanguage}
+          </a>
         </nav>
 
         {/* スマホ表示用ハンバーガーボタン（スマホのスクリーンリーダー向けに button で公開する） */}
@@ -64,6 +80,9 @@ export default function Header({ locale }: { locale: Locale }) {
         <a href={localizePath(locale, '/legal/privacy-policy/')}>{d.nav.privacy}</a>
         <a href={localizePath(locale, '/legal/terms-of-service/')}>{d.nav.terms}</a>
         <a href={localizePath(locale, '/contact/')}>{d.nav.contact}</a>
+        <a href={otherLocalePath} rel="alternate" hrefLang={locale === 'ja' ? 'en' : 'ja'}>
+          {d.nav.otherLanguage}
+        </a>
       </nav>
     </header>
   );

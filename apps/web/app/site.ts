@@ -2,7 +2,7 @@
 // 従来は各ページで SITE_URL や openGraph の定型をコピペしていたが、ここに集約する。
 import type { Metadata } from 'next';
 import { getDictionary, type Locale } from './i18n';
-import { OG_IMAGE } from './og';
+import { OG_IMAGE, OG_IMAGE_EN } from './og';
 
 export const SITE_URL = 'https://tools.yl-yuriy.com';
 
@@ -28,7 +28,7 @@ export function buildOpenGraph({
     description,
     url: `${SITE_URL}${path}`,
     siteName: getDictionary(locale).meta.siteName,
-    images: [OG_IMAGE],
+    images: [locale === 'ja' ? OG_IMAGE : OG_IMAGE_EN],
     type: 'website',
   };
 }

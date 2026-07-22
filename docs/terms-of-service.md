@@ -3,8 +3,8 @@
 当サイトおよびツールの利用条件を掲載する法務ページ。
 
 - URL: `https://tools.yl-yuriy.com/legal/terms-of-service/`
-- ファイル: `apps/web/app/(ja)/legal/terms-of-service/page.tsx`（法務ページは本文をロケール別ファイルとして保持。辞書化しない）
-- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/(ja)/legal/legal.css`（規約・ポリシー共通）, `apps/web/app/styles/header-footer.css`
+- ファイル: `apps/web/app/(ja)/legal/terms-of-service/page.tsx`（日本語・正文）/ `apps/web/app/(en)/en/legal/terms-of-service/page.tsx`（英語版。「日本語版が正文・優先」の Language 条項付き）。法務ページは本文をロケール別ファイルとして保持し、辞書化しない。**日本語版を改定したら英語版も追随させる**
+- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/content/legal.css`（規約・ポリシー共通、両言語で共用）, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
 
 ---

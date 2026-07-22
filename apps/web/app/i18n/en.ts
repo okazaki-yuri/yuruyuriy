@@ -16,6 +16,7 @@ export const en = {
     privacy: 'Privacy Policy',
     terms: 'Terms of Service',
     contact: 'Contact',
+    otherLanguage: '日本語',
   },
   header: {
     logoAlt: 'Ylyuriy logo',

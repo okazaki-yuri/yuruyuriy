@@ -39,6 +39,8 @@ export type Dictionary = {
     privacy: string;
     terms: string;
     contact: string;
+    /** 言語スイッチャーのラベル。切替先の言語で表記する（ja ページには「English」、en ページには「日本語」） */
+    otherLanguage: string;
   };
   header: {
     logoAlt: string;

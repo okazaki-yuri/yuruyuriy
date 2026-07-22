@@ -41,7 +41,7 @@
 ページ・UI の文言は JSX に直接書かず、辞書に追加する（[i18n.md](./i18n.md) §2 参照）。
 
 1. `app/i18n/types.ts` の `Dictionary` 型にツール用のセクション（メタデータ・本文・widget 文言）を追加する。
-2. `app/i18n/ja.ts` に日本語文言を追加する（キー漏れは `satisfies Dictionary` でコンパイルエラーになる）。
+2. `app/i18n/ja.ts` に日本語文言、`app/i18n/en.ts` に英語文言を追加する（キー漏れは `satisfies Dictionary` でコンパイルエラーになる）。
 
 ## 4. ページを作成する（`content/` + `(ja)/`）
 
@@ -53,6 +53,9 @@ apps/web/app/content/<tool-slug>/
 
 apps/web/app/(ja)/tools/<tool-slug>/
 └── page.tsx          … metadata と本文を locale='ja' で呼ぶだけの薄いラッパー
+
+apps/web/app/(en)/en/tools/<tool-slug>/
+└── page.tsx          … 同上（locale='en'）
 ```
 
 - `buildXxxMetadata(locale)` で **`title` / `description` / `alternates.canonical` / OGP** を組み立てる（既存ツールの `content/webdice/page-content.tsx` に倣う。OGP は `site.ts` の `buildOpenGraph` を使う）。
@@ -91,11 +94,11 @@ apps/web/app/(ja)/tools/<tool-slug>/
 ---
 
 ## チェックリスト
-- [ ] `data/tools.json` にツールを1件追加（slug / name(`{ja}`) / description(`{ja}`) / href / icon）
+- [ ] `data/tools.json` にツールを1件追加（slug / name(`{ja,en}`) / description(`{ja,en}`) / href / icon）
 - [ ] 純粋ロジックが必要なら `packages/core` に実装し `index.ts` で export（UI 文言は持たせない）
-- [ ] `app/i18n/types.ts` の `Dictionary` 型と `app/i18n/ja.ts` にツールの文言を追加
+- [ ] `app/i18n/types.ts` の `Dictionary` 型と `app/i18n/ja.ts` / `en.ts` にツールの文言を追加
 - [ ] `apps/web/app/content/<tool-slug>/` に page-content.tsx / Client Component / 専用CSS を作成
-- [ ] `apps/web/app/(ja)/tools/<tool-slug>/page.tsx`（薄いラッパー）を作成
+- [ ] `apps/web/app/(ja)/tools/<tool-slug>/page.tsx` と `apps/web/app/(en)/en/tools/<tool-slug>/page.tsx`（薄いラッパー）を作成
 - [ ] `buildXxxMetadata(locale)` の `metadata`（title / description / canonical / OGP）を設定
 - [ ] 概要・使い方ガイドを記載（利用規約へのリンク含む）
 - [ ] localStorage キー名の一意性・個人情報を含めないことを確認
