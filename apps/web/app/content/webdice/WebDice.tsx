@@ -1,8 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { calcDiceStats, rollDice, validateDiceConfig } from '@yuruyuriy/core';
+import { calcDiceStats, rollDice, validateDiceConfig, type DiceStats } from '@yuruyuriy/core';
 import ShareButtons from '../../components/ShareButtons';
+import { getDictionary, type Locale } from '../../i18n';
 
 const STORAGE_KEY = 'diceHistory';
 const HISTORY_LIMIT = 50; // 履歴の保持上限（localStorage の無制限肥大を防ぐ）
@@ -16,13 +17,15 @@ function isValidHistory(value: unknown): value is number[][] {
 }
 
 /** 「合計」「平均」「最大」「最小」の表示文字列を作る（1個の場合は表示しない） */
-function statsText(results: number[]): string {
+function statsText(results: number[], format: (stats: DiceStats) => string): string {
   const stats = calcDiceStats(results);
   if (!stats || results.length === 1) return '';
-  return `合計: ${stats.sum} / 平均: ${stats.average.toFixed(2)} / 最大: ${stats.max} / 最小: ${stats.min}`;
+  return format(stats);
 }
 
-export default function WebDice() {
+export default function WebDice({ locale }: { locale: Locale }) {
+  const dict = getDictionary(locale);
+  const t = dict.dice.widget;
   const [minValue, setMinValue] = useState('1');
   const [maxValue, setMaxValue] = useState('6');
   const [diceCount, setDiceCount] = useState('1');
@@ -65,7 +68,8 @@ export default function WebDice() {
 
     const errors = validateDiceConfig({ min, max, count });
     if (errors.length > 0) {
-      alert(errors.join('\n') + '\n');
+      // core はエラーコードを返すので、表示文言は辞書で解決する
+      alert(errors.map((e) => t.errors[e]).join('\n') + '\n');
       return;
     }
 
@@ -94,7 +98,7 @@ export default function WebDice() {
   /** 履歴リセット */
   const resetHistory = () => {
     if (history.length === 0) return;
-    if (confirm('履歴をすべて削除しますか？')) {
+    if (confirm(t.confirmReset)) {
       setHistory([]);
       localStorage.removeItem(STORAGE_KEY);
       setCurrentDice([]);
@@ -104,8 +108,8 @@ export default function WebDice() {
   /** SNSシェア用の本文（結果未確定なら空） */
   const shareText = () => {
     if (currentDice.length === 0) return '';
-    const lines = [`サイコロの結果: ${currentDice.join(', ')}`];
-    const stats = statsText(currentDice);
+    const lines = [t.shareText(currentDice)];
+    const stats = statsText(currentDice, t.statsText);
     if (stats) lines.push(stats);
     return lines.join('\n');
   };
@@ -116,35 +120,35 @@ export default function WebDice() {
       <section className="controls">
         {/* 最小値 ~ 最大値 */}
         <div className="control-group">
-          <label>サイコロの出目（最小値〜最大値）</label>
+          <label>{t.rangeLabel}</label>
           <div className="inputs">
             <input type="number" min={0} max={100} value={minValue} onChange={(e) => setMinValue(e.target.value)} />
-            <span className="tilde">〜</span>
+            <span className="tilde">{t.tilde}</span>
             <input type="number" min={0} max={100} value={maxValue} onChange={(e) => setMaxValue(e.target.value)} />
           </div>
-          <small>サイコロの出目を0〜100で入力してください。</small>
+          <small>{t.rangeHint}</small>
         </div>
 
         {/* 個数 */}
         <div className="control-group">
-          <label>サイコロの個数</label>
+          <label>{t.countLabel}</label>
           <input type="number" min={1} max={30} value={diceCount} onChange={(e) => setDiceCount(e.target.value)} />
-          <small>サイコロの個数を1〜30で入力してください。</small>
+          <small>{t.countHint}</small>
         </div>
 
         {/* 演出時間 */}
         <div className="control-group">
-          <label>演出時間</label>
+          <label>{t.durationLabel}</label>
           <select value={duration} onChange={(e) => setDuration(e.target.value)}>
-            <option value="500">0.5秒</option>
-            <option value="1000">1秒</option>
-            <option value="2000">2秒</option>
-            <option value="3000">3秒</option>
+            <option value="500">{t.durationSeconds(0.5)}</option>
+            <option value="1000">{t.durationSeconds(1)}</option>
+            <option value="2000">{t.durationSeconds(2)}</option>
+            <option value="3000">{t.durationSeconds(3)}</option>
           </select>
-          <small>演出時間を指定できます。</small>
+          <small>{t.durationHint}</small>
         </div>
 
-        <button disabled={rolling} onClick={roll}>サイコロを振る</button>
+        <button disabled={rolling} onClick={roll}>{t.rollButton}</button>
       </section>
 
       <section id="dice-area" role="status" aria-live="polite" aria-atomic="true">
@@ -152,31 +156,32 @@ export default function WebDice() {
           <div className="dice-card" key={i}>{val}</div>
         ))}
       </section>
-      <div id="dice-stats">{statsText(currentDice)}</div>
+      <div id="dice-stats">{statsText(currentDice, t.statsText)}</div>
 
       <section id="history-area">
-        <h2>履歴</h2>
+        <h2>{t.historyHeading}</h2>
         <div id="history">
           {history.map((h, i) => (
             <div className="history-item" key={i}>
-              <b>結果：</b>{h.join(', ')}
+              <b>{t.historyResultLabel}</b>{h.join(', ')}
               {h.length > 1 && (
                 <>
                   <br />
-                  {statsText(h)}
+                  {statsText(h, t.statsText)}
                 </>
               )}
             </div>
           ))}
         </div>
-        <button disabled={history.length === 0} onClick={resetHistory}>履歴をリセット</button>
+        <button disabled={history.length === 0} onClick={resetHistory}>{t.resetButton}</button>
       </section>
 
       {/* SNSシェア（結果確定後に有効化） */}
-      <section aria-label="結果をシェア">
+      <section aria-label={dict.share.resultSectionLabel}>
         <ShareButtons
+          locale={locale}
           text={shareText()}
-          hashtags={['オンラインサイコロ', 'ゆるユーリ']}
+          hashtags={t.hashtags}
           disabled={rolling || currentDice.length === 0}
         />
       </section>

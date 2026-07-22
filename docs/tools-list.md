@@ -3,7 +3,7 @@
 公開中および今後公開予定のツールを一覧表示するページ。
 
 - URL: `https://tools.yl-yuriy.com/tools/`
-- ファイル: `apps/web/app/tools/page.tsx`
+- ファイル: `apps/web/app/(ja)/tools/page.tsx`（薄いラッパー）。実体は `apps/web/app/content/tools.tsx`（[i18n.md](./i18n.md) 参照）
 - 使用CSS: `apps/web/app/styles/style.css`（`.tool-list-page` 系）, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
 - ツールの追加手順は [add-new-tool.md](./add-new-tool.md) を参照。
@@ -15,7 +15,7 @@
 - 準備中（Coming Soon）のツールも枠として表示し、今後の展開を示す。
 
 ## 2. データ取得
-- 公開中ツールの一覧は `@yuruyuriy/core` の **`toolsRepository.getTools()`** から取得する（データ実体は `data/tools.json`）。
+- 公開中ツールの一覧は `@yuruyuriy/core` の **`toolsRepository.getTools(locale)`** から取得する（データ実体は `data/tools.json`。`name` / `description` は `{ ja, en }` の多言語オブジェクトで、リポジトリがロケール解決して返す）。
 - ページはデータ実体（JSON/API）を知らず、**repository I/F 経由でのみ**参照する。カードの手動編集は不要で、`tools.json` への追加だけで一覧に反映される。
 
 ## 3. 画面構成
@@ -39,7 +39,7 @@
 
 ## 6. 依存・外部連携
 - `@yuruyuriy/core`（`toolsRepository`）
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターは言語別ルートレイアウト（`apps/web/app/(ja)/layout.tsx`、実体は `apps/web/app/content/root.tsx`）で共通提供される。
 
 ## 7. 拡張時の指針
 - 新規ツールの追加は [add-new-tool.md](./add-new-tool.md) の手順に従う（`data/tools.json` へ登録 → カードは自動生成）。

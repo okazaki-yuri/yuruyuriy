@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { SITE_URL, buildOpenGraph } from '../../site';
-import JsonLd from '../../components/JsonLd';
+import { SITE_URL, buildOpenGraph } from '../../../site';
+import JsonLd from '../../../components/JsonLd';
 import '../legal.css';
 
 export const metadata: Metadata = {
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     'ゆるユーリの利用規約です。ツールの利用条件（動画・ブログでの利用や収益化もOK）、禁止事項、著作権について説明しています。',
   alternates: { canonical: '/legal/terms-of-service/' },
   openGraph: buildOpenGraph({
+    locale: 'ja',
     title: '利用規約 | ゆるユーリ',
     description:
       'ゆるユーリの利用規約です。ツールの利用条件（動画・ブログでの利用や収益化もOK）、禁止事項、著作権について説明しています。',

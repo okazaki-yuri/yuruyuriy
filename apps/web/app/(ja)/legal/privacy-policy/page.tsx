@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
-import { SITE_URL, buildOpenGraph } from '../../site';
-import JsonLd from '../../components/JsonLd';
+import { SITE_URL, buildOpenGraph } from '../../../site';
+import JsonLd from '../../../components/JsonLd';
 import '../legal.css';
 
 export const metadata: Metadata = {
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
     'ゆるユーリのプライバシーポリシーです。個人情報の取り扱い、アクセス解析やローカルストレージの利用について説明しています。',
   alternates: { canonical: '/legal/privacy-policy/' },
   openGraph: buildOpenGraph({
+    locale: 'ja',
     title: 'プライバシーポリシー | ゆるユーリ',
     description:
       'ゆるユーリのプライバシーポリシーです。個人情報の取り扱い、アクセス解析やローカルストレージの利用について説明しています。',

@@ -8,6 +8,8 @@
 type Props = {
   /** 抽選対象のことば一覧 */
   words: string[];
+  /** ことば未登録時にホイール中央へ表示する案内文（辞書から渡す） */
+  emptyText: string;
   /** ホイールの累積回転角度（deg） */
   rotation: number;
   /** 回転アニメーションの時間（秒）。0 なら即時反映 */
@@ -43,7 +45,7 @@ function truncateLabel(word: string): string {
   return word.length > 6 ? `${word.slice(0, 6)}…` : word;
 }
 
-export default function RouletteWheel({ words, rotation, durationSec }: Props) {
+export default function RouletteWheel({ words, rotation, durationSec, emptyText }: Props) {
   const total = words.length;
   const segAngle = total > 0 ? 360 / total : 360;
   const fontSize = labelFontSize(total);
@@ -65,7 +67,7 @@ export default function RouletteWheel({ words, rotation, durationSec }: Props) {
           <>
             <circle cx="100" cy="100" r="95" className="wheel-empty" />
             <text x="100" y="104" textAnchor="middle" className="wheel-empty-text">
-              ことばを追加してね
+              {emptyText}
             </text>
           </>
         ) : total === 1 ? (

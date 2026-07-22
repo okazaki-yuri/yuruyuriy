@@ -27,10 +27,11 @@ export function pickRandomIndex(length: number, rng: () => number = Math.random)
 /**
  * ことば一覧を並べ替えた新しい配列を返す
  * @param order 並び順（asc: 昇順 / desc: 降順）
+ * @param locale 比較に使うロケール。日本語（かな/漢字混在）でも直感的な並びになるよう
+ *               既定は 'ja'。英語ページなど他ロケールでは呼び出し側が指定する。
  */
-export function sortWords(words: string[], order: 'asc' | 'desc'): string[] {
-  // 日本語（かな/漢字混在）でも直感的な並びになるよう 'ja' ロケールで比較する。
+export function sortWords(words: string[], order: 'asc' | 'desc', locale: string = 'ja'): string[] {
   return [...words].sort((a, b) =>
-    order === 'asc' ? a.localeCompare(b, 'ja') : b.localeCompare(a, 'ja')
+    order === 'asc' ? a.localeCompare(b, locale) : b.localeCompare(a, locale)
   );
 }

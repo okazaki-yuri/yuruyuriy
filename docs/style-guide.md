@@ -63,7 +63,7 @@
 
 ### 3.1 フォント
 - フォント: **M PLUS Rounded 1c**（Google Fonts）。丸ゴシックの柔らかさがコンセプトの要。
-- 読み込みは `apps/web/app/layout.tsx` で `wght@400;500;700` を**明示指定**する。ウェイトを指定しないと 400 のみ配信され、見出し・ボタンが**合成ボールド（faux bold）**になって輪郭が潰れるため必ず指定する。
+- 読み込みは `apps/web/app/components/FontLinks.tsx`（言語別ルートレイアウトから共用）で `wght@400;500;700` を**明示指定**する。ウェイトを指定しないと 400 のみ配信され、見出し・ボタンが**合成ボールド（faux bold）**になって輪郭が潰れるため必ず指定する。
 - `font-family` は**トークン `--font-sans` を参照**する（個別CSSで直書きしない）。読み込み前（`display=swap`）や失敗時に備え、日本語の丸ゴ／ゴシック系システムフォントをフォールバックに含める:
   ```
   --font-sans: 'M PLUS Rounded 1c', 'Hiragino Maru Gothic ProN',
@@ -129,7 +129,7 @@
 ## 5. CSS 構成のルール
 - **共通スタイルは `apps/web/app/styles/style.css`** に置く（トップ、ツール一覧、`.introduction-area` / `.howto-area` などツール共通パーツ）。
 - **ヘッダー・フッターは `apps/web/app/styles/header-footer.css`**（ルートレイアウトで全ページに読み込む）。
-- **ページ/ツール固有のスタイルは各ページディレクトリのCSS**（例: `apps/web/app/tools/web-dice-chan/dice.css`）に閉じ、各 `page.tsx` から import する。共通で使えるものを個別CSSに重複させない。
+- **ページ/ツール固有のスタイルは各コンテンツディレクトリのCSS**（例: `apps/web/app/content/webdice/dice.css`）に閉じ、各コンテンツコンポーネントから import する。共通で使えるものを個別CSSに重複させない。
 
 ### よく使う共通クラス（再利用する）
 | クラス | 用途 |

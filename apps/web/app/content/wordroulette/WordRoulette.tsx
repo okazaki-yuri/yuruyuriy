@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { pickRandom, pickRandomIndex, sortWords } from '@yuruyuriy/core';
 import ShareButtons from '../../components/ShareButtons';
+import { getDictionary, type Locale } from '../../i18n';
 import RouletteWheel from './RouletteWheel';
 
 const STORAGE_KEY = 'wordrouletteWords';
@@ -15,7 +16,9 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((w) => typeof w === 'string');
 }
 
-export default function WordRoulette() {
+export default function WordRoulette({ locale }: { locale: Locale }) {
+  const dict = getDictionary(locale);
+  const t = dict.roulette.widget;
   const [words, setWords] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<'single' | 'multi'>('single');
   const [singleInput, setSingleInput] = useState('');
@@ -67,7 +70,7 @@ export default function WordRoulette() {
       const word = singleInput.trim();
       if (!word) return;
       if (words.includes(word)) {
-        if (!confirm(`「${word}」はすでにあります。追加しますか？`)) return;
+        if (!confirm(t.confirmDuplicate(word))) return;
       }
       updateWords([...words, word]);
       setSingleInput('');
@@ -81,7 +84,7 @@ export default function WordRoulette() {
         if (!next.includes(word)) {
           next.push(word);
         } else {
-          if (confirm(`「${word}」はすでにあります。追加しますか？`)) {
+          if (confirm(t.confirmDuplicate(word))) {
             next.push(word);
           }
         }
@@ -202,12 +205,12 @@ export default function WordRoulette() {
 
   /** ことば一覧の並べ替えを行う */
   const handleSort = (order: 'asc' | 'desc') => {
-    updateWords(sortWords(words, order));
+    updateWords(sortWords(words, order, locale));
   };
 
   /** ことば一覧をすべて削除する */
   const resetWords = () => {
-    if (confirm('ことばをすべて削除しますか？')) {
+    if (confirm(t.confirmReset)) {
       setWords([]);
       localStorage.removeItem(STORAGE_KEY);
       // result-box 初期状態に戻す（空に）
@@ -225,26 +228,26 @@ export default function WordRoulette() {
   return (
     <>
       {/* 表示方式（テキスト式／ホイール式）切替タブ */}
-      <div className="mode-tabs" role="group" aria-label="ルーレットの表示方式">
+      <div className="mode-tabs" role="group" aria-label={t.modeTabsLabel}>
         <button
           className={`mode-tab${displayMode === 'text' ? ' active' : ''}`}
           disabled={spinning}
           onClick={() => changeDisplayMode('text')}
         >
-          テキスト式
+          {t.modeText}
         </button>
         <button
           className={`mode-tab${displayMode === 'wheel' ? ' active' : ''}`}
           disabled={spinning}
           onClick={() => changeDisplayMode('wheel')}
         >
-          ホイール式
+          {t.modeWheel}
         </button>
       </div>
 
       {/* ホイール式：円形ルーレット */}
       {displayMode === 'wheel' && (
-        <RouletteWheel words={words} rotation={wheelRotation} durationSec={wheelDuration} />
+        <RouletteWheel words={words} rotation={wheelRotation} durationSec={wheelDuration} emptyText={t.wheelEmptyText} />
       )}
 
       {/* 抽選結果表示（確定値をスクリーンリーダーへ通知） */}
@@ -263,13 +266,13 @@ export default function WordRoulette() {
           className={`tab-button${activeTab === 'single' ? ' active' : ''}`}
           onClick={() => setActiveTab('single')}
         >
-          ことば入力
+          {t.tabSingle}
         </button>
         <button
           className={`tab-button${activeTab === 'multi' ? ' active' : ''}`}
           onClick={() => setActiveTab('multi')}
         >
-          まとめて入力
+          {t.tabMulti}
         </button>
       </div>
 
@@ -280,7 +283,7 @@ export default function WordRoulette() {
           <input
             id="wordInput"
             maxLength={50}
-            placeholder="ことばを入力してEnterまたは追加ボタン"
+            placeholder={t.singlePlaceholder}
             value={singleInput}
             onChange={(e) => setSingleInput(e.target.value)}
             onKeyDown={(e) => {
@@ -293,7 +296,7 @@ export default function WordRoulette() {
           <textarea
             id="multiInput"
             rows={5}
-            placeholder="改行で区切って複数のことばを一括入力"
+            placeholder={t.multiPlaceholder}
             value={multiInput}
             onChange={(e) => setMultiInput(e.target.value)}
           />
@@ -301,9 +304,9 @@ export default function WordRoulette() {
 
         {/* 追加＆ルーレットボタン */}
         <div className="button-row">
-          <button onClick={addWord}>追加</button>
+          <button onClick={addWord}>{t.addButton}</button>
           <button disabled={spinning} onClick={spinRoulette}>
-            {spinning ? '抽選中…' : 'ルーレット'}
+            {spinning ? t.spinningButton : t.spinButton}
           </button>
         </div>
       </div>
@@ -311,18 +314,18 @@ export default function WordRoulette() {
       {/* 一覧にことばがある場合のみ表示される */}
       <div className={`sort-controls${words.length === 0 ? ' hidden' : ''}`}>
         {/* ソート */}
-        並び順：
-        <button type="button" className="sort-link" onClick={() => handleSort('asc')}>昇順</button> /
-        <button type="button" className="sort-link" onClick={() => handleSort('desc')}>降順</button>
+        {t.sortLabel}
+        <button type="button" className="sort-link" onClick={() => handleSort('asc')}>{t.sortAsc}</button> /
+        <button type="button" className="sort-link" onClick={() => handleSort('desc')}>{t.sortDesc}</button>
 
         {/* ルーレット時間セレクト */}
-        <label htmlFor="durationSelect" className="duration-label">抽選時間：</label>
+        <label htmlFor="durationSelect" className="duration-label">{t.durationLabel}</label>
         <select id="durationSelect" className="duration-select" ref={durationRef} defaultValue="3">
-          <option value="0">なし</option>
-          <option value="1">1秒</option>
-          <option value="3">3秒</option>
-          <option value="5">5秒</option>
-          <option value="10">10秒</option>
+          <option value="0">{t.durationNone}</option>
+          <option value="1">{t.durationSeconds(1)}</option>
+          <option value="3">{t.durationSeconds(3)}</option>
+          <option value="5">{t.durationSeconds(5)}</option>
+          <option value="10">{t.durationSeconds(10)}</option>
         </select>
       </div>
 
@@ -339,15 +342,16 @@ export default function WordRoulette() {
       {/* リセットボタン */}
       <div className="reset-area">
         <button className={words.length === 0 ? 'hidden' : ''} onClick={resetWords}>
-          リセット
+          {t.resetButton}
         </button>
       </div>
 
       {/* SNSシェア（抽選結果の確定後に有効化） */}
-      <section aria-label="結果をシェア">
+      <section aria-label={dict.share.resultSectionLabel}>
         <ShareButtons
-          text={result ? `ルーレットの結果:「${result}」` : ''}
-          hashtags={['単語ルーレット', 'ゆるユーリ']}
+          locale={locale}
+          text={result ? t.shareText(result) : ''}
+          hashtags={t.hashtags}
           disabled={spinning || result === ''}
         />
       </section>

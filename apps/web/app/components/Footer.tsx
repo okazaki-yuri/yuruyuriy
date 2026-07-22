@@ -1,17 +1,20 @@
-export default function Footer() {
+import { getDictionary, localizePath, type Locale } from '../i18n';
+
+export default function Footer({ locale }: { locale: Locale }) {
+  const d = getDictionary(locale);
   return (
     <footer className="site-footer">
       <div className="footer-nav">
-        <a href="/">TOP</a>
-        <a href="/tools/">ツール一覧</a>
-        <a href="/legal/privacy-policy/">プライバシーポリシー</a>
-        <a href="/legal/terms-of-service/">利用規約</a>
-        <a href="/contact/">お問い合わせ</a>
+        <a href={localizePath(locale, '/')}>{d.nav.top}</a>
+        <a href={localizePath(locale, '/tools/')}>{d.nav.tools}</a>
+        <a href={localizePath(locale, '/legal/privacy-policy/')}>{d.nav.privacy}</a>
+        <a href={localizePath(locale, '/legal/terms-of-service/')}>{d.nav.terms}</a>
+        <a href={localizePath(locale, '/contact/')}>{d.nav.contact}</a>
       </div>
 
       {/* コピーライト */}
       <div className="footer-copy">
-        © 2025 Ylyuriy All rights reserved.
+        {d.footer.copyright}
       </div>
     </footer>
   );
