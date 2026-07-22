@@ -32,7 +32,7 @@ export default function ContactPage() {
       <section className="contact-section">
         <h1 className="contact-title">お問い合わせ</h1>
         <p className="contact-intro">
-          当サイトへのご連絡は、下記のGoogleフォームよりお願いいたします。
+          当サイトへのご連絡には、下記のGoogleフォームが便利です。
         </p>
 
         {/* Googleフォーム */}

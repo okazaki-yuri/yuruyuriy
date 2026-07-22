@@ -403,6 +403,15 @@ h1 {
   text-align: left; /* ← 左寄せ */
 }
 
+/* 手順（番号付きリスト）。補足の ul と並べて使う */
+.howto-area ol {
+  list-style: decimal;
+  padding: 0;
+  padding-left: 1.5em;
+  margin: 0 0 1rem;
+  text-align: left;
+}
+
 .howto-area li {
   margin-bottom: 0.8rem;
   position: relative;
