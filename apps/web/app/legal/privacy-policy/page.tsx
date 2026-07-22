@@ -5,11 +5,13 @@ import '../legal.css';
 
 export const metadata: Metadata = {
   title: 'プライバシーポリシー',
-  description: 'プライバシーポリシーページです。',
+  description:
+    'ゆるユーリのプライバシーポリシーです。個人情報の取り扱い、アクセス解析やローカルストレージの利用について説明しています。',
   alternates: { canonical: '/legal/privacy-policy/' },
   openGraph: buildOpenGraph({
     title: 'ゆるユーリ | プライバシーポリシー',
-    description: 'プライバシーポリシー',
+    description:
+      'ゆるユーリのプライバシーポリシーです。個人情報の取り扱い、アクセス解析やローカルストレージの利用について説明しています。',
     path: '/legal/privacy-policy/',
   }),
 };

@@ -5,11 +5,13 @@ import './contact.css';
 
 export const metadata: Metadata = {
   title: 'お問い合わせ',
-  description: 'お問い合わせページです。',
+  description:
+    'ゆるユーリへのお問い合わせ方法のご案内です。Googleフォーム・メール・X（旧Twitter）のDMで受け付けています。',
   alternates: { canonical: '/contact/' },
   openGraph: buildOpenGraph({
     title: 'ゆるユーリ | お問い合わせ',
-    description: 'お問い合わせはこちらから',
+    description:
+      'ゆるユーリへのお問い合わせ方法のご案内です。Googleフォーム・メール・X（旧Twitter）のDMで受け付けています。',
     path: '/contact/',
   }),
 };

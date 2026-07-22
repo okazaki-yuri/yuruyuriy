@@ -5,11 +5,13 @@ import '../legal.css';
 
 export const metadata: Metadata = {
   title: '利用規約',
-  description: '利用規約ページです。',
+  description:
+    'ゆるユーリの利用規約です。ツールの利用条件（動画・ブログでの利用や収益化もOK）、禁止事項、著作権について説明しています。',
   alternates: { canonical: '/legal/terms-of-service/' },
   openGraph: buildOpenGraph({
     title: 'ゆるユーリ | 利用規約',
-    description: '利用規約',
+    description:
+      'ゆるユーリの利用規約です。ツールの利用条件（動画・ブログでの利用や収益化もOK）、禁止事項、著作権について説明しています。',
     path: '/legal/terms-of-service/',
   }),
 };
