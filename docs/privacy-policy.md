@@ -3,8 +3,8 @@
 当サイトにおける個人情報・データの取り扱い方針を掲載する法務ページ。
 
 - URL: `https://tools.yl-yuriy.com/legal/privacy-policy/`
-- ファイル: `apps/web/app/legal/privacy-policy/page.tsx`
-- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/legal/legal.css`（規約・ポリシー共通）, `apps/web/app/styles/header-footer.css`
+- ファイル: `apps/web/app/(ja)/legal/privacy-policy/page.tsx`（日本語・正文）/ `apps/web/app/(en)/en/legal/privacy-policy/page.tsx`（英語版。「日本語版が正文・優先」の Language 条項付き）。法務ページは本文をロケール別ファイルとして保持し、辞書化しない。**日本語版を改定したら英語版も追随させる**
+- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/content/legal.css`（規約・ポリシー共通、両言語で共用）, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
 
 ---
@@ -33,7 +33,7 @@
 - サーバーコンポーネント（静的表示のみ）で、独自のクライアントJavaScript処理は持たない。
 
 ## 5. 依存・外部連携
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターは言語別ルートレイアウト（`apps/web/app/(ja)/layout.tsx`、実体は `apps/web/app/content/root.tsx`）で共通提供される。
 
 ## 6. 特記事項
 - 解析ツールや外部サービスの追加・変更時は、本ページの記載も更新すること。

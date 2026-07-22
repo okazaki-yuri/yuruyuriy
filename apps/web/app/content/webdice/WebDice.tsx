@@ -1,0 +1,190 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import { calcDiceStats, rollDice, validateDiceConfig, type DiceStats } from '@yuruyuriy/core';
+import ShareButtons from '../../components/ShareButtons';
+import { getDictionary, type Locale } from '../../i18n';
+
+const STORAGE_KEY = 'diceHistory';
+const HISTORY_LIMIT = 50; // 履歴の保持上限（localStorage の無制限肥大を防ぐ）
+
+/** localStorage から復元した履歴が「数値配列の配列」であることを検証する */
+function isValidHistory(value: unknown): value is number[][] {
+  return (
+    Array.isArray(value) &&
+    value.every((row) => Array.isArray(row) && row.every((n) => typeof n === 'number'))
+  );
+}
+
+/** 「合計」「平均」「最大」「最小」の表示文字列を作る（1個の場合は表示しない） */
+function statsText(results: number[], format: (stats: DiceStats) => string): string {
+  const stats = calcDiceStats(results);
+  if (!stats || results.length === 1) return '';
+  return format(stats);
+}
+
+export default function WebDice({ locale }: { locale: Locale }) {
+  const dict = getDictionary(locale);
+  const t = dict.dice.widget;
+  const [minValue, setMinValue] = useState('1');
+  const [maxValue, setMaxValue] = useState('6');
+  const [diceCount, setDiceCount] = useState('1');
+  const [duration, setDuration] = useState('1000');
+  const [currentDice, setCurrentDice] = useState<number[]>([]);
+  const [history, setHistory] = useState<number[][]>([]);
+  const [rolling, setRolling] = useState(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // ページ読み込み時にローカルストレージから履歴を復元
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (isValidHistory(parsed)) {
+          setHistory(parsed);
+        } else {
+          localStorage.removeItem(STORAGE_KEY);
+        }
+      } catch {
+        localStorage.removeItem(STORAGE_KEY);
+      }
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    };
+  }, []);
+
+  /** サイコロを振る */
+  const roll = () => {
+    const minRaw = parseInt(minValue);
+    const maxRaw = parseInt(maxValue);
+    const min = Number.isNaN(minRaw) ? 1 : minRaw;
+    const max = Number.isNaN(maxRaw) ? 6 : maxRaw;
+    const count = parseInt(diceCount) || 1;
+    const durationMs = parseInt(duration) || 1000;
+
+    const errors = validateDiceConfig({ min, max, count });
+    if (errors.length > 0) {
+      // core はエラーコードを返すので、表示文言は辞書で解決する
+      alert(errors.map((e) => t.errors[e]).join('\n') + '\n');
+      return;
+    }
+
+    setRolling(true);
+
+    // 演出：確定までランダムな出目を切り替え表示する
+    intervalRef.current = setInterval(() => {
+      setCurrentDice(rollDice({ min, max, count }));
+    }, 100);
+
+    timeoutRef.current = setTimeout(() => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      const results = rollDice({ min, max, count });
+      setCurrentDice(results);
+
+      // 履歴保存
+      setHistory((prev) => {
+        const next = [results, ...prev].slice(0, HISTORY_LIMIT);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        return next;
+      });
+      setRolling(false);
+    }, durationMs);
+  };
+
+  /** 履歴リセット */
+  const resetHistory = () => {
+    if (history.length === 0) return;
+    if (confirm(t.confirmReset)) {
+      setHistory([]);
+      localStorage.removeItem(STORAGE_KEY);
+      setCurrentDice([]);
+    }
+  };
+
+  /** SNSシェア用の本文（結果未確定なら空） */
+  const shareText = () => {
+    if (currentDice.length === 0) return '';
+    const lines = [t.shareText(currentDice)];
+    const stats = statsText(currentDice, t.statsText);
+    if (stats) lines.push(stats);
+    return lines.join('\n');
+  };
+
+  return (
+    <>
+      {/* 入力エリア */}
+      <section className="controls">
+        {/* 最小値 ~ 最大値 */}
+        <div className="control-group">
+          <label>{t.rangeLabel}</label>
+          <div className="inputs">
+            <input type="number" min={0} max={100} value={minValue} onChange={(e) => setMinValue(e.target.value)} />
+            <span className="tilde">{t.tilde}</span>
+            <input type="number" min={0} max={100} value={maxValue} onChange={(e) => setMaxValue(e.target.value)} />
+          </div>
+          <small>{t.rangeHint}</small>
+        </div>
+
+        {/* 個数 */}
+        <div className="control-group">
+          <label>{t.countLabel}</label>
+          <input type="number" min={1} max={30} value={diceCount} onChange={(e) => setDiceCount(e.target.value)} />
+          <small>{t.countHint}</small>
+        </div>
+
+        {/* 演出時間 */}
+        <div className="control-group">
+          <label>{t.durationLabel}</label>
+          <select value={duration} onChange={(e) => setDuration(e.target.value)}>
+            <option value="500">{t.durationSeconds(0.5)}</option>
+            <option value="1000">{t.durationSeconds(1)}</option>
+            <option value="2000">{t.durationSeconds(2)}</option>
+            <option value="3000">{t.durationSeconds(3)}</option>
+          </select>
+          <small>{t.durationHint}</small>
+        </div>
+
+        <button disabled={rolling} onClick={roll}>{t.rollButton}</button>
+      </section>
+
+      <section id="dice-area" role="status" aria-live="polite" aria-atomic="true">
+        {currentDice.map((val, i) => (
+          <div className="dice-card" key={i}>{val}</div>
+        ))}
+      </section>
+      <div id="dice-stats">{statsText(currentDice, t.statsText)}</div>
+
+      <section id="history-area">
+        <h2>{t.historyHeading}</h2>
+        <div id="history">
+          {history.map((h, i) => (
+            <div className="history-item" key={i}>
+              <b>{t.historyResultLabel}</b>{h.join(', ')}
+              {h.length > 1 && (
+                <>
+                  <br />
+                  {statsText(h, t.statsText)}
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+        <button disabled={history.length === 0} onClick={resetHistory}>{t.resetButton}</button>
+      </section>
+
+      {/* SNSシェア（結果確定後に有効化） */}
+      <section aria-label={dict.share.resultSectionLabel}>
+        <ShareButtons
+          locale={locale}
+          text={shareText()}
+          hashtags={t.hashtags}
+          disabled={rolling || currentDice.length === 0}
+        />
+      </section>
+    </>
+  );
+}

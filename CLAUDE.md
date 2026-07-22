@@ -7,6 +7,16 @@
 - pnpm モノレポ（`pnpm-workspace.yaml`）。
 - `apps/web` … Next.js（App Router）。`next.config.js` で `output: 'export'` の静的エクスポート構成。
 - `packages/core` … ドメインロジック／データ（`toolsRepository` など）。web からは I/F 経由で参照する。
+- **多言語対応（日本語 + 英語）**。日本語はルート直下（`/tools/` 等）、英語は `/en/` 配下。構成の詳細は `docs/i18n.md` を参照。
+
+## 多言語対応（i18n）の運用（重要）
+
+- **表示文言は JSX・CSS にハードコードしない**。`apps/web/app/i18n/ja.ts` と `en.ts` の辞書に持たせ、**文言の追加・変更は必ず両言語セットで行う**（キーの過不足は `satisfies Dictionary` の型チェックで検出される）。CSS の疑似要素で表示する文言も `data-*` 属性 + `content: attr()` 経由にする。
+- 例外は法務ページ（利用規約・プライバシーポリシー）で、本文をロケール別ファイル（`app/(ja)/legal/` と `app/(en)/en/legal/`）に持つ。**日本語版が正文**であり、日本語版を改定したら**同じブランチ内で英語版も追随**させる。
+- ページ・ツールを追加するときは、`app/content/` に実体を置き、`app/(ja)/…` と `app/(en)/en/…` の**両方に薄いラッパーを作成**する（手順は `docs/add-new-tool.md`）。`data/tools.json` の `name` / `description` は `{ ja, en }` の多言語オブジェクト。
+- 内部リンク・canonical・OGP url・JSON-LD の URL は必ず `localizePath(locale, path)` を通す。
+- 言語ごとの機能差（ブログリンク・LINE ボタンの表示可否など）は辞書のフラグ（`header.showBlog` / `share.showLine`）で制御する。
+- 404（`app/global-not-found.tsx`）は experimental 機能を使用しているため、**Next.js アップグレード時は `out/404.html` のレイアウト適用を必ず確認**する。
 
 ## ビルド成果物の扱い（重要）
 
@@ -18,15 +28,15 @@
 
 ## SEO 方針
 
-- 各ページのメタデータは Next.js の Metadata API（`export const metadata` / 各ページの `page.tsx`）で定義する。
-- `apps/web/app/layout.tsx` の `metadataBase` を基準に、canonical・OGP 画像などは相対パスで指定してよい。
-- 正規 URL（canonical）は各ページで `alternates.canonical` に**トレイリングスラッシュ付き**で指定する（`next.config.js` の `trailingSlash: true` と一致させる）。
-- sitemap は `apps/web/app/sitemap.ts` で自動生成する。ページ追加時はこのリストにも追記する。
-- **`sitemap.ts` の `lastmod` は各ページの実更新日（`YYYY-MM-DD`）を手動で指定する。** ビルド時刻（`new Date()`）は使わない（無変更ページも毎回更新され、誤った鮮度シグナルになるため）。
-  - あるページのコンテンツや見た目を変更したら、その**該当ページの `lastmod` だけ**を更新日へ書き換える。
-  - デザイントークン・共通CSS・レイアウトなど**全ページに影響する変更**をした場合は、**全エントリの `lastmod`** を更新する。
+- 各ページのメタデータは Next.js の Metadata API で定義する。ページ実体（`apps/web/app/content/` の `buildXxxMetadata(locale)`）で組み立て、ルートの `page.tsx` から locale 指定で利用する。
+- ルートレイアウト（実体は `apps/web/app/content/root.tsx`）の `metadataBase` を基準に、canonical・OGP 画像などは相対パスで指定してよい。
+- canonical と hreflang（`ja` / `en` / `x-default`）は `apps/web/app/site.ts` の **`buildAlternates(locale, path)`** で組み立てる。canonical は各言語ページが自分自身を**トレイリングスラッシュ付き**で指す（`next.config.js` の `trailingSlash: true` と一致させる）。
+- sitemap は `apps/web/app/sitemap.ts` で自動生成する（1パスにつき日英2エントリ + hreflang 相互参照）。ページ追加時はこのリストにも追記する。
+- **`sitemap.ts` の `lastmod` は各ページの実更新日（`YYYY-MM-DD`）を言語別（`{ ja, en }`）に手動で指定する。** ビルド時刻（`new Date()`）は使わない（無変更ページも毎回更新され、誤った鮮度シグナルになるため）。
+  - あるページのコンテンツや見た目を変更したら、その**該当ページ・該当言語の `lastmod` だけ**を更新日へ書き換える（両言語を変更したら両方）。
+  - デザイントークン・共通CSS・レイアウトなど**全ページに影響する変更**をした場合は、**全エントリ・全言語の `lastmod`** を更新する。
 - 構造化データ（JSON-LD）は `apps/web/app/components/JsonLd.tsx` を用いて各ページに埋め込む。
-- OGP 画像（1200×630 の `og-image.png`）は `apps/web/scripts/generate-og.cjs` が **build 時に生成**する（`apps/web` の `build` スクリプトが `next build` の前に実行）。生成物 `apps/web/public/assets/og-image.png` は `.gitignore` 済みでコミットしない。各ページは `apps/web/app/og.ts` の `OG_IMAGE` を `openGraph.images` に指定する。
+- OGP 画像（1200×630 の `og-image.png`）は `apps/web/scripts/generate-og.cjs` が **build 時に生成**する（`apps/web` の `build` スクリプトが `next build` の前に実行）。生成物 `apps/web/public/assets/og-image.png` は `.gitignore` 済みでコミットしない。画像本体は言語共通で、`apps/web/app/og.ts` の `OG_IMAGE`（ja）/ `OG_IMAGE_EN`（alt のみ英語）を `buildOpenGraph` がロケールに応じて `openGraph.images` に指定する。
 - PWA / apple-touch-icon 用の正方形アイコン（`apple-touch-icon.png` / `icon-192.png` / `icon-512.png`）も `apps/web/scripts/generate-icons.cjs` が **build 時に生成**する（同じく `.gitignore` 済み）。Web App Manifest は `apps/web/app/manifest.ts` で `/manifest.webmanifest` として静的生成する。
 - OGP/アイコンは日本語をロゴ画像に委ね、`ImageResponse` で latin のみ描画している（同梱フォントが日本語非対応のため）。
 
@@ -45,6 +55,7 @@
   - ページ・ツールの変更 … 該当ページの設計書（`docs/top.md` / `docs/tools-list.md` / `docs/web-dice-chan.md` / `docs/wordroulette-chan.md` / 法務ページ等）。
   - デザイン・CSS 方針の変更 … `docs/style-guide.md`。
   - ツール追加・構成変更 … `docs/add-new-tool.md` / `docs/local-development.md`。
+  - 多言語対応（辞書・ルート構成・hreflang・言語別フラグ等）の変更 … `docs/i18n.md`。
 - 設計書は**実装と整合していること**が目的。画面構成・データ設計（localStorage キー等）・主なロジック・依存関係に変更が及んだ箇所を反映する。
 - リファクタリングなど外から見えない変更でも、設計書に書かれた内容（ファイル構成・関数名・ロジック）が変わる場合は更新する。
 - `docs/legacy/` は旧構成の退避資料のため更新不要。

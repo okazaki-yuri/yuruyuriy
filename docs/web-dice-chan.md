@@ -4,9 +4,10 @@
 
 - URL: `https://tools.yl-yuriy.com/tools/web-dice-chan/`
 - ファイル:
-  - `apps/web/app/tools/web-dice-chan/page.tsx` … ページ本体（メタデータ・JSON-LD・静的コンテンツ）
-  - `apps/web/app/tools/web-dice-chan/WebDice.tsx` … 抽選UI（クライアントコンポーネント）
-  - `apps/web/app/tools/web-dice-chan/dice.css` … 専用CSS
+  - `apps/web/app/(ja)/tools/web-dice-chan/page.tsx` … ルート（`locale='ja'` を渡す薄いラッパー）
+  - `apps/web/app/content/webdice/page-content.tsx` … ページ本体（メタデータ・JSON-LD・静的コンテンツ。文言は辞書 `app/i18n/ja.ts` から取得。[i18n.md](./i18n.md) 参照）
+  - `apps/web/app/content/webdice/WebDice.tsx` … 抽選UI（クライアントコンポーネント。`locale` を受け取り辞書を参照）
+  - `apps/web/app/content/webdice/dice.css` … 専用CSS
   - `packages/core/src/dice.ts` … 抽選・検証・統計の純粋ロジック（`@yuruyuriy/core`）
 - 使用CSS: `apps/web/app/styles/style.css`, `dice.css`, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
@@ -45,7 +46,7 @@
 | 関数 / 定数 | 役割 |
 | --- | --- |
 | `DICE_LIMITS` | 出目 0〜100・個数 1〜30 の制限値定義 |
-| `validateDiceConfig(config)` | 設定の検証。エラーメッセージ配列を返す（空なら妥当） |
+| `validateDiceConfig(config)` | 設定の検証。エラーコード（`DiceValidationError`）配列を返す（空なら妥当）。表示文言は web 側辞書で解決 |
 | `rollDice(config, rng?)` | 出目配列の生成（`Math.floor(rng() * (max - min + 1)) + min`） |
 | `calcDiceStats(results)` | 合計・平均・最大・最小の算出（空なら `null`） |
 
@@ -66,7 +67,7 @@
 ## 6. 依存・外部連携
 - `@yuruyuriy/core`（`rollDice` / `validateDiceConfig` / `calcDiceStats`）
 - SNSシェア: 共通コンポーネント `apps/web/app/components/ShareButtons.tsx`（X / LINE / リンクコピー / ネイティブ共有）
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターは言語別ルートレイアウト（`apps/web/app/(ja)/layout.tsx`、実体は `apps/web/app/content/root.tsx`）で共通提供される。
 - 使い方ガイドから[利用規約](./terms-of-service.md)へリンク。
 
 ## 7. 特記事項

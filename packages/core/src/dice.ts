@@ -16,22 +16,29 @@ export const DICE_LIMITS = {
   countMax: 30,
 } as const;
 
+// 検証エラーの種別。表示文言は web 側の辞書（i18n）で解決する（core は UI 文言を持たない）。
+export type DiceValidationError =
+  | 'MIN_OUT_OF_RANGE'
+  | 'MAX_OUT_OF_RANGE'
+  | 'MIN_GREATER_THAN_MAX'
+  | 'COUNT_OUT_OF_RANGE';
+
 /**
- * サイコロ設定を検証し、エラーメッセージの配列を返す（空配列なら妥当）
+ * サイコロ設定を検証し、エラーコードの配列を返す（空配列なら妥当）
  */
-export function validateDiceConfig({ min, max, count }: DiceConfig): string[] {
-  const errors: string[] = [];
+export function validateDiceConfig({ min, max, count }: DiceConfig): DiceValidationError[] {
+  const errors: DiceValidationError[] = [];
   if (min < DICE_LIMITS.valueMin || min > DICE_LIMITS.valueMax) {
-    errors.push('最小値は0~100で入力してください。');
+    errors.push('MIN_OUT_OF_RANGE');
   }
   if (max < DICE_LIMITS.valueMin || max > DICE_LIMITS.valueMax) {
-    errors.push('最大値は0~100で入力してください。');
+    errors.push('MAX_OUT_OF_RANGE');
   }
   if (min > max) {
-    errors.push('最小値が最大値より大きいです。');
+    errors.push('MIN_GREATER_THAN_MAX');
   }
   if (count < DICE_LIMITS.countMin || count > DICE_LIMITS.countMax) {
-    errors.push('サイコロの個数は1~30で入力してください。');
+    errors.push('COUNT_OUT_OF_RANGE');
   }
   return errors;
 }

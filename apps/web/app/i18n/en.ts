@@ -1,0 +1,287 @@
+// 英語辞書（運営者レビュー済み）。キーの過不足は satisfies Dictionary でコンパイル時に検出される。
+// 表記の決定事項: サイト名は「Ylyuriy」、ツール名は「〜ちゃん」を付けないシンプルな英語名
+// （Word Roulette / Web Dice）とする（docs/i18n-plan.md §9）。
+import type { Dictionary } from './types';
+
+export const en = {
+  meta: {
+    siteName: 'Ylyuriy',
+    titleDefault: 'Ylyuriy | Cute & Handy Free Web Tools',
+    titleTemplate: '%s | Ylyuriy',
+  },
+  nav: {
+    top: 'Home',
+    tools: 'Tools',
+    blog: 'Blog',
+    privacy: 'Privacy Policy',
+    terms: 'Terms of Service',
+    contact: 'Contact',
+  },
+  header: {
+    logoAlt: 'Ylyuriy logo',
+    menuLabel: 'Menu',
+    menuCloseLabel: 'Close menu',
+    showBlog: false,
+    langSwitcherLabel: 'Select language',
+  },
+  footer: {
+    copyright: '© 2025 Ylyuriy All rights reserved.',
+  },
+  share: {
+    showLine: false,
+    resultSectionLabel: 'Share your result',
+    xLabel: 'Share',
+    xAria: 'Share your result on X',
+    lineLabel: 'LINE',
+    lineAria: 'Share your result on LINE',
+    copyLabel: 'Copy link',
+    copyDone: 'Copied!',
+    copyAria: 'Copy the link to this page',
+    nativeLabel: 'More',
+    nativeAria: 'Share your result via other apps',
+  },
+  breadcrumb: {
+    home: 'Home',
+    tools: 'Tools',
+  },
+  notFound: {
+    metaTitle: 'Page Not Found',
+    metaDescription: 'The page you are looking for could not be found.',
+    heading: '404 Page Not Found',
+    line1: 'The page you are looking for may have been moved or deleted.',
+    line2: { pre: 'Please head back to the ', linkText: 'home page', post: ' and try again.' },
+  },
+  home: {
+    description:
+      'Ylyuriy is a personal site offering cute and handy free web tools. Try our word roulette, online dice roller, and more — no sign-up required, mobile friendly.',
+    ogTitle: 'Ylyuriy | Cute & Handy Free Web Tools',
+    ogDescription: 'A personal site offering cute and handy free web tools. No sign-up required, mobile friendly.',
+    heading: 'Ylyuriy',
+    logoAlt: 'Ylyuriy logo',
+    introLines: [
+      'Ylyuriy is a personal hobby site.',
+      'We share web tools built just for fun.',
+      'Our concept: "Cute!!"',
+    ],
+    toolsBox: {
+      heading: 'Tools',
+      button: 'Browse the tools',
+      text: 'A list of our handy web tools.',
+    },
+    blogBox: {
+      heading: 'Blog',
+      button: 'Visit the blog',
+      textLines: ['Dev notes and update news, plus casual posts', 'about everyday life. (In Japanese)'],
+    },
+    external: {
+      heading: 'Links',
+      text: 'Social media and external sites related to this site and its creator.',
+      xAlt: 'X icon',
+      xName: 'X (formerly Twitter)',
+      instagramAlt: 'Instagram icon',
+      instagramName: 'Instagram',
+      youtubeAlt: 'YouTube icon',
+      youtubeName: 'YouTube',
+    },
+  },
+  tools: {
+    metaTitle: 'Tools',
+    metaDescription:
+      'Free web tools you can use right in your browser — word roulette, online dice roller, and more. No sign-up required, all mobile friendly.',
+    ogTitle: 'Free Web Tools | Ylyuriy',
+    heading: '🛠 Tools',
+    lead: 'Tools currently available and coming soon.',
+    itemListName: 'Ylyuriy Tools',
+    comingSoonName: 'Coming Soon',
+    comingSoonDescription: 'A new tool is in the works. Stay tuned!',
+  },
+  roulette: {
+    metaTitle: 'Word Roulette (Random Word Picker)',
+    metaDescription:
+      'A free word roulette that randomly picks one word from your list. Great for choosing topics, forming teams, deciding order, party games, and vocabulary practice. No sign-up required, mobile friendly.',
+    ogTitle: 'Word Roulette (Random Word Picker) | Ylyuriy',
+    ogDescription:
+      'A free word roulette that randomly picks one word from your list. Great for choosing topics, forming teams, deciding order, and party games.',
+    name: 'Word Roulette',
+    ldDescription:
+      'A random picker that displays one word chosen at random from the words you enter. Useful for choosing topics, forming teams, and more.',
+    heading: 'Word Roulette',
+    lead: 'Word Roulette is a free random picker that selects one word from the words you enter. Use it for choosing topics, forming teams, deciding order, party games, and more.',
+    aboutHeading: 'What is Word Roulette?',
+    aboutLines: [
+      'This simple word roulette randomly picks and displays one of the words you enter.',
+      'It comes in handy for game topics, team assignments, turn order, penalty games, and any quick random draw.',
+    ],
+    usecaseHeading: 'When to use Word Roulette',
+    usecases: [
+      '🎲 Picking topics for games and conversations',
+      '👥 Forming teams and groups',
+      '🔢 Deciding presentation or turn order, drawing names',
+      '😝 Choosing who takes the penalty',
+      '📚 Random quizzes for vocabulary study',
+      '🧊 Icebreakers for meetings and classes',
+    ],
+    howtoHeading: '📖 How to Use',
+    howtoItems: [
+      '📝 "Single entry" mode adds one word at a time (press Enter or the "Add" button).',
+      '📋 "Bulk entry" mode adds multiple words at once, one per line.',
+      '⚠️ A confirmation dialog appears when you add a duplicate word.',
+      '🎯 Press "Spin" to pick one word at random.',
+      '🎡 Switch between "Text" and "Wheel" to choose between a flipping-text animation and a spinning wheel.',
+      '🧹 "Reset" removes all registered words.',
+      '🔀 Use "A→Z / Z→A" to sort your words.',
+      '🕒 Use "Duration" to adjust how long the draw takes.',
+    ],
+    howtoTermsItem: {
+      pre: '📄 For full terms of use, please see our ',
+      linkText: 'Terms of Service',
+      post: '.',
+    },
+    faqHeading: '❓ FAQ',
+    faqs: [
+      {
+        q: 'Is Word Roulette free to use?',
+        a: 'Yes. It is completely free with no sign-up — just enter your words and it picks one at random.',
+      },
+      {
+        q: 'Are the words I enter saved?',
+        a: 'Your words are stored in your own browser and remain on your next visit. Nothing is sent to a server, so you can use it with peace of mind.',
+      },
+      {
+        q: 'Does it work on smartphones?',
+        a: 'Yes. It runs in the browser on smartphones, tablets, and PCs. No app installation needed.',
+      },
+      {
+        q: 'What can I use it for?',
+        a: 'Any kind of random draw: picking game topics, forming teams or groups, deciding order, drawing names, penalty games, vocabulary practice, and more.',
+      },
+    ],
+    widget: {
+      modeTabsLabel: 'Roulette display style',
+      modeText: 'Text',
+      modeWheel: 'Wheel',
+      wheelEmptyText: 'Add some words!',
+      resultPlaceholder: 'Your result will appear here',
+      resultSpinning: 'Spinning…',
+      tabSingle: 'Single entry',
+      tabMulti: 'Bulk entry',
+      singlePlaceholder: 'Type a word, then press Enter or "Add"',
+      multiPlaceholder: 'Enter multiple words, one per line',
+      addButton: 'Add',
+      spinButton: 'Spin',
+      spinningButton: 'Spinning…',
+      sortLabel: 'Sort: ',
+      sortAsc: 'A→Z',
+      sortDesc: 'Z→A',
+      durationLabel: 'Duration:',
+      durationNone: 'None',
+      durationSeconds: (n) => (n === 1 ? '1 second' : `${n} seconds`),
+      resetButton: 'Reset',
+      confirmDuplicate: (word) => `"${word}" is already on the list. Add it anyway?`,
+      confirmReset: 'Delete all words?',
+      shareText: (result) => `Word Roulette result: "${result}"`,
+      hashtags: ['WordRoulette', 'Ylyuriy'],
+    },
+  },
+  dice: {
+    metaTitle: 'Online Dice Roller (Web Dice)',
+    metaDescription:
+      'A free online dice roller for your browser. Set any range from 0–100, roll up to 30 dice at once, and see totals and averages. Perfect for board games, tabletop RPGs, and deciding order. No sign-up required, mobile friendly.',
+    ogTitle: 'Online Dice Roller (Web Dice) | Ylyuriy',
+    ogDescription:
+      'A free online dice roller for your browser. Set custom ranges, roll multiple dice at once, and see totals and averages.',
+    name: 'Web Dice',
+    ldDescription:
+      'A free online dice roller for your browser. Set any range from 0–100 and roll up to 30 dice at once, with totals and averages displayed.',
+    heading: 'Web Dice',
+    lead: 'Web Dice is a free online dice roller that runs in your browser. Set the range and number of dice for board games, tabletop RPG rolls, deciding order, and more.',
+    aboutHeading: 'What is Web Dice?',
+    aboutLines: [
+      'This tool lets you roll dice with any number range you like.',
+      'You can also set how many dice to roll and how long the roll animation lasts.',
+      'Totals, averages, max, and min are displayed too — handy for games and random draws!',
+    ],
+    usecaseHeading: 'When to use this online dice roller',
+    usecases: [
+      '🎲 As a substitute for dice in board games',
+      '🐉 For tabletop RPG rolls (custom ranges cover D10, D100, and more)',
+      '🔢 Deciding order, seats, or drawing lots',
+      '😝 Choosing who takes the penalty',
+      '📚 Probability lessons, experiments, or whenever you need random numbers',
+      '✈️ When you forgot your dice at a game night or on a trip',
+    ],
+    howtoHeading: '📖 How to Use',
+    howtoSteps: [
+      'Enter numbers from 0–100 for the dice range (min–max).',
+      'Set the number of dice from 1–30.',
+      'Use "Roll time" to change how long the animation takes.',
+      'Press "Roll Dice" to start.',
+    ],
+    howtoNotes: [
+      'You cannot roll if the minimum is greater than the maximum.',
+      'When rolling two or more dice, the total, average, max, and min are also displayed.',
+    ],
+    howtoTermsItem: {
+      pre: 'For full terms of use, please see our ',
+      linkText: 'Terms of Service',
+      post: '.',
+    },
+    faqHeading: '❓ FAQ',
+    faqs: [
+      {
+        q: 'Is this online dice roller free?',
+        a: 'Yes. It is completely free with no sign-up — roll dice right in your browser. No app installation needed.',
+      },
+      {
+        q: 'Can I change the range and number of dice?',
+        a: 'You can set any range from 0–100 and roll up to 30 dice at once. Use it as a standard six-sided die, or as a D10, D100, and more.',
+      },
+      {
+        q: 'Are my results saved?',
+        a: 'Up to 50 rolls are stored in your own browser and remain on your next visit. Nothing is sent to a server, so you can use it with peace of mind.',
+      },
+      {
+        q: 'Does it work on smartphones?',
+        a: 'Yes. It runs in the browser on smartphones, tablets, and PCs — ready whenever you have no dice at hand.',
+      },
+    ],
+    widget: {
+      rangeLabel: 'Dice range (min–max)',
+      rangeHint: 'Enter values from 0 to 100.',
+      tilde: '–',
+      countLabel: 'Number of dice',
+      countHint: 'Enter a number from 1 to 30.',
+      durationLabel: 'Roll time',
+      durationHint: 'Choose how long the roll animation lasts.',
+      durationSeconds: (n) => (n === 1 ? '1 second' : `${n} seconds`),
+      rollButton: 'Roll Dice',
+      historyHeading: 'History',
+      historyResultLabel: 'Result: ',
+      resetButton: 'Clear history',
+      confirmReset: 'Delete all history?',
+      statsText: (stats) =>
+        `Total: ${stats.sum} / Avg: ${stats.average.toFixed(2)} / Max: ${stats.max} / Min: ${stats.min}`,
+      shareText: (results) => `Dice results: ${results.join(', ')}`,
+      hashtags: ['DiceRoller', 'Ylyuriy'],
+      errors: {
+        MIN_OUT_OF_RANGE: 'The minimum must be between 0 and 100.',
+        MAX_OUT_OF_RANGE: 'The maximum must be between 0 and 100.',
+        MIN_GREATER_THAN_MAX: 'The minimum is greater than the maximum.',
+        COUNT_OUT_OF_RANGE: 'The number of dice must be between 1 and 30.',
+      },
+    },
+  },
+  contact: {
+    metaTitle: 'Contact',
+    metaDescription:
+      'How to contact Ylyuriy. We accept inquiries via Google Form, email, and X (formerly Twitter) DM.',
+    ogTitle: 'Contact | Ylyuriy',
+    name: 'Contact',
+    heading: 'Contact',
+    intro:
+      'The easiest way to reach us is the Google Form below. (The form is in Japanese, but you are welcome to write in English.)',
+    formButton: 'Open the Google Form',
+    sub: 'You can also reach us by email or X DM.',
+    xLinkLabel: 'X (formerly Twitter)',
+  },
+} satisfies Dictionary;

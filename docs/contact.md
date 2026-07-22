@@ -3,8 +3,8 @@
 サイト運営者への連絡手段を案内するページ。
 
 - URL: `https://tools.yl-yuriy.com/contact/`
-- ファイル: `apps/web/app/contact/page.tsx` / `contact.css`
-- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/contact/contact.css`, `apps/web/app/styles/header-footer.css`
+- ファイル: `apps/web/app/(ja)/contact/page.tsx`（薄いラッパー）。実体は `apps/web/app/content/contact.tsx` / `contact.css`（[i18n.md](./i18n.md) 参照）
+- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/content/contact.css`, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
 
 ---
@@ -30,7 +30,7 @@
 
 ## 5. 依存・外部連携
 - Google フォーム（問い合わせ受付）
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターは言語別ルートレイアウト（`apps/web/app/(ja)/layout.tsx`、実体は `apps/web/app/content/root.tsx`）で共通提供される。
 
 ## 6. 特記事項
 - 問い合わせ先メールアドレス・フォームURL・SNSアカウントを変更する場合は本ページのリンクを更新すること。

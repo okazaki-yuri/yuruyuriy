@@ -1,8 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { getDictionary, localizePath, type Locale } from '../i18n';
+import LanguageSwitcher from './LanguageSwitcher';
 
-export default function Header() {
+export default function Header({ locale }: { locale: Locale }) {
+  const d = getDictionary(locale);
   const [menuOpen, setMenuOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const mobileNavRef = useRef<HTMLElement>(null);
@@ -27,16 +30,20 @@ export default function Header() {
       <div className="header-inner">
         <div className="logo-area">
           {/* ヘッダーに表示するロゴ */}
-          <a href="/">
-            <img src="/assets/logo.png" alt="ゆるユーリ ロゴ" className="logo-img" width={480} height={320} />
+          <a href={localizePath(locale, '/')}>
+            <img src="/assets/logo.png" alt={d.header.logoAlt} className="logo-img" width={480} height={320} />
           </a>
         </div>
 
         {/* PC表示用ヘッダーボタン */}
         <nav className="nav-desktop">
-          <a href="/" className="nav-link">TOP</a>
-          <a href="/tools/" className="nav-link">ツール一覧</a>
-          <a href="https://yl-yuriy.com/" className="nav-link">ブログ</a>
+          <a href={localizePath(locale, '/')} className="nav-link">{d.nav.top}</a>
+          <a href={localizePath(locale, '/tools/')} className="nav-link">{d.nav.tools}</a>
+          {/* ブログは日本語のみのため、表示可否は辞書のフラグで言語ごとに制御する */}
+          {d.header.showBlog && (
+            <a href="https://yl-yuriy.com/" className="nav-link">{d.nav.blog}</a>
+          )}
+          <LanguageSwitcher locale={locale} variant="dropdown" />
         </nav>
 
         {/* スマホ表示用ハンバーガーボタン（スマホのスクリーンリーダー向けに button で公開する） */}
@@ -44,7 +51,7 @@ export default function Header() {
           type="button"
           ref={hamburgerRef}
           className={`hamburger${menuOpen ? ' open' : ''}`}
-          aria-label="メニュー"
+          aria-label={d.header.menuLabel}
           aria-expanded={menuOpen}
           aria-controls="mobile-nav"
           onClick={() => setMenuOpen((v) => !v)}
@@ -55,13 +62,15 @@ export default function Header() {
 
       {/* ハンバーガー内メニュー */}
       <nav id="mobile-nav" ref={mobileNavRef} className={`nav-mobile${menuOpen ? ' show' : ''}`}>
-        <button type="button" className="close-btn" aria-label="メニューを閉じる" onClick={() => setMenuOpen(false)}>&times;</button>
-        <a href="/">TOP</a>
-        <a href="/tools/">ツール一覧</a>
-        <a href="https://yl-yuriy.com/">ブログ</a>
-        <a href="/legal/privacy-policy/">プライバシーポリシー</a>
-        <a href="/legal/terms-of-service/">利用規約</a>
-        <a href="/contact/">お問い合わせ</a>
+        <button type="button" className="close-btn" aria-label={d.header.menuCloseLabel} onClick={() => setMenuOpen(false)}>&times;</button>
+        <a href={localizePath(locale, '/')}>{d.nav.top}</a>
+        <a href={localizePath(locale, '/tools/')}>{d.nav.tools}</a>
+        {d.header.showBlog && <a href="https://yl-yuriy.com/">{d.nav.blog}</a>}
+        <a href={localizePath(locale, '/legal/privacy-policy/')}>{d.nav.privacy}</a>
+        <a href={localizePath(locale, '/legal/terms-of-service/')}>{d.nav.terms}</a>
+        <a href={localizePath(locale, '/contact/')}>{d.nav.contact}</a>
+        {/* 言語切替（全言語を項目として表示。現在言語は強調表示） */}
+        <LanguageSwitcher locale={locale} variant="menu" />
       </nav>
     </header>
   );

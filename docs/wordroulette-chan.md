@@ -4,10 +4,11 @@
 
 - URL: `https://tools.yl-yuriy.com/tools/wordroulette-chan/`
 - ファイル:
-  - `apps/web/app/tools/wordroulette-chan/page.tsx` … ページ本体（メタデータ・JSON-LD・静的コンテンツ）
-  - `apps/web/app/tools/wordroulette-chan/WordRoulette.tsx` … 抽選UI（クライアントコンポーネント）
-  - `apps/web/app/tools/wordroulette-chan/RouletteWheel.tsx` … 円形ルーレット描画（表示専用コンポーネント）
-  - `apps/web/app/tools/wordroulette-chan/roulette.css` … 専用CSS
+  - `apps/web/app/(ja)/tools/wordroulette-chan/page.tsx` … ルート（`locale='ja'` を渡す薄いラッパー）
+  - `apps/web/app/content/wordroulette/page-content.tsx` … ページ本体（メタデータ・JSON-LD・静的コンテンツ。文言は辞書 `app/i18n/ja.ts` から取得。[i18n.md](./i18n.md) 参照）
+  - `apps/web/app/content/wordroulette/WordRoulette.tsx` … 抽選UI（クライアントコンポーネント。`locale` を受け取り辞書を参照）
+  - `apps/web/app/content/wordroulette/RouletteWheel.tsx` … 円形ルーレット描画（表示専用コンポーネント）
+  - `apps/web/app/content/wordroulette/roulette.css` … 専用CSS
   - `packages/core/src/roulette.ts` … 抽選・並べ替えの純粋ロジック（`@yuruyuriy/core`）
 - 使用CSS: `apps/web/app/styles/style.css`, `roulette.css`, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
@@ -51,7 +52,7 @@
 | --- | --- |
 | `pickRandom(items, rng?)` | 配列からランダムに1件選ぶ（空なら `null`） |
 | `pickRandomIndex(length, rng?)` | 当選「位置」が必要な抽選（ホイール式）用にインデックスを選ぶ |
-| `sortWords(words, order)` | `localeCompare`（`ja` ロケール）による昇順/降順ソート |
+| `sortWords(words, order, locale)` | `localeCompare` による昇順/降順ソート（比較ロケールは引数指定。既定 `ja`） |
 
 ※乱数生成器 `rng` は引数で差し替え可能（テスト用）。DOM・localStorage・演出は web 側の責務。
 
@@ -90,7 +91,7 @@
 ## 6. 依存・外部連携
 - `@yuruyuriy/core`（`pickRandom` / `pickRandomIndex` / `sortWords`）
 - SNSシェア: 共通コンポーネント `apps/web/app/components/ShareButtons.tsx`（X / LINE / リンクコピー / ネイティブ共有）
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターは言語別ルートレイアウト（`apps/web/app/(ja)/layout.tsx`、実体は `apps/web/app/content/root.tsx`）で共通提供される。
 - 使い方ガイドから[利用規約](./terms-of-service.md)へリンク。
 
 ## 7. 特記事項

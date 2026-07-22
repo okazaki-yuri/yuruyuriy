@@ -3,7 +3,7 @@
 サイトの入口となるトップページ。サイト紹介と主要ページ・外部リンクへの導線を提供する。
 
 - URL: `https://tools.yl-yuriy.com/`
-- ファイル: `apps/web/app/page.tsx`
+- ファイル: `apps/web/app/(ja)/page.tsx`（薄いラッパー）。実体は `apps/web/app/content/home.tsx`（文言は辞書 `app/i18n/ja.ts` から取得。[i18n.md](./i18n.md) 参照）
 - 使用CSS: `apps/web/app/styles/style.css`（`.top-page` 系）, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
 - 現行アーキテクチャ（モノレポ / 静的エクスポート）は [docs/migration/](./migration/) を参照。
@@ -41,7 +41,7 @@
 ※画像は表示サイズに合わせて最適化済み（アイコン128px / ロゴ480px）。
 
 ## 5. 依存・外部連携
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターは言語別ルートレイアウト（`apps/web/app/(ja)/layout.tsx`、実体は `apps/web/app/content/root.tsx`）で共通提供される。
 
 ## 6. 特記事項
 - サーバーコンポーネント（静的表示のみ）で、独自のクライアントJavaScript処理は持たない。
