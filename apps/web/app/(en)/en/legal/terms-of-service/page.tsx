@@ -2,7 +2,7 @@
 // 日本語版（app/(ja)/legal/terms-of-service/page.tsx）が正文。相違がある場合は日本語版が優先する
 // 旨を Language セクションで明記している。日本語版を改定したら本ページも追随させること。
 import type { Metadata } from 'next';
-import { SITE_URL, buildOpenGraph } from '../../../../site';
+import { SITE_URL, buildAlternates, buildOpenGraph } from '../../../../site';
 import JsonLd from '../../../../components/JsonLd';
 import '../../../../content/legal.css';
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Terms of Service',
   description:
     'Terms of Service for Ylyuriy. Explains the usage terms for our tools (use in videos and blogs, including monetized content, is OK), prohibited actions, and copyright.',
-  alternates: { canonical: '/en/legal/terms-of-service/' },
+  alternates: buildAlternates('en', '/legal/terms-of-service/'),
   openGraph: buildOpenGraph({
     locale: 'en',
     title: 'Terms of Service | Ylyuriy',

@@ -4,14 +4,14 @@ import type { Metadata } from 'next';
 import JsonLd from '../components/JsonLd';
 import MultilineText from '../components/MultilineText';
 import { getDictionary, localizePath, type Locale } from '../i18n';
-import { SITE_URL, buildOpenGraph } from '../site';
+import { SITE_URL, buildAlternates, buildOpenGraph } from '../site';
 
 export function buildHomeMetadata(locale: Locale): Metadata {
   const d = getDictionary(locale);
   return {
     // title はレイアウトの default を使用
     description: d.home.description,
-    alternates: { canonical: localizePath(locale, '/') },
+    alternates: buildAlternates(locale, '/'),
     openGraph: buildOpenGraph({
       locale,
       title: d.home.ogTitle,

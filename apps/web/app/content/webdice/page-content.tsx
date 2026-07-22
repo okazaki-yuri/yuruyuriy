@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import JsonLd from '../../components/JsonLd';
 import MultilineText from '../../components/MultilineText';
 import { getDictionary, localizePath, type Locale } from '../../i18n';
-import { SITE_URL, buildOpenGraph } from '../../site';
+import { SITE_URL, buildAlternates, buildOpenGraph } from '../../site';
 import WebDice from './WebDice';
 import './dice.css';
 
@@ -14,7 +14,7 @@ export function buildWebDiceMetadata(locale: Locale): Metadata {
   return {
     title: d.dice.metaTitle,
     description: d.dice.metaDescription,
-    alternates: { canonical: localizePath(locale, PATH) },
+    alternates: buildAlternates(locale, PATH),
     openGraph: buildOpenGraph({
       locale,
       title: d.dice.ogTitle,

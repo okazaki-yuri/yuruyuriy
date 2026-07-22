@@ -3,14 +3,14 @@ import type { Metadata } from 'next';
 import { toolsRepository } from '@yuruyuriy/core/data/toolsRepository';
 import JsonLd from '../components/JsonLd';
 import { getDictionary, localizePath, type Locale } from '../i18n';
-import { SITE_URL, buildOpenGraph } from '../site';
+import { SITE_URL, buildAlternates, buildOpenGraph } from '../site';
 
 export function buildToolsMetadata(locale: Locale): Metadata {
   const d = getDictionary(locale);
   return {
     title: d.tools.metaTitle,
     description: d.tools.metaDescription,
-    alternates: { canonical: localizePath(locale, '/tools/') },
+    alternates: buildAlternates(locale, '/tools/'),
     openGraph: buildOpenGraph({
       locale,
       title: d.tools.ogTitle,

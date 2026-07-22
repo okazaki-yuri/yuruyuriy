@@ -8,6 +8,7 @@ import RootDocument, { buildRootMetadata } from './content/root';
 import { getDictionary } from './i18n';
 
 const d = getDictionary('ja');
+const dEn = getDictionary('en');
 
 // global-not-found はレイアウトのメタデータ（twitter・icons 等）と viewport を継承しないため、
 // ルート共通メタデータを土台に、このページ固有の値を上書きして自前で組み立てる。
@@ -22,6 +23,8 @@ export const metadata: Metadata = {
 export { viewport } from './content/root';
 
 export default function GlobalNotFound() {
+  // 404 は静的エクスポートで1枚のみのため、日本語（主言語）+ 英語の併記にする。
+  // ページ枠（<html lang>・ヘッダー・フッター）はデフォルトロケール（ja）のものを使う。
   return (
     <RootDocument locale="ja">
       <main className="top-page">
@@ -29,6 +32,10 @@ export default function GlobalNotFound() {
         <p>
           {d.notFound.line1}<br />
           {d.notFound.line2.pre}<a href="/">{d.notFound.line2.linkText}</a>{d.notFound.line2.post}
+        </p>
+        <p lang="en">
+          {dEn.notFound.line1}<br />
+          {dEn.notFound.line2.pre}<a href="/en/">{dEn.notFound.line2.linkText}</a>{dEn.notFound.line2.post}
         </p>
       </main>
     </RootDocument>

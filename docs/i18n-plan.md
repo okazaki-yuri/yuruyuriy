@@ -1,6 +1,6 @@
 # 多言語対応（i18n）検討資料
 
-> **ステータス: Phase 2（英語リソース・/en/ ルート）まで完了。Phase 3（hreflang 等の SEO 配線）待ち。**
+> **ステータス: Phase 3（SEO 配線）まで完了。残りは Phase 4（QA・リリース）と Phase 5（運用ルール更新）。**
 > 実装済み部分のアーキテクチャは設計書 [i18n.md](./i18n.md) を参照（本資料は方針・経緯・残フェーズの計画）。
 > なお `docs/` 配下は非公開資料のため、多言語対応後も **日本語のまま** でよい。
 
@@ -132,7 +132,7 @@ alternates: {
 | 2 | **法務ページ（利用規約・プライバシーポリシー）の翻訳品質** | **決定**: 英訳し、「日本語版が正文であり、相違がある場合は日本語版が優先する」旨の条項を入れる |
 | 3 | **お問い合わせ**: Google Form が日本語のみ | 英語ページには「フォームは日本語ですが英語での記入も可」と注記、または英語版フォームを別途作成 |
 | 4 | **ブランド名の英語表記**: 「ゆるユーリ」のローマ字表記が未確定。サイト名・title・manifest・JSON-LD すべてに影響 | **着手前に決定が必要**（§9 残課題参照）。ツール名は決定済み（§9） |
-| 5 | **404 ページ**: 静的エクスポートでは `404.html` が1枚のみで、言語別に出し分けられない。また複数ルートレイアウト構成では通常の `not-found.tsx` がレイアウト外で描画される | **Phase 1 で対応済み**: experimental の `global-not-found.tsx` を採用（[i18n.md](./i18n.md) §5）。表示は当面 ja のみ。Phase 2 以降で日英併記化を検討 |
+| 5 | **404 ページ**: 静的エクスポートでは `404.html` が1枚のみで、言語別に出し分けられない。また複数ルートレイアウト構成では通常の `not-found.tsx` がレイアウト外で描画される | **対応済み**: experimental の `global-not-found.tsx` を採用し（Phase 1）、日英併記化した（Phase 3）。[i18n.md](./i18n.md) §6 参照 |
 | 6 | **Web App Manifest**: `manifest.ts` は1ファイルで `lang: 'ja'` 固定。言語別 manifest は App Router 標準では持てない | 当面は日本語のまま許容（PWA 利用者の大半は日本語想定）。必要なら `public/` に英語版 manifest を置き英語レイアウトから参照 |
 | 7 | **英語は文字列が長い**: ボタン・タブ・ヘッダーで レイアウト崩れの可能性 | 実装後に全ページ・スマホ幅で表示 QA。CSS の固定幅前提を洗い出す |
 | 8 | **ネイティブダイアログ**: `confirm()` / `alert()` の文言も辞書化が必要（見落としやすい） | 文言抽出時にチェックリスト化（placeholder / aria-label / `<title>` / OGP / JSON-LD / confirm / alert / シェア文言） |
@@ -165,11 +165,11 @@ alternates: {
 3. ✅ 言語スイッチャーを Header（PC ナビ + モバイルメニュー）に追加。
 4. ✅ OG 画像は本体がロゴ + ドメイン表記（latin のみ）のため両言語で共用とし、alt のみ英語化（`og.ts` の `OG_IMAGE_EN`）。別画像の生成は海外向けロゴを用意する際に再検討。
 
-### Phase 3: SEO 配線
-1. `site.ts` のヘルパーを hreflang 対応に拡張し、全ページの `alternates.languages` を設定。
-2. `sitemap.ts` に英語エントリ + hreflang alternates を追加（lastmod は追加日）。
-3. JSON-LD の `inLanguage` / 英語版文言を設定。
-4. 404 の日英併記化。
+### Phase 3: SEO 配線 — **完了（2026-07-23）**
+1. ✅ `site.ts` に `buildAlternates(locale, path)` を追加し、全14ページに hreflang（ja / en / x-default）と自己参照 canonical を設定。
+2. ✅ `sitemap.ts` に英語エントリ + hreflang alternates（`xhtml:link`）を追加。lastmod は言語別管理（`{ ja, en }`）に変更。
+3. ✅ JSON-LD の `inLanguage` / 英語版文言は Phase 2 で対応済み。
+4. ✅ 404 を日英併記化（日本語 + `lang="en"` の英語案内）。
 
 ### Phase 4: QA・リリース
 1. 全ページ × 両言語 × PC/スマホ幅で表示確認（文字あふれ・折返し）。

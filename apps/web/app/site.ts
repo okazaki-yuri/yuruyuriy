@@ -1,10 +1,28 @@
 // サイト共通の定数とメタデータ生成ヘルパー。
 // 従来は各ページで SITE_URL や openGraph の定型をコピペしていたが、ここに集約する。
 import type { Metadata } from 'next';
-import { getDictionary, type Locale } from './i18n';
+import { getDictionary, localizePath, type Locale } from './i18n';
 import { OG_IMAGE, OG_IMAGE_EN } from './og';
 
 export const SITE_URL = 'https://tools.yl-yuriy.com';
+
+/**
+ * 各ページの alternates（canonical + hreflang）を組み立てる。
+ * canonical は自ページ自身、hreflang は全言語版 + x-default（主言語＝日本語）を指す。
+ * URL は layout の metadataBase（SITE_URL）で絶対 URL に解決される。
+ * @param locale ページの言語
+ * @param path ロケール接頭辞なしのパス（例: '/tools/'、トップは '/'）
+ */
+export function buildAlternates(locale: Locale, path: string): Metadata['alternates'] {
+  return {
+    canonical: localizePath(locale, path),
+    languages: {
+      ja: localizePath('ja', path),
+      en: localizePath('en', path),
+      'x-default': localizePath('ja', path),
+    },
+  };
+}
 
 /**
  * 各ページの openGraph を組み立てる。siteName / images / type は共通値で埋め、

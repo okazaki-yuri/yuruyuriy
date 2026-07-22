@@ -2,7 +2,7 @@
 import type { Metadata } from 'next';
 import JsonLd from '../components/JsonLd';
 import { getDictionary, localizePath, type Locale } from '../i18n';
-import { SITE_URL, buildOpenGraph } from '../site';
+import { SITE_URL, buildAlternates, buildOpenGraph } from '../site';
 import './contact.css';
 
 export function buildContactMetadata(locale: Locale): Metadata {
@@ -10,7 +10,7 @@ export function buildContactMetadata(locale: Locale): Metadata {
   return {
     title: d.contact.metaTitle,
     description: d.contact.metaDescription,
-    alternates: { canonical: localizePath(locale, '/contact/') },
+    alternates: buildAlternates(locale, '/contact/'),
     openGraph: buildOpenGraph({
       locale,
       title: d.contact.ogTitle,

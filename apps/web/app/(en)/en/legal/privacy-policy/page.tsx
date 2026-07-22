@@ -2,7 +2,7 @@
 // 日本語版（app/(ja)/legal/privacy-policy/page.tsx）が正文。相違がある場合は日本語版が優先する
 // 旨を Language セクションで明記している。日本語版を改定したら本ページも追随させること。
 import type { Metadata } from 'next';
-import { SITE_URL, buildOpenGraph } from '../../../../site';
+import { SITE_URL, buildAlternates, buildOpenGraph } from '../../../../site';
 import JsonLd from '../../../../components/JsonLd';
 import '../../../../content/legal.css';
 
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy',
   description:
     'Privacy Policy for Ylyuriy. Explains how we handle personal information, analytics, and local storage.',
-  alternates: { canonical: '/en/legal/privacy-policy/' },
+  alternates: buildAlternates('en', '/legal/privacy-policy/'),
   openGraph: buildOpenGraph({
     locale: 'en',
     title: 'Privacy Policy | Ylyuriy',
