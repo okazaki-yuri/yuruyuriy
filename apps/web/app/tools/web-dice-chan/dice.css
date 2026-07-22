@@ -165,8 +165,69 @@
   opacity: 0.8;
 }
 
+/* 検索意図に合わせたリード文
+================================================== */
+.tool-lead {
+  max-width: var(--panel);
+  margin: 0 auto 1.5rem;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-base);
+  color: var(--text-muted);
+  text-align: left;
+}
+
+/* 利用シーン一覧
+================================================== */
+.usecase-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  line-height: var(--lh-base);
+}
+.usecase-list li {
+  margin-bottom: 0.6rem;
+}
+
+/* よくある質問（FAQ）
+================================================== */
+.faq-area {
+  max-width: var(--panel);
+  margin: var(--space-lg) auto;
+  padding: 1.5rem;
+  background-color: var(--surface-alt);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+.faq-area h2 {
+  font-size: var(--fs-md);
+  margin-bottom: 1rem;
+  color: var(--primary);
+  text-align: center;
+}
+.faq-item {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.faq-item:last-child {
+  border-bottom: none;
+}
+.faq-item dt {
+  font-weight: var(--fw-bold);
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+.faq-item dd {
+  margin: 0;
+  line-height: var(--lh-base);
+  color: var(--text-muted);
+}
+
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                   スマホ表示対応                   
+                   スマホ表示対応
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 @media (max-width: 600px) {
   #options {
