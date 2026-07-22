@@ -30,6 +30,14 @@
 - PWA / apple-touch-icon 用の正方形アイコン（`apple-touch-icon.png` / `icon-192.png` / `icon-512.png`）も `apps/web/scripts/generate-icons.cjs` が **build 時に生成**する（同じく `.gitignore` 済み）。Web App Manifest は `apps/web/app/manifest.ts` で `/manifest.webmanifest` として静的生成する。
 - OGP/アイコンは日本語をロゴ画像に委ね、`ImageResponse` で latin のみ描画している（同梱フォントが日本語非対応のため）。
 
+## CHANGELOG の運用
+
+- ユーザーに影響する変更（機能・文言・デザイン・SEO・ドキュメントなど）を行ったら、**同じブランチ内で `CHANGELOG.md` にも追記**してからマージする。ビルド設定のみの変更やリファクタリングなど、外から見えない変更は任意。
+- フォーマットは [Keep a Changelog](https://keepachangelog.com/ja/1.1.0/) 準拠。**日付（`YYYY-MM-DD`、JST）ごとのセクション**に、`### 追加` / `### 変更` / `### 修正` / `### ドキュメント` の小見出しで分類して記載する。
+  - 当日のセクションが既にあれば**そこへ追記**し、無ければ**先頭に新しい日付セクションを作る**（新しい日付が上）。
+- 記載は「何をなぜ変えたか」が1行で分かる粒度にする。コミット単位の羅列ではなく、**読者（利用者・将来の開発者）目線で意味のあるまとまり**に要約する。
+- ページのコンテンツを変更した場合は、`sitemap.ts` の `lastmod` 更新（前述の SEO 方針）と対で漏れがないか確認する。
+
 ## Git 運用
 
 - **コミット前に必ず作業ブランチを切る。** `master`（デフォルトブランチ）へ直接コミットしない。作業内容に応じた名前でブランチを作成してから作業・コミットする（例: `feature/design-system`、`fix/...`）。
