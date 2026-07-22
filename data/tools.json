@@ -1,15 +1,21 @@
 [
   {
     "slug": "wordroulette-chan",
-    "name": { "ja": "ことばルーレットちゃん" },
-    "description": { "ja": "入力した単語の中からランダムに選びます。" },
+    "name": { "ja": "ことばルーレットちゃん", "en": "Word Roulette" },
+    "description": {
+      "ja": "入力した単語の中からランダムに選びます。",
+      "en": "Randomly picks one word from your list."
+    },
     "href": "/tools/wordroulette-chan/",
     "icon": "🎡"
   },
   {
     "slug": "web-dice-chan",
-    "name": { "ja": "WEBサイコロちゃん" },
-    "description": { "ja": "出目の範囲や個数を指定してサイコロを振れます。" },
+    "name": { "ja": "WEBサイコロちゃん", "en": "Web Dice" },
+    "description": {
+      "ja": "出目の範囲や個数を指定してサイコロを振れます。",
+      "en": "Roll dice with custom ranges and counts."
+    },
     "href": "/tools/web-dice-chan/",
     "icon": "🎲"
   }

@@ -197,8 +197,8 @@ alternates: {
 
 ### 残課題
 
-1. **サイト名「ゆるユーリ」のローマ字表記**: 候補は *Yuruyuriy*（リポジトリ名）/ *Ylyuriy*（フッターの © 表記・ドメイン yl-yuriy.com・SNS ID と一致）。既存の対外表記との一貫性から **Ylyuriy が有力**だが、サイト名としての読みやすさも考慮して Phase 2 着手前に決定する。
-2. ツール英語名の最終確定（*Web Dice* か *Online Dice* か等）は英訳作成時に決める。
+1. ~~サイト名「ゆるユーリ」のローマ字表記~~ → **「Ylyuriy」に決定**（2026-07-23。© 表記・ドメイン・SNS ID との一貫性を採用）。
+2. ツール英語名は英語辞書ドラフト（`app/i18n/en.ts`）で **Word Roulette / Web Dice** として作成済み。SEO 上の補完として metaTitle には「Random Word Picker」「Online Dice Roller」を併記。**英文全体が運営者レビュー待ち**。
 
 ## 10. プライバシー・広告コンプライアンス（将来の海外展開に向けて）
 
