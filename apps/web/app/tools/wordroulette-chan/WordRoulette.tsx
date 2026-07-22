@@ -1,10 +1,14 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { pickRandom, sortWords } from '@yuruyuriy/core';
+import { pickRandom, pickRandomIndex, sortWords } from '@yuruyuriy/core';
 import ShareButtons from '../../components/ShareButtons';
+import RouletteWheel from './RouletteWheel';
 
 const STORAGE_KEY = 'wordrouletteWords';
+const MODE_STORAGE_KEY = 'wordrouletteDisplayMode';
+
+type DisplayMode = 'text' | 'wheel';
 
 /** localStorage から復元した値が「文字列配列」であることを検証する */
 function isStringArray(value: unknown): value is string[] {
@@ -19,6 +23,10 @@ export default function WordRoulette() {
   const [result, setResult] = useState('');
   const [resultState, setResultState] = useState<'' | 'spin' | 'final'>('');
   const [spinning, setSpinning] = useState(false);
+  const [displayMode, setDisplayMode] = useState<DisplayMode>('text');
+  // ホイールの累積回転角度（deg）。連続で回しても常に前方向へ回るように累積する
+  const [wheelRotation, setWheelRotation] = useState(0);
+  const [wheelDuration, setWheelDuration] = useState(0);
   const durationRef = useRef<HTMLSelectElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -37,6 +45,11 @@ export default function WordRoulette() {
         // ローカルストレージのデータが不正な場合は握りつぶす
         localStorage.removeItem(STORAGE_KEY);
       }
+    }
+    // 表示方式（テキスト式／ホイール式）の復元
+    const savedMode = localStorage.getItem(MODE_STORAGE_KEY);
+    if (savedMode === 'text' || savedMode === 'wheel') {
+      setDisplayMode(savedMode);
     }
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -78,11 +91,70 @@ export default function WordRoulette() {
     }
   };
 
+  /** 表示方式（テキスト式／ホイール式）を切り替える */
+  const changeDisplayMode = (mode: DisplayMode) => {
+    setDisplayMode(mode);
+    localStorage.setItem(MODE_STORAGE_KEY, mode);
+  };
+
+  /** ホイール式の抽選：当選区画が上部ポインターで止まるよう回転させる */
+  const spinWheel = (durationSec: number) => {
+    const index = pickRandomIndex(words.length);
+    if (index === null) {
+      setResult('');
+      setResultState('');
+      setSpinning(false);
+      return;
+    }
+    const word = words[index];
+
+    // OS の「視差効果を減らす」設定時はアニメーションを行わない
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const effectiveSec = reduceMotion ? 0 : durationSec;
+
+    // 当選区画の中心角（上部 0deg・時計回り）。区画内で少しずらして単調さを避ける
+    const segAngle = 360 / words.length;
+    const center = index * segAngle + segAngle / 2;
+    const jitter = (Math.random() - 0.5) * segAngle * 0.7;
+    const targetPointerAngle = center + jitter;
+
+    // 現在角度から「必ず前方向に」目標角度まで回す
+    const currentMod = ((wheelRotation % 360) + 360) % 360;
+    const targetMod = (((360 - targetPointerAngle) % 360) + 360) % 360;
+    let delta = targetMod - currentMod;
+    if (delta <= 0) delta += 360;
+    // 抽選時間に応じた空回転（最低2周）
+    const extraSpins = effectiveSec > 0 ? Math.max(2, Math.round(effectiveSec * 1.2)) * 360 : 0;
+
+    setWheelDuration(effectiveSec);
+    setWheelRotation(wheelRotation + extraSpins + delta);
+
+    const finalize = () => {
+      setResult(word);
+      setResultState('final');
+      setSpinning(false);
+    };
+
+    if (effectiveSec === 0) {
+      finalize();
+    } else {
+      // 回転中は前回の結果を消す
+      setResult('');
+      setResultState('spin');
+      timerRef.current = setTimeout(finalize, effectiveSec * 1000 + 100);
+    }
+  };
+
   /** ルーレットボタン押下時に抽選を行う */
   const spinRoulette = () => {
     const durationSec = Number(durationRef.current?.value ?? 0);
 
     setSpinning(true);
+
+    if (displayMode === 'wheel') {
+      spinWheel(durationSec);
+      return;
+    }
 
     if (words.length === 0 || durationSec === 0) {
       // 抽選時間「なし」または単語なしパターン：抽選結果を即時反映
@@ -152,6 +224,29 @@ export default function WordRoulette() {
 
   return (
     <>
+      {/* 表示方式（テキスト式／ホイール式）切替タブ */}
+      <div className="mode-tabs" role="group" aria-label="ルーレットの表示方式">
+        <button
+          className={`mode-tab${displayMode === 'text' ? ' active' : ''}`}
+          disabled={spinning}
+          onClick={() => changeDisplayMode('text')}
+        >
+          テキスト式
+        </button>
+        <button
+          className={`mode-tab${displayMode === 'wheel' ? ' active' : ''}`}
+          disabled={spinning}
+          onClick={() => changeDisplayMode('wheel')}
+        >
+          ホイール式
+        </button>
+      </div>
+
+      {/* ホイール式：円形ルーレット */}
+      {displayMode === 'wheel' && (
+        <RouletteWheel words={words} rotation={wheelRotation} durationSec={wheelDuration} />
+      )}
+
       {/* 抽選結果表示（確定値をスクリーンリーダーへ通知） */}
       <div
         className={`result-box${resultState ? ` ${resultState}` : ''}`}

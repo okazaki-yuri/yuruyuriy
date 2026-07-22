@@ -6,6 +6,106 @@
   box-sizing: border-box;
 }
 
+/* 表示方式（テキスト式／ホイール式）切替タブ
+================================================== */
+.mode-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  width: fit-content;
+  margin: 0 auto 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background-color: var(--surface-alt);
+}
+.mode-tab {
+  padding: 0.4rem 1.2rem;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.mode-tab:hover:not(:disabled) {
+  background-color: var(--border);
+}
+.mode-tab.active {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+.mode-tab:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+/* 円形ルーレットホイール
+================================================== */
+.wheel-wrap {
+  /* 区画の塗り分けパレット（やわらかいトーンでサイト配色に合わせる） */
+  --wheel-1: #d9adb3; /* くすみローズ（primary 系） */
+  --wheel-2: #b3c0ac; /* くすみセージ（accent 系） */
+  --wheel-3: #e6d3ab; /* あたたかいサンド */
+  --wheel-4: #b0bfcb; /* ダスティブルー */
+
+  position: relative;
+  width: min(320px, 85vw);
+  margin: 0 auto 1rem;
+}
+.wheel {
+  display: block;
+  width: 100%;
+  height: auto;
+  will-change: transform;
+  /* 回転中・停止後に正方形の角が周囲の要素に被さりクリックを遮らないように */
+  pointer-events: none;
+}
+.wheel-segment {
+  stroke: var(--surface);
+  stroke-width: 1;
+}
+.wheel-label {
+  fill: var(--text);
+  font-weight: var(--fw-medium);
+  user-select: none;
+}
+.wheel-ring {
+  fill: none;
+  stroke: var(--primary);
+  stroke-width: 4;
+}
+.wheel-hub {
+  fill: var(--surface);
+  stroke: var(--primary);
+  stroke-width: 3;
+}
+.wheel-empty {
+  fill: var(--surface-alt);
+  stroke: var(--border);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+.wheel-empty-text {
+  fill: var(--text-faint);
+  font-size: 10px;
+}
+/* 上部の当選ポインター（下向き三角） */
+.wheel-pointer {
+  pointer-events: none;
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 20px solid var(--primary);
+  filter: drop-shadow(0 1px 2px rgba(74, 70, 66, 0.3));
+}
+
 /* 抽選結果表示
 ================================================== */
 .result-box {
@@ -46,6 +146,11 @@
   content: "ここにルーレット結果が表示されます";
   font-size: var(--fs-xs);
   color: var(--text-faint);
+}
+
+/* ホイール回転中（結果は空）の表示 */
+.result-box.spin:empty::before {
+  content: "抽選中…";
 }
 
 /* 入力モード切替用のタブ
