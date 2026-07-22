@@ -3,9 +3,8 @@
 当サイトにおける個人情報・データの取り扱い方針を掲載する法務ページ。
 
 - URL: `https://tools.yl-yuriy.com/legal/privacy-policy/`
-- ファイル: `legal/privacy-policy/index.html`
-- 使用CSS: `css/style.css`, `legal/style.css`（規約・ポリシー共通）, `components/header-footer.css`
-- 専用JS: なし（共通の `header-footer.js` のみ）
+- ファイル: `apps/web/app/legal/privacy-policy/page.tsx`
+- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/legal/legal.css`（規約・ポリシー共通）, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
 
 ---
@@ -23,14 +22,18 @@
 7. プライバシーポリシーの変更
 8. お問い合わせ先（[お問い合わせページ](./contact.md)へのリンク）
 
-## 3. 設計・整合性メモ
+## 3. SEO・メタデータ
+- `metadata` … title「プライバシーポリシー」/ description / canonical `/legal/privacy-policy/` / OGP（`buildOpenGraph()`）。
+- 構造化データ（JSON-LD） … `BreadcrumbList` を `JsonLd` コンポーネントで埋め込む。
+
+## 4. 設計・整合性メモ
 - 本ページの記載は実装と整合している必要がある。
   - 4項 … 実際に gtag.js（Google Analytics）と Google フォームを利用（[お問い合わせ](./contact.md)）。
   - 5項 … 実際にツールが localStorage を使用（[ことばルーレットちゃん](./wordroulette-chan.md) / [WEBサイコロちゃん](./web-dice-chan.md)）。
-- 静的表示のみで独自JavaScriptは持たない。
+- サーバーコンポーネント（静的表示のみ）で、独自のクライアントJavaScript処理は持たない。
 
-## 4. 依存・外部連携
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./legacy/common-components.md)）
+## 5. 依存・外部連携
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
 
-## 5. 特記事項
+## 6. 特記事項
 - 解析ツールや外部サービスの追加・変更時は、本ページの記載も更新すること。

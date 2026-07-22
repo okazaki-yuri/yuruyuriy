@@ -127,10 +127,9 @@
   - `max-width: 600px` … ロゴ縮小・カード幅100%など（`styles/style.css` および各ツールCSS）。
 
 ## 5. CSS 構成のルール
-- **共通スタイルは `css/style.css`** に置く（トップ、ツール一覧、`.introduction-area` / `.howto-area` などツール共通パーツ）。
-- **ヘッダー・フッターは `components/header-footer.css`**（全ページで読み込む）。
-- **ページ/ツール固有のスタイルは各ディレクトリの `style.css`** に閉じる。共通で使えるものを個別CSSに重複させない。
-- 読み込み順は各HTMLで「共通CSS → 専用CSS → ヘッダー・フッターCSS」を踏襲する。
+- **共通スタイルは `apps/web/app/styles/style.css`** に置く（トップ、ツール一覧、`.introduction-area` / `.howto-area` などツール共通パーツ）。
+- **ヘッダー・フッターは `apps/web/app/styles/header-footer.css`**（ルートレイアウトで全ページに読み込む）。
+- **ページ/ツール固有のスタイルは各ページディレクトリのCSS**（例: `apps/web/app/tools/web-dice-chan/dice.css`）に閉じ、各 `page.tsx` から import する。共通で使えるものを個別CSSに重複させない。
 
 ### よく使う共通クラス（再利用する）
 | クラス | 用途 |
@@ -151,8 +150,9 @@
 - 外部リンクは `target="_blank"` に加えて `rel="noopener"`（必要に応じて `noreferrer`）を付ける。
 - 画像は表示サイズに合わせて最適化してから配置する（アイコンは128px程度、ロゴは480px程度）。
 
-## 8. JavaScript
-- フレームワークなしの Vanilla JS。ページ固有ロジックは各ツールの `script.js` に閉じる。
+## 8. JavaScript / TypeScript
+- Next.js（App Router）+ TypeScript。ページ固有のインタラクションは各ツールのクライアントコンポーネント（例: `WordRoulette.tsx` / `WebDice.tsx`）に閉じる。
+- 抽選・計算・検証などの**純粋ロジックは `@yuruyuriy/core`（`packages/core/src/`）** に置き、UIから import する（[add-new-tool.md](./add-new-tool.md) 参照）。
 - 主要関数には用途を示すコメント（JSDoc風）を付ける（既存ツールに倣う）。
 - 乱数は `Math.random()` を使用（暗号用途ではない）。
 - 永続化は localStorage。キー名は一意にし、個人情報は保存しない。

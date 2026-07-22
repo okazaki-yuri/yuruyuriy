@@ -3,9 +3,8 @@
 当サイトおよびツールの利用条件を掲載する法務ページ。
 
 - URL: `https://tools.yl-yuriy.com/legal/terms-of-service/`
-- ファイル: `legal/terms-of-service/index.html`
-- 使用CSS: `css/style.css`, `legal/style.css`（規約・ポリシー共通）, `components/header-footer.css`
-- 専用JS: なし（共通の `header-footer.js` のみ）
+- ファイル: `apps/web/app/legal/terms-of-service/page.tsx`
+- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/legal/legal.css`（規約・ポリシー共通）, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
 
 ---
@@ -22,15 +21,19 @@
 6. 著作権など（コンテンツの帰属、商用展開の制限）
 7. 外部サービスについて（Google フォーム・X 等）
 8. その他（規約の見直し）
-9. 更新日表記（本文末尾に記載: 2025年8月16日更新）
+9. 更新日表記（本文末尾に記載）
 
-## 3. 設計・整合性メモ
+## 3. SEO・メタデータ
+- `metadata` … title「利用規約」/ description / canonical `/legal/terms-of-service/` / OGP（`buildOpenGraph()`）。
+- 構造化データ（JSON-LD） … `BreadcrumbList` を `JsonLd` コンポーネントで埋め込む。
+
+## 4. 設計・整合性メモ
 - 各ツールの「使い方ガイド」から本ページへリンクしている（[ことばルーレットちゃん](./wordroulette-chan.md) / [WEBサイコロちゃん](./web-dice-chan.md)）。
 - 不具合報告・問い合わせは[お問い合わせページ](./contact.md)へ誘導。
-- 静的表示のみで独自JavaScriptは持たない。
+- サーバーコンポーネント（静的表示のみ）で、独自のクライアントJavaScript処理は持たない。
 
-## 4. 依存・外部連携
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./legacy/common-components.md)）
+## 5. 依存・外部連携
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
 
-## 5. 特記事項
+## 6. 特記事項
 - 規約改定時は本文の更新日表記も更新すること。

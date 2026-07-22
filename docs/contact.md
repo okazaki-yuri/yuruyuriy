@@ -3,9 +3,8 @@
 サイト運営者への連絡手段を案内するページ。
 
 - URL: `https://tools.yl-yuriy.com/contact/`
-- ファイル: `contact/index.html` / `contact/style.css`
-- 使用CSS: `css/style.css`, `contact/style.css`, `components/header-footer.css`
-- 専用JS: なし（共通の `header-footer.js` のみ）
+- ファイル: `apps/web/app/contact/page.tsx` / `contact.css`
+- 使用CSS: `apps/web/app/styles/style.css`, `apps/web/app/contact/contact.css`, `apps/web/app/styles/header-footer.css`
 - 上位ドキュメント: [README](../README.md)
 
 ---
@@ -21,13 +20,17 @@
    - メール: `mailto:info@tools.yl-yuriy.com`
    - X（旧Twitter）DM: `https://x.com/ylyuriy_1st`（別タブ）
 
-## 3. 設計方針
+## 3. SEO・メタデータ
+- `metadata` … title「お問い合わせ」/ description / canonical `/contact/` / OGP（`buildOpenGraph()`）。
+- 構造化データ（JSON-LD） … `BreadcrumbList` を `JsonLd` コンポーネントで埋め込む。
+
+## 4. 設計方針
 - 個人情報を自サイトで直接収集せず、フォーム送信は Google 側に委譲する（[プライバシーポリシー](./privacy-policy.md) 4項に整合）。
-- 静的表示のみで独自JavaScriptは持たない。
+- サーバーコンポーネント（静的表示のみ）で、独自のクライアントJavaScript処理は持たない。
 
-## 4. 依存・外部連携
+## 5. 依存・外部連携
 - Google フォーム（問い合わせ受付）
-- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッター（[共通](./legacy/common-components.md)）
+- Google Analytics（gtag.js）/ Google Fonts / ヘッダー・フッターはルートレイアウト（`apps/web/app/layout.tsx`）で共通提供される。
 
-## 5. 特記事項
+## 6. 特記事項
 - 問い合わせ先メールアドレス・フォームURL・SNSアカウントを変更する場合は本ページのリンクを更新すること。
