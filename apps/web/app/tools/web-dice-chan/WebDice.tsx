@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { calcDiceStats, rollDice, validateDiceConfig } from '@yuruyuriy/core';
+import ShareButtons from '../../components/ShareButtons';
 
 const STORAGE_KEY = 'diceHistory';
 const HISTORY_LIMIT = 50; // 履歴の保持上限（localStorage の無制限肥大を防ぐ）
@@ -100,13 +101,13 @@ export default function WebDice() {
     }
   };
 
-  /** SNSシェア（X） */
-  const shareToX = () => {
-    const diceText = currentDice.join(', ');
-    const text = `結果: ${diceText} \n${statsText(currentDice)} \n\n#サイコロツール\n`;
-    const url = encodeURIComponent(location.href);
-    const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${url}`;
-    window.open(shareUrl, '_blank');
+  /** SNSシェア用の本文（結果未確定なら空） */
+  const shareText = () => {
+    if (currentDice.length === 0) return '';
+    const lines = [`サイコロの結果: ${currentDice.join(', ')}`];
+    const stats = statsText(currentDice);
+    if (stats) lines.push(stats);
+    return lines.join('\n');
   };
 
   return (
@@ -171,12 +172,13 @@ export default function WebDice() {
         <button disabled={history.length === 0} onClick={resetHistory}>履歴をリセット</button>
       </section>
 
-      <section id="options">
-        <button type="button" className="share-button" aria-label="結果をXでシェア" onClick={shareToX}>
-          <img src="/assets/x_icon.png" alt="" width={128} height={128} />
-        </button>
-        {/* TODO 他のSNSシェア */}
-        {/* CSSで横並びに設定済み */}
+      {/* SNSシェア（結果確定後に有効化） */}
+      <section aria-label="結果をシェア">
+        <ShareButtons
+          text={shareText()}
+          hashtags={['オンラインサイコロ', 'ゆるユーリ']}
+          disabled={rolling || currentDice.length === 0}
+        />
       </section>
     </>
   );

@@ -410,6 +410,61 @@ h1 {
 }
 
 
+/* SNSシェアボタン（各ツール共通・ShareButtons.tsx）
+================================================== */
+.share-area {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 20px 0;
+}
+
+.share-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background-color: var(--surface);
+  color: var(--text);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.share-button svg {
+  width: 1.1em;
+  height: 1.1em;
+  flex-shrink: 0;
+}
+
+.share-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.share-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ブランドカラー（X＝黒 / LINE＝緑） */
+.share-button.share-x {
+  background-color: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+.share-button.share-line {
+  background-color: #06c755;
+  border-color: #06c755;
+  color: #fff;
+}
+
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
                    スマホ表示対応
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */

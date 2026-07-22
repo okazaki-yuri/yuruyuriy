@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { pickRandom, sortWords } from '@yuruyuriy/core';
+import ShareButtons from '../../components/ShareButtons';
 
 const STORAGE_KEY = 'wordrouletteWords';
 
@@ -246,6 +247,15 @@ export default function WordRoulette() {
           リセット
         </button>
       </div>
+
+      {/* SNSシェア（抽選結果の確定後に有効化） */}
+      <section aria-label="結果をシェア">
+        <ShareButtons
+          text={result ? `ルーレットの結果:「${result}」` : ''}
+          hashtags={['単語ルーレット', 'ゆるユーリ']}
+          disabled={spinning || result === ''}
+        />
+      </section>
     </>
   );
 }
