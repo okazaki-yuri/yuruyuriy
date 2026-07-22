@@ -14,6 +14,17 @@ export function pickRandom<T>(items: T[], rng: () => number = Math.random): T | 
 }
 
 /**
+ * 0 以上 length 未満のインデックスをランダムに1つ選ぶ
+ * （ホイール表示など、当選「位置」が必要な抽選で使う）
+ * @param length 抽選対象の件数
+ * @param rng 乱数生成器（テスト時に差し替え可能）
+ */
+export function pickRandomIndex(length: number, rng: () => number = Math.random): number | null {
+  if (length <= 0) return null;
+  return Math.floor(rng() * length);
+}
+
+/**
  * ことば一覧を並べ替えた新しい配列を返す
  * @param order 並び順（asc: 昇順 / desc: 降順）
  */
