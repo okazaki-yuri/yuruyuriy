@@ -210,7 +210,7 @@ export const en = {
       'Enter numbers from 0–100 for the dice range (min–max).',
       'Set the number of dice from 1–30.',
       'Use "Roll time" to change how long the animation takes.',
-      'Press "Roll the dice" to start.',
+      'Press "Roll Dice" to start.',
     ],
     howtoNotes: [
       'You cannot roll if the minimum is greater than the maximum.',
@@ -249,7 +249,7 @@ export const en = {
       durationLabel: 'Roll time',
       durationHint: 'Choose how long the roll animation lasts.',
       durationSeconds: (n) => (n === 1 ? '1 second' : `${n} seconds`),
-      rollButton: 'Roll the dice',
+      rollButton: 'Roll Dice',
       historyHeading: 'History',
       historyResultLabel: 'Result: ',
       resetButton: 'Clear history',
