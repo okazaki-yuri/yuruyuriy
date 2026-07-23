@@ -62,5 +62,11 @@
 
 ## Git 運用
 
+- **作業開始前に `master` をチェックアウトし、`git pull` で最新化してから作業ブランチを切る。** ローカルの `master` が古いままブランチを切ると、リモートでマージ済みの変更と競合したり rebase のやり直しが発生するため、必ず最新の `master` を分岐元にする。
+  ```bash
+  git checkout master
+  git pull origin master
+  git checkout -b feature/xxx
+  ```
 - **コミット前に必ず作業ブランチを切る。** `master`（デフォルトブランチ）へ直接コミットしない。作業内容に応じた名前でブランチを作成してから作業・コミットする（例: `feature/design-system`、`fix/...`）。
 - 1つのブランチ／コミットには**関連する変更のみ**を含める。無関係の変更（例: 別目的の `.gitignore` 変更）は別コミット・別ブランチに分ける。
