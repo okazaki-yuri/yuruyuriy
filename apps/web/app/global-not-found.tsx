@@ -17,7 +17,8 @@ export const metadata: Metadata = {
   // title テンプレートも経由しないため、ここで解決済みの文字列にする
   title: d.meta.titleTemplate.replace('%s', d.notFound.metaTitle),
   description: d.notFound.metaDescription,
-  robots: { index: false, follow: true },
+  // robots は指定しない：Next が not-found ページへ自動付与する noindex に任せる。
+  // ここでも指定すると <meta name="robots"> が2つ出力されてしまう（noindex は follow が既定）。
 };
 
 export { viewport } from './content/root';

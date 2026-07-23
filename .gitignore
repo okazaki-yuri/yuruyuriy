@@ -14,3 +14,5 @@ apps/web/public/assets/og-image.png
 apps/web/public/assets/apple-touch-icon.png
 apps/web/public/assets/icon-192.png
 apps/web/public/assets/icon-512.png
+# ルート /favicon.ico はビルド時に assets/favicon.ico から複製する（ソースは assets 側）
+apps/web/public/favicon.ico

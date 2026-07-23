@@ -28,7 +28,7 @@
 
 ## 3. SEO・メタデータ
 - `metadata` … description のみページで定義。title はレイアウトの default（`ゆるユーリ | かわいくて便利な無料Webツール`）を使用。canonical は `/`。OGP は `buildOpenGraph()`（`apps/web/app/site.ts`）で生成。
-- 構造化データ（JSON-LD） … `WebSite`（publisher に Organization・ロゴ・SNSの `sameAs` を含む）を `JsonLd` コンポーネントで埋め込む。
+- 構造化データ（JSON-LD） … `WebSite`（publisher に Organization・ロゴ・SNSの `sameAs` を含む）を `JsonLd` コンポーネントで埋め込む。`WebSite` の `url` は `inLanguage` と整合するよう各言語版トップ自身（ja は `/`、en は `/en/`）を指す。publisher（Organization）の `url` は言語非依存のため `SITE_URL` 固定。
 
 ## 4. 画像
 | 画像 | 用途 | 備考 |
