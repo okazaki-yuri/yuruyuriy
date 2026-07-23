@@ -64,6 +64,9 @@ export default function HomeContent({ locale }: { locale: Locale }) {
           <a href={localizePath(locale, '/tools/')} className="top-tool-link-button">{d.home.toolsBox.button}</a>
           <p>{d.home.toolsBox.text}</p>
         </div>
+        {/* ブログボックスは header.showBlog の対象外で全言語に表示する（意図的な仕様）。
+            ブログ自体は日本語のみだが、トップではサイト紹介として案内し、
+            en では辞書の文言内の「(In Japanese)」注記で言語を明示する（docs/i18n.md §2） */}
         <div className="top-link-box top-blog-box">
           <h2>{d.home.blogBox.heading}</h2>
           <a href="https://yl-yuriy.com/" target="_blank" className="top-blog-link-button">{d.home.blogBox.button}</a>
