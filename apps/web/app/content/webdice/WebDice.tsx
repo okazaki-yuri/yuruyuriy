@@ -6,14 +6,53 @@ import ShareButtons from '../../components/ShareButtons';
 import { getDictionary, type Locale } from '../../i18n';
 
 const STORAGE_KEY = 'diceHistory';
+const DURATION_STORAGE_KEY = 'diceDuration';
 const HISTORY_LIMIT = 50; // 履歴の保持上限（localStorage の無制限肥大を防ぐ）
+// 演出時間セレクトの選択肢（ミリ秒）。localStorage 復元時の検証にも使う
+const DURATION_OPTIONS = ['500', '1000', '2000', '3000'] as const;
 
-/** localStorage から復元した履歴が「数値配列の配列」であることを検証する */
-function isValidHistory(value: unknown): value is number[][] {
-  return (
-    Array.isArray(value) &&
-    value.every((row) => Array.isArray(row) && row.every((n) => typeof n === 'number'))
-  );
+// よく使う出目範囲のプリセット（最小値・最大値をワンタップで設定する）
+const PRESETS = [
+  { min: 1, max: 6 },
+  { min: 1, max: 10 },
+  { min: 1, max: 20 },
+  { min: 1, max: 100 },
+] as const;
+
+/** 履歴1件。min / max は旧形式（出目配列のみ）から引き継いだ場合は無い */
+type HistoryEntry = { results: number[]; min?: number; max?: number };
+
+function isNumberArray(value: unknown): value is number[] {
+  return Array.isArray(value) && value.every((n) => typeof n === 'number');
+}
+
+/**
+ * localStorage から復元した履歴を検証して HistoryEntry[] に変換する。
+ * 旧形式（number[][]）は結果のみの履歴として引き継ぐ。不正データなら null。
+ */
+function parseHistory(value: unknown): HistoryEntry[] | null {
+  if (!Array.isArray(value)) return null;
+  const entries: HistoryEntry[] = [];
+  for (const row of value) {
+    if (isNumberArray(row)) {
+      // 旧形式：出目配列のみ（抽選条件は不明のまま表示する）
+      entries.push({ results: row });
+      continue;
+    }
+    if (row !== null && typeof row === 'object') {
+      const { results, min, max } = row as Record<string, unknown>;
+      if (
+        isNumberArray(results) &&
+        (min === undefined || typeof min === 'number') &&
+        (max === undefined || typeof max === 'number')
+      ) {
+        entries.push({ results, min: min as number | undefined, max: max as number | undefined });
+        continue;
+      }
+    }
+    return null; // 不正データはキーごと破棄（従来方針）
+  }
+  return entries;
 }
 
 /** 「合計」「平均」「最大」「最小」の表示文字列を作る（1個の場合は表示しない） */
@@ -31,7 +70,7 @@ export default function WebDice({ locale }: { locale: Locale }) {
   const [diceCount, setDiceCount] = useState('1');
   const [duration, setDuration] = useState('1000');
   const [currentDice, setCurrentDice] = useState<number[]>([]);
-  const [history, setHistory] = useState<number[][]>([]);
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [rolling, setRolling] = useState(false);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -41,8 +80,8 @@ export default function WebDice({ locale }: { locale: Locale }) {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
-        if (isValidHistory(parsed)) {
+        const parsed = parseHistory(JSON.parse(saved));
+        if (parsed) {
           setHistory(parsed);
         } else {
           localStorage.removeItem(STORAGE_KEY);
@@ -50,6 +89,11 @@ export default function WebDice({ locale }: { locale: Locale }) {
       } catch {
         localStorage.removeItem(STORAGE_KEY);
       }
+    }
+    // 演出時間の復元
+    const savedDuration = localStorage.getItem(DURATION_STORAGE_KEY);
+    if (savedDuration && (DURATION_OPTIONS as readonly string[]).includes(savedDuration)) {
+      setDuration(savedDuration);
     }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
@@ -73,12 +117,12 @@ export default function WebDice({ locale }: { locale: Locale }) {
       return;
     }
 
-    // 結果の確定と履歴保存
+    // 結果の確定と履歴保存（履歴には抽選条件 min / max も付記する）
     const finalize = () => {
       const results = rollDice({ min, max, count });
       setCurrentDice(results);
       setHistory((prev) => {
-        const next = [results, ...prev].slice(0, HISTORY_LIMIT);
+        const next = [{ results, min, max }, ...prev].slice(0, HISTORY_LIMIT);
         localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
         return next;
       });
@@ -102,6 +146,12 @@ export default function WebDice({ locale }: { locale: Locale }) {
       if (intervalRef.current) clearInterval(intervalRef.current);
       finalize();
     }, durationMs);
+  };
+
+  /** 演出時間の変更と localStorage 保存 */
+  const changeDuration = (value: string) => {
+    setDuration(value);
+    localStorage.setItem(DURATION_STORAGE_KEY, value);
   };
 
   /** 履歴リセット */
@@ -135,6 +185,24 @@ export default function WebDice({ locale }: { locale: Locale }) {
             <span className="tilde">{t.tilde}</span>
             <input type="number" min={0} max={100} value={maxValue} onChange={(e) => setMaxValue(e.target.value)} />
           </div>
+          {/* よく使う範囲のプリセット（1〜6・D20 など。min/max をワンタップで設定） */}
+          <div className="preset-buttons">
+            <span className="preset-label">{t.presetsLabel}</span>
+            {PRESETS.map((p) => (
+              <button
+                key={`${p.min}-${p.max}`}
+                type="button"
+                className="preset-button"
+                disabled={rolling}
+                onClick={() => {
+                  setMinValue(String(p.min));
+                  setMaxValue(String(p.max));
+                }}
+              >
+                {p.min}{t.tilde}{p.max}
+              </button>
+            ))}
+          </div>
           <small>{t.rangeHint}</small>
         </div>
 
@@ -148,11 +216,11 @@ export default function WebDice({ locale }: { locale: Locale }) {
         {/* 演出時間 */}
         <div className="control-group">
           <label>{t.durationLabel}</label>
-          <select value={duration} onChange={(e) => setDuration(e.target.value)}>
-            <option value="500">{t.durationSeconds(0.5)}</option>
-            <option value="1000">{t.durationSeconds(1)}</option>
-            <option value="2000">{t.durationSeconds(2)}</option>
-            <option value="3000">{t.durationSeconds(3)}</option>
+          {/* 選択は localStorage に保存され次回も復元される */}
+          <select value={duration} onChange={(e) => changeDuration(e.target.value)}>
+            {DURATION_OPTIONS.map((ms) => (
+              <option key={ms} value={ms}>{t.durationSeconds(Number(ms) / 1000)}</option>
+            ))}
           </select>
           <small>{t.durationHint}</small>
         </div>
@@ -179,11 +247,15 @@ export default function WebDice({ locale }: { locale: Locale }) {
         <div id="history">
           {history.map((h, i) => (
             <div className="history-item" key={i}>
-              <b>{t.historyResultLabel}</b>{h.join(', ')}
-              {h.length > 1 && (
+              <b>{t.historyResultLabel}</b>{h.results.join(', ')}
+              {/* 抽選条件（旧形式から引き継いだ履歴には無い） */}
+              {h.min !== undefined && h.max !== undefined && (
+                <span className="history-config">{t.historyConfig(h.min, h.max, h.results.length)}</span>
+              )}
+              {h.results.length > 1 && (
                 <>
                   <br />
-                  {statsText(h, t.statsText)}
+                  {statsText(h.results, t.statsText)}
                 </>
               )}
             </div>

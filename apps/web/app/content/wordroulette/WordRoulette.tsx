@@ -8,8 +8,15 @@ import RouletteWheel from './RouletteWheel';
 
 const STORAGE_KEY = 'wordrouletteWords';
 const MODE_STORAGE_KEY = 'wordrouletteDisplayMode';
+const HISTORY_STORAGE_KEY = 'wordrouletteHistory';
+const REMOVE_WINNER_STORAGE_KEY = 'wordrouletteRemoveWinner';
+const DURATION_STORAGE_KEY = 'wordrouletteDuration';
 // 1語あたりの最大文字数（1語入力の maxLength と、まとめて入力の行ごとの切り詰めで共用）
 const MAX_WORD_LENGTH = 50;
+// 履歴の保持上限（WEBサイコロちゃんと同方針。localStorage の無制限肥大を防ぐ）
+const HISTORY_LIMIT = 50;
+// 抽選時間セレクトの選択肢（秒）。localStorage 復元時の検証にも使う
+const DURATION_OPTIONS = ['0', '1', '3', '5', '10'] as const;
 
 type DisplayMode = 'text' | 'wheel';
 
@@ -29,10 +36,13 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
   const [resultState, setResultState] = useState<'' | 'spin' | 'final'>('');
   const [spinning, setSpinning] = useState(false);
   const [displayMode, setDisplayMode] = useState<DisplayMode>('text');
+  const [history, setHistory] = useState<string[]>([]);
+  // 当選したことばを一覧から自動で除外するオプション
+  const [removeWinner, setRemoveWinner] = useState(false);
+  const [duration, setDuration] = useState<string>('3');
   // ホイールの累積回転角度（deg）。連続で回しても常に前方向へ回るように累積する
   const [wheelRotation, setWheelRotation] = useState(0);
   const [wheelDuration, setWheelDuration] = useState(0);
-  const durationRef = useRef<HTMLSelectElement>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // ページ読み込み時にローカルストレージから復元
@@ -55,6 +65,27 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
     const savedMode = localStorage.getItem(MODE_STORAGE_KEY);
     if (savedMode === 'text' || savedMode === 'wheel') {
       setDisplayMode(savedMode);
+    }
+    // 抽選履歴の復元
+    const savedHistory = localStorage.getItem(HISTORY_STORAGE_KEY);
+    if (savedHistory) {
+      try {
+        const parsed = JSON.parse(savedHistory);
+        if (isStringArray(parsed)) {
+          setHistory(parsed);
+        } else {
+          localStorage.removeItem(HISTORY_STORAGE_KEY);
+        }
+      } catch {
+        localStorage.removeItem(HISTORY_STORAGE_KEY);
+      }
+    }
+    // 当選除外オプションの復元
+    setRemoveWinner(localStorage.getItem(REMOVE_WINNER_STORAGE_KEY) === 'true');
+    // 抽選時間の復元
+    const savedDuration = localStorage.getItem(DURATION_STORAGE_KEY);
+    if (savedDuration && (DURATION_OPTIONS as readonly string[]).includes(savedDuration)) {
+      setDuration(savedDuration);
     }
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
@@ -103,6 +134,29 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
     localStorage.setItem(MODE_STORAGE_KEY, mode);
   };
 
+  /** 抽選の当選を確定する（結果表示・履歴保存・当選除外オプションの適用） */
+  const finalizeWin = (word: string) => {
+    setResult(word);
+    setResultState('final');
+    setSpinning(false);
+    // 履歴へ追加（新しい順・上限あり）
+    setHistory((prev) => {
+      const next = [word, ...prev].slice(0, HISTORY_LIMIT);
+      localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(next));
+      return next;
+    });
+    // オプション：当選したことばを一覧から除外（同名重複があっても1件だけ）
+    if (removeWinner) {
+      setWords((prev) => {
+        const index = prev.indexOf(word);
+        if (index === -1) return prev;
+        const next = prev.filter((_, i) => i !== index);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        return next;
+      });
+    }
+  };
+
   /** ホイール式の抽選：当選区画が上部ポインターで止まるよう回転させる */
   const spinWheel = (durationSec: number) => {
     const index = pickRandomIndex(words.length);
@@ -135,25 +189,19 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
     setWheelDuration(effectiveSec);
     setWheelRotation(wheelRotation + extraSpins + delta);
 
-    const finalize = () => {
-      setResult(word);
-      setResultState('final');
-      setSpinning(false);
-    };
-
     if (effectiveSec === 0) {
-      finalize();
+      finalizeWin(word);
     } else {
       // 回転中は前回の結果を消す
       setResult('');
       setResultState('spin');
-      timerRef.current = setTimeout(finalize, effectiveSec * 1000 + 100);
+      timerRef.current = setTimeout(() => finalizeWin(word), effectiveSec * 1000 + 100);
     }
   };
 
   /** ルーレットボタン押下時に抽選を行う */
   const spinRoulette = () => {
-    const durationSec = Number(durationRef.current?.value ?? 0);
+    const durationSec = Number(duration);
 
     setSpinning(true);
 
@@ -163,10 +211,16 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
     }
 
     if (words.length === 0 || durationSec === 0) {
-      // 抽選時間「なし」または単語なしパターン：抽選結果を即時反映
-      setResultState('');
-      setResult(pickRandom(words) ?? '');
-      setSpinning(false);
+      const word = pickRandom(words);
+      if (word === null) {
+        // ことば未登録：結果表示を初期状態に戻すのみ
+        setResult('');
+        setResultState('');
+        setSpinning(false);
+        return;
+      }
+      // 抽選時間「なし」：演出せず即時確定
+      finalizeWin(word);
       return;
     }
 
@@ -188,22 +242,45 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
     setResultState('spin');
 
     const step = () => {
-      // ランダム表示
-      const word = pickRandom(words) ?? '';
-      setResult(word);
-
       count++;
       if (count < iterations) {
+        // ランダム表示（演出中の仮のことば）
+        setResult(pickRandom(words) ?? '');
         const delay = baseSpeed + count * speedStep;
         timerRef.current = setTimeout(step, delay);
       } else {
-        // 抽選結果を反映
-        setResultState('final');
-        setSpinning(false);
+        // 最後の1回で当選を確定する
+        const word = pickRandom(words);
+        if (word !== null) {
+          finalizeWin(word);
+        } else {
+          setSpinning(false);
+        }
       }
     };
 
     step();
+  };
+
+  /** 抽選履歴をすべて削除する */
+  const resetHistory = () => {
+    if (history.length === 0) return;
+    if (confirm(t.confirmHistoryReset)) {
+      setHistory([]);
+      localStorage.removeItem(HISTORY_STORAGE_KEY);
+    }
+  };
+
+  /** 当選除外オプションの切替と localStorage 保存 */
+  const changeRemoveWinner = (checked: boolean) => {
+    setRemoveWinner(checked);
+    localStorage.setItem(REMOVE_WINNER_STORAGE_KEY, String(checked));
+  };
+
+  /** 抽選時間の変更と localStorage 保存 */
+  const changeDuration = (value: string) => {
+    setDuration(value);
+    localStorage.setItem(DURATION_STORAGE_KEY, value);
   };
 
   /** ことば一覧の並べ替えを行う */
@@ -330,15 +407,33 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
         <button type="button" className="sort-link" onClick={() => handleSort('asc')}>{t.sortAsc}</button> /
         <button type="button" className="sort-link" onClick={() => handleSort('desc')}>{t.sortDesc}</button>
 
-        {/* ルーレット時間セレクト */}
+        {/* ルーレット時間セレクト（選択は localStorage に保存され次回も復元される） */}
         <label htmlFor="durationSelect" className="duration-label">{t.durationLabel}</label>
-        <select id="durationSelect" className="duration-select" ref={durationRef} defaultValue="3">
-          <option value="0">{t.durationNone}</option>
-          <option value="1">{t.durationSeconds(1)}</option>
-          <option value="3">{t.durationSeconds(3)}</option>
-          <option value="5">{t.durationSeconds(5)}</option>
-          <option value="10">{t.durationSeconds(10)}</option>
+        <select
+          id="durationSelect"
+          className="duration-select"
+          value={duration}
+          onChange={(e) => changeDuration(e.target.value)}
+        >
+          {DURATION_OPTIONS.map((sec) => (
+            <option key={sec} value={sec}>
+              {sec === '0' ? t.durationNone : t.durationSeconds(Number(sec))}
+            </option>
+          ))}
         </select>
+      </div>
+
+      {/* 当選除外オプション（登録が1件以上のとき表示。抽選中は変更不可） */}
+      <div className={`spin-options${words.length === 0 ? ' hidden' : ''}`}>
+        <label className="remove-winner-label">
+          <input
+            type="checkbox"
+            checked={removeWinner}
+            disabled={spinning}
+            onChange={(e) => changeRemoveWinner(e.target.checked)}
+          />
+          {t.removeWinnerLabel}
+        </label>
       </div>
 
       {/* ことば一覧 */}
@@ -357,6 +452,17 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
           {t.resetButton}
         </button>
       </div>
+
+      {/* 抽選履歴（新しい順・最大50件。ブラウザ内にのみ保存） */}
+      <section className="history-area">
+        <h2>{t.historyHeading}</h2>
+        <div className="history-list">
+          {history.map((word, index) => (
+            <div className="history-item" key={`${word}-${index}`}>{word}</div>
+          ))}
+        </div>
+        <button disabled={history.length === 0} onClick={resetHistory}>{t.historyResetButton}</button>
+      </section>
 
       {/* SNSシェア（抽選結果の確定後に有効化） */}
       <section aria-label={dict.share.resultSectionLabel}>

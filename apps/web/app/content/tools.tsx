@@ -68,7 +68,7 @@ export default async function ToolsContent({ locale }: { locale: Locale }) {
           </div>
         ))}
         {/* TODO 今後追加される予定のツールたち（準備中プレースホルダー） */}
-        {Array.from({ length: 2 }).map((_, i) => (
+        {Array.from({ length: 1 }).map((_, i) => (
           <div className="tool-card coming-soon" key={`coming-soon-${i}`}>
             <div className="tool-link">
               <div className="tool-icon">🔧</div>

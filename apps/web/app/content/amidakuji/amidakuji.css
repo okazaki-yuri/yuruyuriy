@@ -1,4 +1,4 @@
-/* --- ことばルーレットちゃん専用CSS --- */
+/* --- あみだくじちゃん専用CSS --- */
 
 /* 全体の設定
 ================================================== */
@@ -6,7 +6,7 @@
   box-sizing: border-box;
 }
 
-/* 表示方式（テキスト式／ホイール式）切替タブ
+/* 結果の表示方式（一括表示／1人ずつ）切替タブ
 ================================================== */
 .mode-tabs {
   display: flex;
@@ -41,117 +41,145 @@
   opacity: 0.7;
 }
 
-/* 円形ルーレットホイール
+/* あみだくじ本体（はしご SVG と参加者ピッカー）
 ================================================== */
-.wheel-wrap {
-  /* 区画の塗り分けパレット（やわらかいトーンでサイト配色に合わせる） */
-  --wheel-1: #d9adb3; /* くすみローズ（primary 系） */
-  --wheel-2: #b3c0ac; /* くすみセージ（accent 系） */
-  --wheel-3: #e6d3ab; /* あたたかいサンド */
-  --wheel-4: #b0bfcb; /* ダスティブルー */
+.amida-wrap {
+  /* 縦線・横棒の色 */
+  --amida-line: #a89f94;
+  /* 経路の塗り分けパレット（サイト配色に合わせたくすみトーン6色） */
+  --amida-path-1: #c76a76; /* ローズ */
+  --amida-path-2: #6f9a67; /* グリーン */
+  --amida-path-3: #c9973f; /* アンバー */
+  --amida-path-4: #5f87a8; /* ブルー */
+  --amida-path-5: #9a6fae; /* パープル */
+  --amida-path-6: #c07a4d; /* テラコッタ */
 
-  position: relative;
-  width: min(320px, 85vw);
+  width: 100%;
+  max-width: var(--panel);
   margin: 0 auto 1rem;
 }
-.wheel {
+
+.amida-svg {
   display: block;
   width: 100%;
   height: auto;
-  will-change: transform;
-  /* 回転中・停止後に正方形の角が周囲の要素に被さりクリックを遮らないように */
-  pointer-events: none;
 }
-.wheel-segment {
-  stroke: var(--surface);
-  stroke-width: 1;
+
+.amida-rail {
+  stroke: var(--amida-line);
+  stroke-width: 2.5;
+  stroke-linecap: round;
 }
-.wheel-label {
+
+.amida-rung {
+  stroke: var(--amida-line);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.amida-trace {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-opacity: 0.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.amida-label {
   fill: var(--text);
   font-weight: var(--fw-medium);
   user-select: none;
 }
-.wheel-ring {
-  fill: none;
-  stroke: var(--primary);
-  stroke-width: 4;
+
+.amida-goal-hidden {
+  fill: var(--text-faint);
 }
-.wheel-hub {
-  fill: var(--surface);
-  stroke: var(--primary);
-  stroke-width: 3;
-}
-.wheel-empty {
+
+.amida-empty {
   fill: var(--surface-alt);
   stroke: var(--border);
   stroke-width: 2;
   stroke-dasharray: 6 4;
 }
-.wheel-empty-text {
+
+.amida-empty-text {
   fill: var(--text-faint);
-  font-size: 10px;
-}
-/* 上部の当選ポインター（下向き三角） */
-.wheel-pointer {
-  pointer-events: none;
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 12px solid transparent;
-  border-right: 12px solid transparent;
-  border-top: 20px solid var(--primary);
-  filter: drop-shadow(0 1px 2px rgba(74, 70, 66, 0.3));
+  font-size: 11px;
 }
 
-/* 抽選結果表示
+/* 参加者ピッカー（1人ずつモード）。SVG は横幅を列数で等分しているため、
+   同じ列数の grid にすると各ボタンが縦線の真上に揃う */
+.amida-pick-hint {
+  margin: 0 auto 0.4rem;
+  max-width: var(--panel);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+.amida-pickers {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: var(--panel);
+  margin: 0 auto 0.4rem;
+}
+.amida-pickers button {
+  min-width: 0;
+  padding: 0.4rem 0.2rem;
+  font-size: var(--fs-xs);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+.amida-pickers button:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+.amida-pickers button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 結果一覧
 ================================================== */
-.result-box {
+.amida-results {
   margin: 0 auto 1rem;
   padding: 1rem;
-  font-size: var(--fs-2xl);
   border: 2px dashed var(--primary);
   border-radius: var(--radius);
   background-color: var(--surface);
   width: 100%;
   max-width: var(--panel);
-  word-wrap: break-word;
-  min-height: 3em;
-  color: var(--text);
   text-align: center;
-  transition: background-color 0.3s ease;
 }
-
-/* 切り替え中：背景をほんのり */
-.result-box.spin {
-  background-color: var(--surface-alt);
+.amida-results ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
-
-/* 最終結果：強調アニメーション */
-.result-box.final {
+.amida-results li {
+  font-size: var(--fs-md);
   color: var(--text);
-  animation: highlight 0.6s ease-out;
+  line-height: var(--lh-base);
+  word-break: break-word;
+  animation: amida-result-in 0.4s ease-out;
 }
-
-/* 結果強調：一瞬拡大して戻る */
-@keyframes highlight {
-  0%   { transform: scale(1.2); opacity: 0; }
-  50%  { transform: scale(1.05); opacity: 1; }
+@keyframes amida-result-in {
+  0% { transform: scale(1.15); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* 案内文の文言はハードコードせず、data 属性（辞書由来。WordRoulette.tsx が設定）から表示する */
-.result-box:empty::before {
+/* 案内文の文言はハードコードせず、data 属性（辞書由来。Amidakuji.tsx が設定）から表示する */
+.amida-results:empty::before {
   content: attr(data-placeholder);
   font-size: var(--fs-xs);
   color: var(--text-faint);
-}
-
-/* ホイール回転中（結果は空）の表示 */
-.result-box.spin:empty::before {
-  content: attr(data-spinning);
 }
 
 /* 入力モード切替用のタブ
@@ -184,7 +212,7 @@
   border-color: var(--primary);
 }
 
-/* ことば入力エリア
+/* なまえ入力エリア
 ================================================== */
 .input-area {
   width: 100%;
@@ -192,7 +220,7 @@
   margin: 0 auto 1rem;
   text-align: center;
 }
-#wordInput,
+#nameInput,
 #multiInput {
   width: 100%;
   font-size: var(--fs-base);
@@ -200,7 +228,7 @@
   margin-bottom: 0.5rem;
 }
 
-/* 追加＆ルーレットボタン
+/* 追加＆スタート系ボタン
 ================================================== */
 .button-row {
   display: flex;
@@ -211,7 +239,7 @@
 }
 .button-row button {
   flex: 1;
-  min-width: 40%;
+  min-width: 30%;
   padding: 0.7rem;
   font-size: var(--fs-base);
   background-color: var(--primary);
@@ -221,41 +249,94 @@
   cursor: pointer;
   transition: background-color 0.2s;
 }
-.button-row button:hover {
+.button-row button:hover:not(:disabled) {
   background-color: var(--primary-hover);
 }
+.button-row button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+/* スタート／再抽選ボタンはメインアクションとして強調する */
+.button-row .start-button {
+  flex: 1.4;
+  background-color: var(--primary-hover);
+  font-weight: var(--fw-bold);
+  border: 2px solid var(--primary-hover);
+  box-shadow: var(--shadow-hover);
+}
+.button-row .start-button:hover:not(:disabled) {
+  background-color: var(--primary);
+}
+/* 結果を見るボタンは色を変えて最も目立たせる（次に押すべきボタン） */
+.button-row .reveal-button {
+  flex: 1.4;
+  background-color: var(--accent);
+  font-weight: var(--fw-bold);
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+.button-row .reveal-button:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+}
 
-/* ソート
+/* 参加者数エラー（インライン表示）
 ================================================== */
-.sort-controls {
+.amida-error {
+  margin: -0.5rem auto 1rem;
+  max-width: var(--panel);
+  font-size: var(--fs-sm);
+  color: var(--primary);
+  text-align: center;
+}
+
+/* 結果のことば入力
+================================================== */
+.goals-area {
+  width: 100%;
+  max-width: var(--panel);
+  margin: 0 auto 1rem;
+  text-align: left;
+}
+.goals-label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+}
+/* 参加者の数だけ並ぶゴール入力欄（1人につき1欄） */
+.goal-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+.goal-inputs input {
+  flex: 1 1 8.5em;
+  min-width: 0;
+  font-size: var(--fs-base);
+  padding: 0.5rem 0.6rem;
+}
+.goals-hint {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+/* 演出時間セレクト
+================================================== */
+.duration-controls {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem; /* 各要素の間隔 */
+  gap: 0.5rem;
   margin-bottom: 1rem;
   font-size: var(--fs-sm);
   color: var(--text-muted);
 }
-
-.sort-link {
-  cursor: pointer;
-  text-decoration: underline;
-  margin: 0 0.25rem;
-  /* button 化に伴う既定スタイルのリセット（テキストリンク調を維持） */
-  padding: 0;
-  border: none;
-  background: none;
-  font: inherit;
-  color: inherit;
-}
-
-/* ルーレット時間セレクト
-================================================== */
 .duration-label {
-  margin-left: 1rem; /* ソートから少しスペース */
   font-weight: var(--fw-medium);
 }
-
 .duration-select {
   padding: 0.2rem 0.4rem;
   font-size: var(--fs-sm);
@@ -266,12 +347,11 @@
   cursor: pointer;
   transition: background 0.2s;
 }
-
 .duration-select:hover {
   background: var(--surface-alt);
 }
 
-/* ことば一覧
+/* 参加者一覧
 ================================================== */
 .word-list {
   display: flex;
@@ -306,76 +386,6 @@
 }
 .word-tag button:hover {
   background: var(--primary-hover);
-}
-
-/* 当選除外オプション
-================================================== */
-.spin-options {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 1rem;
-  font-size: var(--fs-sm);
-  color: var(--text-muted);
-}
-
-.remove-winner-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  cursor: pointer;
-}
-
-.remove-winner-label input[type='checkbox'] {
-  accent-color: var(--primary);
-  cursor: pointer;
-}
-
-/* 抽選履歴（WEBサイコロちゃんの履歴エリアと同じトーン）
-================================================== */
-.history-area {
-  max-width: var(--panel);
-  margin: 20px auto;
-  width: 100%;
-  background-color: var(--surface-alt);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--border);
-  padding: 10px;
-  text-align: left;
-}
-
-.history-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
-
-.history-item {
-  padding: 0.3rem 0.7rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-pill);
-  background: var(--surface);
-  font-size: var(--fs-sm);
-}
-
-.history-area button {
-  margin-top: 10px;
-  padding: 0.4rem 1rem;
-  background-color: var(--accent);
-  color: var(--on-primary);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.history-area button:hover {
-  background-color: var(--accent-hover);
-}
-
-.history-area button:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
 }
 
 /* リセットボタン
@@ -469,21 +479,18 @@
 }
 
 /* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                   スマホ表示対応                   
+                   スマホ表示対応
 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
 @media (max-width: 600px) {
   h1 {
     font-size: 1.5rem;
   }
-  .result-box {
-    font-size: 1.5rem;
-    width: 100%;
-  }
-  .button-row {
-    flex-direction: row;
-  }
   .button-row button {
     font-size: var(--fs-sm);
     padding: 0.6rem;
+  }
+  .amida-pickers button {
+    font-size: var(--fs-2xs);
+    padding: 0.35rem 0.1rem;
   }
 }
