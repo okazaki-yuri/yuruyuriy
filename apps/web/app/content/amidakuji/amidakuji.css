@@ -275,18 +275,25 @@
   margin: 0 auto 1rem;
   text-align: left;
 }
-.goals-area label {
+.goals-label {
   display: block;
   margin-bottom: 0.3rem;
   font-size: var(--fs-sm);
   font-weight: var(--fw-medium);
   color: var(--text-muted);
 }
-#goalsInput {
-  width: 100%;
-  font-size: var(--fs-base);
-  padding: 0.6rem;
+/* 参加者の数だけ並ぶゴール入力欄（1人につき1欄） */
+.goal-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
   margin-bottom: 0.3rem;
+}
+.goal-inputs input {
+  flex: 1 1 8.5em;
+  min-width: 0;
+  font-size: var(--fs-base);
+  padding: 0.5rem 0.6rem;
 }
 .goals-hint {
   margin: 0;

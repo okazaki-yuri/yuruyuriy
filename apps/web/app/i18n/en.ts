@@ -204,7 +204,7 @@ export const en = {
     aboutHeading: 'What is Amidakuji?',
     aboutLines: [
       'Amidakuji ("ghost leg" lottery) is a classic Japanese way to make random one-to-one assignments: everyone picks a vertical line, and following it down — turning at every rung — leads each person to a unique outcome.',
-      'This tool builds the ladder for you with randomly placed rungs, so there is no need to draw one on paper. You can set the outcomes on the bottom row (winner, numbers, and so on) freely; if left blank, numbers are assigned automatically.',
+      'This tool builds the ladder for you with randomly placed rungs, so there is no need to draw one on paper. The bottom row comes prefilled with one "Win" and the rest "Lose", and you can freely rewrite the outcomes (numbers, penalties, and so on).',
     ],
     usecaseHeading: 'When to use Amidakuji',
     usecases: [
@@ -219,7 +219,7 @@ export const en = {
     howtoItems: [
       '📝 "Single entry" mode adds one name at a time (press Enter or the "Add" button).',
       '📋 "Bulk entry" mode adds multiple names at once, one per line (2–12 people).',
-      '🏁 Enter outcomes (winner, numbers, etc.) one per line under "Outcomes". If left blank, "1, 2, 3…" are assigned automatically.',
+      '🏁 "Outcomes" shows one field per participant, prefilled with one "Win" and the rest "Lose". Edit them freely; blank fields get "1, 2, 3…" automatically.',
       '🪜 Press "Start" to build the ladder. The rungs are placed at random every time.',
       '👀 "All at once" traces every path together, while "One by one" lets you pick a name and trace a single path.',
       '🔁 Press "Rebuild" to redraw the ladder with the same members.',
@@ -261,9 +261,11 @@ export const en = {
       singlePlaceholder: 'Type a name, then press Enter or "Add"',
       multiPlaceholder: 'Enter multiple names, one per line',
       addButton: 'Add',
-      goalsLabel: 'Outcomes (one per line):',
-      goalsPlaceholder: 'Winner\nTry again\netc. (leave blank for automatic numbers)',
-      goalsHint: 'Blank or missing outcomes are filled in with "1, 2, 3…" automatically.',
+      goalsLabel: 'Outcomes:',
+      goalFieldLabel: (n) => `Outcome ${n}`,
+      goalDefaultWin: 'Win',
+      goalDefaultLose: 'Lose',
+      goalsHint: 'Edit them freely. Blank fields are filled in with "1, 2, 3…" automatically.',
       startButton: 'Start',
       restartButton: 'Rebuild',
       revealButton: 'Reveal results',

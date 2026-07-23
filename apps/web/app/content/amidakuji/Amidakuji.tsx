@@ -41,7 +41,8 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
   const dict = getDictionary(locale);
   const t = dict.amidakuji.widget;
   const [participants, setParticipants] = useState<string[]>([]);
-  const [goalsInput, setGoalsInput] = useState('');
+  // ゴール（結果のことば）。常に参加者数と同じ長さを保つ（1人につき1欄）
+  const [goals, setGoals] = useState<string[]>([]);
   const [activeTab, setActiveTab] = useState<'single' | 'multi'>('single');
   const [singleInput, setSingleInput] = useState('');
   const [multiInput, setMultiInput] = useState('');
@@ -63,13 +64,29 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
   const [announced, setAnnounced] = useState('');
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  /** 参加者数に合わせたゴールの既定値（アタリ×1 + 残りハズレ） */
+  const defaultGoals = (count: number) =>
+    Array.from({ length: count }, (_, i) => (i === 0 ? t.goalDefaultWin : t.goalDefaultLose));
+
+  /**
+   * ゴールを参加者数と同じ長さにそろえる。
+   * 既存の入力は保持し、増えた分はハズレで埋める（全欄が未保存なら既定値を使う）
+   */
+  const fitGoals = (base: string[], count: number) => {
+    if (count === 0) return [];
+    if (base.length === 0) return defaultGoals(count);
+    return Array.from({ length: count }, (_, i) => base[i] ?? t.goalDefaultLose);
+  };
+
   // ページ読み込み時にローカルストレージから復元
   useEffect(() => {
+    let loadedParticipants: string[] = [];
     const saved = localStorage.getItem(PARTICIPANTS_STORAGE_KEY);
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
         if (isStringArray(parsed)) {
+          loadedParticipants = parsed;
           setParticipants(parsed);
         } else {
           localStorage.removeItem(PARTICIPANTS_STORAGE_KEY);
@@ -79,13 +96,14 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
         localStorage.removeItem(PARTICIPANTS_STORAGE_KEY);
       }
     }
-    // ゴール（結果のことば）の復元
+    // ゴール（結果のことば）の復元。参加者数と長さをそろえる
+    let loadedGoals: string[] = [];
     const savedGoals = localStorage.getItem(GOALS_STORAGE_KEY);
     if (savedGoals) {
       try {
         const parsed = JSON.parse(savedGoals);
         if (isStringArray(parsed)) {
-          setGoalsInput(parsed.join('\n'));
+          loadedGoals = parsed;
         } else {
           localStorage.removeItem(GOALS_STORAGE_KEY);
         }
@@ -93,6 +111,7 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
         localStorage.removeItem(GOALS_STORAGE_KEY);
       }
     }
+    setGoals(fitGoals(loadedGoals, loadedParticipants.length));
     // 表示方式（一括表示／1人ずつ）の復元
     const savedMode = localStorage.getItem(MODE_STORAGE_KEY);
     if (savedMode === 'batch' || savedMode === 'one') {
@@ -123,6 +142,10 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
   const updateParticipants = (next: string[]) => {
     setParticipants(next);
     localStorage.setItem(PARTICIPANTS_STORAGE_KEY, JSON.stringify(next));
+    // ゴール欄も参加者数に追随させる（増えた分はハズレで埋める）
+    const nextGoals = fitGoals(goals, next.length);
+    setGoals(nextGoals);
+    localStorage.setItem(GOALS_STORAGE_KEY, JSON.stringify(nextGoals));
     setCountError(false);
     resetRound();
   };
@@ -164,10 +187,12 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
     updateParticipants(next);
   };
 
-  /** ゴール（結果のことば）の変更と localStorage 保存。編集したらはしごは作り直し */
-  const changeGoalsInput = (value: string) => {
-    setGoalsInput(value);
-    localStorage.setItem(GOALS_STORAGE_KEY, JSON.stringify(value.split('\n')));
+  /** ゴール（結果のことば）1欄の変更と localStorage 保存。編集したらはしごは作り直し */
+  const changeGoal = (index: number, value: string) => {
+    const next = [...goals];
+    next[index] = value;
+    setGoals(next);
+    localStorage.setItem(GOALS_STORAGE_KEY, JSON.stringify(next));
     if (phase !== 'idle') resetRound();
   };
 
@@ -191,14 +216,12 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
     }
     setCountError(false);
     if (timerRef.current) clearTimeout(timerRef.current);
-    const goals = normalizeGoals(
-      goalsInput.split('\n').map((g) => g.trim().slice(0, MAX_NAME_LENGTH)),
-      participants.length
-    );
+    // 空欄は「1, 2, 3…」の連番で補完する
+    const nextGoals = normalizeGoals(goals, participants.length);
     const nextLadder = generateLadder(participants.length);
     setLadder(nextLadder);
     setTraces(traceAll(nextLadder));
-    setAssignedGoals(goals);
+    setAssignedGoals(nextGoals);
     setRevealed([]);
     setConfirmed([]);
     setAnnounced('');
@@ -268,7 +291,7 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
   const resetAll = () => {
     if (confirm(t.confirmReset)) {
       setParticipants([]);
-      setGoalsInput('');
+      setGoals([]);
       localStorage.removeItem(PARTICIPANTS_STORAGE_KEY);
       localStorage.removeItem(GOALS_STORAGE_KEY);
       setCountError(false);
@@ -420,18 +443,24 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
       {/* 参加者数エラー */}
       {countError && <p className="amida-error">{t.countError}</p>}
 
-      {/* ゴール（結果のことば）入力 */}
-      <div className="goals-area">
-        <label htmlFor="goalsInput">{t.goalsLabel}</label>
-        <textarea
-          id="goalsInput"
-          rows={4}
-          placeholder={t.goalsPlaceholder}
-          value={goalsInput}
-          onChange={(e) => changeGoalsInput(e.target.value)}
-        />
-        <p className="goals-hint">{t.goalsHint}</p>
-      </div>
+      {/* ゴール（結果のことば）入力。参加者の数だけ欄が並び、既定はアタリ×1 + 残りハズレ */}
+      {participants.length > 0 && (
+        <div className="goals-area">
+          <span className="goals-label" id="goalsLabel">{t.goalsLabel}</span>
+          <div className="goal-inputs" role="group" aria-labelledby="goalsLabel">
+            {goals.map((goal, i) => (
+              <input
+                key={i}
+                maxLength={MAX_NAME_LENGTH}
+                aria-label={t.goalFieldLabel(i + 1)}
+                value={goal}
+                onChange={(e) => changeGoal(i, e.target.value)}
+              />
+            ))}
+          </div>
+          <p className="goals-hint">{t.goalsHint}</p>
+        </div>
+      )}
 
       {/* 演出時間セレクト（選択は localStorage に保存され次回も復元される） */}
       <div className={`duration-controls${participants.length === 0 ? ' hidden' : ''}`}>

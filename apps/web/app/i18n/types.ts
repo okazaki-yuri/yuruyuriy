@@ -201,8 +201,12 @@ export type Dictionary = {
       multiPlaceholder: string;
       addButton: string;
       goalsLabel: string;
-      goalsPlaceholder: string;
-      /** ゴール空欄・不足時の自動採番の説明 */
+      /** 各ゴール入力欄の aria-label（n は1始まりの欄番号） */
+      goalFieldLabel: (n: number) => string;
+      /** ゴール入力欄の既定値（アタリ×1 + 残りハズレ） */
+      goalDefaultWin: string;
+      goalDefaultLose: string;
+      /** ゴール空欄時の自動採番の説明 */
       goalsHint: string;
       startButton: string;
       restartButton: string;
