@@ -267,6 +267,17 @@
 .button-row .start-button:hover:not(:disabled) {
   background-color: var(--primary);
 }
+/* 結果を見るボタンは色を変えて最も目立たせる（次に押すべきボタン） */
+.button-row .reveal-button {
+  flex: 1.4;
+  background-color: var(--accent);
+  font-weight: var(--fw-bold);
+  border: 2px solid var(--accent);
+  box-shadow: var(--shadow-hover);
+}
+.button-row .reveal-button:hover:not(:disabled) {
+  background-color: var(--accent-hover);
+}
 
 /* 参加者数エラー（インライン表示）
 ================================================== */

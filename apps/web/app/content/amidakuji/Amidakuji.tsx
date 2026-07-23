@@ -65,6 +65,8 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
   // スクリーンリーダー向け通知文（確定時のみ更新して1回読み上げる）
   const [announced, setAnnounced] = useState('');
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 結果一覧エリア（スマホでの自動スクロール先）
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   /** 参加者数に合わせたゴールの既定値（アタリ×1 + 残りハズレ） */
   const defaultGoals = (count: number) =>
@@ -248,6 +250,19 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
     return reduceMotion ? 0 : Number(duration);
   };
 
+  /**
+   * スマホ表示（600px以下）のみ、結果一覧へスクロールする。
+   * 縦長のはしごの下にある結果が全員確定時に見えるようにする（PC は一覧まで収まるため対象外）
+   */
+  const scrollToResults = () => {
+    if (!window.matchMedia('(max-width: 600px)').matches) return;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    resultsRef.current?.scrollIntoView({
+      behavior: reduceMotion ? 'auto' : 'smooth',
+      block: 'start',
+    });
+  };
+
   /** 参加者 index の結果ペア文字列を返す */
   const pairText = (index: number) => {
     if (!traces || !assignedGoals) return '';
@@ -268,6 +283,7 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
       setConfirmed(all);
       setPhase('revealed');
       setAnnounced(t.shareText(summaryText()));
+      scrollToResults();
     };
     if (sec === 0) {
       finalize();
@@ -286,7 +302,13 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
     const finalize = () => {
       setConfirmed((prev) => {
         const next = [...prev, index];
-        setPhase(next.length === participants.length ? 'revealed' : 'ready');
+        if (next.length === participants.length) {
+          setPhase('revealed');
+          // 最後の1人が確定したら結果一覧へ（途中はピッカー操作を妨げないためスクロールしない）
+          scrollToResults();
+        } else {
+          setPhase('ready');
+        }
         return next;
       });
       setAnnounced(
@@ -397,8 +419,8 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
         {announced}
       </div>
 
-      {/* 結果一覧（確定順。省略なしのフルネームで表示） */}
-      <div className="amida-results" data-placeholder={t.resultsPlaceholder}>
+      {/* 結果一覧（確定順。省略なしのフルネームで表示。スマホでは全員確定時にここへスクロール） */}
+      <div className="amida-results" ref={resultsRef} data-placeholder={t.resultsPlaceholder}>
         {confirmed.length > 0 && (
           <ul>
             {confirmed.map((i) => (
@@ -460,7 +482,7 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
             {phase === 'idle' ? t.startButton : t.restartButton}
           </button>
           {revealMode === 'batch' && phase !== 'idle' && phase !== 'revealed' && (
-            <button disabled={revealing} onClick={revealAll}>
+            <button className="reveal-button" disabled={revealing} onClick={revealAll}>
               {revealing ? t.revealingButton : t.revealButton}
             </button>
           )}

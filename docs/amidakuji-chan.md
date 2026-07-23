@@ -36,9 +36,9 @@
 3. **参加者ピッカー（`.amida-pickers`）** … 1人ずつモード・はしご生成後のみ表示。参加者ごとのボタンを SVG の縦線と同じ等分 grid（`--cols`）で整列。公開済み・演出中は無効化。フルネームは `title` 属性で補完。
 4. **はしご SVG（`.amida-wrap`）** … `AmidakujiLadder` が描画。参加者0人時はプレースホルダー枠に案内文、1人以上ならプレビュー（`previewLadder`。`useMemo` で人数が変わったときのみ再生成）を表示。少人数時に縦長になりすぎないよう `max-width` を列数 × 90px に制限（ピッカーと同じ値で整列を維持）。
 5. **通知領域** … 視覚非表示（`role="status"` / `aria-live="polite"`、`.visually-hidden`）。確定した結果のみを1回スクリーンリーダーへ通知（演出中は更新しない）。
-6. **結果一覧（`.amida-results`）** … 確定順に「名前 → ゴール」を省略なしで表示。空のときの案内文は `data-placeholder` + CSS `:empty::before` で表示（辞書由来）。
+6. **結果一覧（`.amida-results`）** … 確定順に「名前 → ゴール」を省略なしで表示。空のときの案内文は `data-placeholder` + CSS `:empty::before` で表示（辞書由来）。**スマホ表示（600px以下）では全員の結果確定時にこのエリアへ自動スクロール**する（`scrollToResults()`。縦長のはしごで結果が画面外になるため。reduced-motion 時は smooth なし。1人ずつモードの途中確定ではスクロールしない）。
 7. **入力モード切替タブ（`.tab-container`）** … 「なまえ入力」（1人ずつ）／「まとめて入力」（改行区切りで一括）。
-8. **入力エリア（`.input-area`）** … 名前入力 `#nameInput`（最大50文字＝`MAX_NAME_LENGTH`、Enterで追加可。**IME 変換確定の Enter では追加しない**）／一括入力 `#multiInput`（行ごとに同じ50文字上限へ切り詰めて登録）／「追加」「スタート／再抽選する」ボタン（`.start-button` でメインアクションとして強調）、まとめて表示モードでは「結果を見る」ボタン（演出中は「発表中…」表示で無効化）。
+8. **入力エリア（`.input-area`）** … 名前入力 `#nameInput`（最大50文字＝`MAX_NAME_LENGTH`、Enterで追加可。**IME 変換確定の Enter では追加しない**）／一括入力 `#multiInput`（行ごとに同じ50文字上限へ切り詰めて登録）／「追加」「スタート／再抽選する」ボタン（`.start-button` で強調）、まとめて表示モードでは「結果を見る」ボタン（`.reveal-button`。**アクセントカラーで最も目立たせる**。演出中は「発表中…」表示で無効化）。
 9. **参加者数エラー（`.amida-error`）** … 人数不足（`countError`）／追加時の上限超過（`maxCountError`）をインライン表示（alert 不使用）。
 10. **ゴール入力（`.goals-area`）** … 登録が1件以上のとき表示。参加者の数だけ並ぶ個別入力欄（`.goal-inputs`、各欄50文字上限・`aria-label` は `goalFieldLabel(n)`）+ 自動採番のヒント文。
 11. **演出時間セレクト（`.duration-controls`）** … 登録が1件以上のとき表示。選択は localStorage に保存。
@@ -88,6 +88,7 @@
 | `startLadder()` | スタート／再抽選する。人数検証 → `normalizeGoals` → `generateLadder` → `traceAll` → `ready` |
 | `revealAll()` | まとめて表示。全員の経路を一斉になぞり、タイマー後に全結果を確定・サマリを通知 |
 | `revealOne(index)` | 1人ずつ。タップした参加者の経路をなぞり、確定結果を `statusOne` で通知。全員確定で `revealed` |
+| `scrollToResults()` | スマホ表示のみ、全員確定時に結果一覧へスクロール（reduced-motion 時は smooth なし） |
 | `resetRound()` | はしご・経路・公開状態を破棄して `idle` へ（イカサマ防止の要） |
 | `changeRevealMode(mode)` / `changeDuration(value)` | 表示方式／演出時間の変更と localStorage 保存 |
 | `resetAll()` | 確認後に参加者・ゴールを全削除 |
