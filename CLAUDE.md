@@ -37,7 +37,7 @@
   - デザイントークン・共通CSS・レイアウトなど**全ページに影響する変更**をした場合は、**全エントリ・全言語の `lastmod`** を更新する。
 - 構造化データ（JSON-LD）は `apps/web/app/components/JsonLd.tsx` を用いて各ページに埋め込む。
 - OGP 画像（1200×630 の `og-image.png`）は `apps/web/scripts/generate-og.cjs` が **build 時に生成**する（`apps/web` の `build` スクリプトが `next build` の前に実行）。生成物 `apps/web/public/assets/og-image.png` は `.gitignore` 済みでコミットしない。画像本体は言語共通で、`apps/web/app/og.ts` の `OG_IMAGE`（ja）/ `OG_IMAGE_EN`（alt のみ英語）を `buildOpenGraph` がロケールに応じて `openGraph.images` に指定する。
-- PWA / apple-touch-icon 用の正方形アイコン（`apple-touch-icon.png` / `icon-192.png` / `icon-512.png`）も `apps/web/scripts/generate-icons.cjs` が **build 時に生成**する（同じく `.gitignore` 済み）。Web App Manifest は `apps/web/app/manifest.ts` で `/manifest.webmanifest` として静的生成する。
+- PWA / apple-touch-icon 用の正方形アイコン（`apple-touch-icon.png` / `icon-192.png` / `icon-512.png`）も `apps/web/scripts/generate-icons.cjs` が **build 時に生成**する（同じく `.gitignore` 済み）。同スクリプトがルート `/favicon.ico` も `assets/favicon.ico` から**ビルド時に複製**する（`<link>` を見ずルートを直接取得するクローラー向け。ソースは assets 側、複製先は `.gitignore` 済み）。Web App Manifest は `apps/web/app/manifest.ts` で `/manifest.webmanifest` として静的生成する。
 - OGP/アイコンは日本語をロゴ画像に委ね、`ImageResponse` で latin のみ描画している（同梱フォントが日本語非対応のため）。
 
 ## CHANGELOG の運用

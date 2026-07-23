@@ -27,7 +27,9 @@ export default function HomeContent({ locale }: { locale: Locale }) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: d.meta.siteName,
-    url: SITE_URL,
+    // url は inLanguage と整合するよう、その言語版トップ自身を指す（en では /en/）。
+    // publisher（Organization）は言語非依存のエンティティのため SITE_URL のままとする。
+    url: `${SITE_URL}${localizePath(locale, '/')}`,
     description: d.home.description,
     inLanguage: locale,
     publisher: {

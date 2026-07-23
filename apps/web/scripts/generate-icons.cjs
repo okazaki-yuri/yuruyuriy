@@ -2,7 +2,7 @@
 // 既存の正方形素材が無いため、ロゴをピンク背景の正方形に中央配置して出力する。
 // 生成物は public/assets 配下（.gitignore 済み）。
 const { ImageResponse } = require('next/og');
-const { readFileSync, writeFileSync, mkdirSync } = require('fs');
+const { readFileSync, writeFileSync, mkdirSync, copyFileSync } = require('fs');
 const { join } = require('path');
 
 const ROOT = join(__dirname, '..');
@@ -48,4 +48,10 @@ function element(size) {
     writeFileSync(join(outDir, file), buf);
     console.log(`generated ${file} (${size}x${size}, ${(buf.length / 1024) | 0}KB)`);
   }
+
+  // favicon はソースとして assets/favicon.ico に置き（<link rel="icon"> もそこを参照）、
+  // <link> を見ずにルート /favicon.ico を直接取得するクローラー・ツール向けに
+  // ビルド時に public/ 直下へも複製する（生成物扱いで .gitignore 済み）。
+  copyFileSync(join(ROOT, 'public/assets/favicon.ico'), join(ROOT, 'public/favicon.ico'));
+  console.log('copied favicon.ico to public root');
 })();
