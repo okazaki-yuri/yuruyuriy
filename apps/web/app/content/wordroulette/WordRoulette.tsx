@@ -8,6 +8,8 @@ import RouletteWheel from './RouletteWheel';
 
 const STORAGE_KEY = 'wordrouletteWords';
 const MODE_STORAGE_KEY = 'wordrouletteDisplayMode';
+// 1語あたりの最大文字数（1語入力の maxLength と、まとめて入力の行ごとの切り詰めで共用）
+const MAX_WORD_LENGTH = 50;
 
 type DisplayMode = 'text' | 'wheel';
 
@@ -77,7 +79,8 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
     } else {
       const newWords = multiInput
         .split('\n')
-        .map((w) => w.trim())
+        // 1語入力の maxLength と同じ上限を適用（超過分は入力欄と同様に切り詰める）
+        .map((w) => w.trim().slice(0, MAX_WORD_LENGTH))
         .filter((w) => w.length > 0);
       const next = [...words];
       newWords.forEach((word) => {
@@ -250,17 +253,20 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
         <RouletteWheel words={words} rotation={wheelRotation} durationSec={wheelDuration} emptyText={t.wheelEmptyText} />
       )}
 
-      {/* 抽選結果表示（確定値をスクリーンリーダーへ通知）。
+      {/* 抽選結果表示（視覚表示）。テキスト式の演出中は高頻度で仮のことばに更新されるため、
+          live region にはせず、確定結果のみ下の視覚非表示領域から通知する。
           空のとき・抽選中の案内文は CSS の ::before が data 属性から表示する（辞書由来） */}
       <div
         className={`result-box${resultState ? ` ${resultState}` : ''}`}
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
         data-placeholder={t.resultPlaceholder}
         data-spinning={t.resultSpinning}
       >
         {result}
+      </div>
+
+      {/* スクリーンリーダー向け通知：確定した結果だけを1回読み上げる（演出中は空のまま） */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {spinning || result === '' ? '' : t.shareText(result)}
       </div>
 
       {/* 入力モード切替用のタブ */}
@@ -285,12 +291,15 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
         <div className={`tab-content${activeTab === 'single' ? '' : ' hidden'}`}>
           <input
             id="wordInput"
-            maxLength={50}
+            maxLength={MAX_WORD_LENGTH}
             placeholder={t.singlePlaceholder}
             value={singleInput}
             onChange={(e) => setSingleInput(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') addWord();
+              // IME の変換確定 Enter では追加しない。
+              // isComposing … Chrome/Firefox（macOS）は変換確定も key==='Enter' で発火するため除外
+              // keyCode 229 … Safari は compositionend 後に isComposing=false で発火するため併用
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) addWord();
             }}
           />
         </div>

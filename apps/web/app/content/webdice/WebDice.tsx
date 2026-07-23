@@ -73,6 +73,24 @@ export default function WebDice({ locale }: { locale: Locale }) {
       return;
     }
 
+    // 結果の確定と履歴保存
+    const finalize = () => {
+      const results = rollDice({ min, max, count });
+      setCurrentDice(results);
+      setHistory((prev) => {
+        const next = [results, ...prev].slice(0, HISTORY_LIMIT);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        return next;
+      });
+      setRolling(false);
+    };
+
+    // OS の「視差効果を減らす」設定時は演出を行わず即時確定する（ホイール式ルーレットと同じ方針）
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finalize();
+      return;
+    }
+
     setRolling(true);
 
     // 演出：確定までランダムな出目を切り替え表示する
@@ -82,16 +100,7 @@ export default function WebDice({ locale }: { locale: Locale }) {
 
     timeoutRef.current = setTimeout(() => {
       if (intervalRef.current) clearInterval(intervalRef.current);
-      const results = rollDice({ min, max, count });
-      setCurrentDice(results);
-
-      // 履歴保存
-      setHistory((prev) => {
-        const next = [results, ...prev].slice(0, HISTORY_LIMIT);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-        return next;
-      });
-      setRolling(false);
+      finalize();
     }, durationMs);
   };
 
@@ -151,12 +160,19 @@ export default function WebDice({ locale }: { locale: Locale }) {
         <button disabled={rolling} onClick={roll}>{t.rollButton}</button>
       </section>
 
-      <section id="dice-area" role="status" aria-live="polite" aria-atomic="true">
+      {/* 出目カード（視覚表示）。演出中は100msごとに仮の出目で更新されるため、
+          live region にはせず、確定結果のみ下の視覚非表示領域から通知する */}
+      <section id="dice-area">
         {currentDice.map((val, i) => (
           <div className="dice-card" key={i}>{val}</div>
         ))}
       </section>
       <div id="dice-stats">{statsText(currentDice, t.statsText)}</div>
+
+      {/* スクリーンリーダー向け通知：確定した結果だけを1回読み上げる（演出中は空のまま） */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {rolling ? '' : shareText()}
+      </div>
 
       <section id="history-area">
         <h2>{t.historyHeading}</h2>
