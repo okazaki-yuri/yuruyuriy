@@ -3,6 +3,15 @@
 本プロジェクトの主な変更点を記録する。フォーマットは [Keep a Changelog](https://keepachangelog.com/ja/1.1.0/) に準拠する。
 日付は YYYY-MM-DD（JST）。
 
+## 2026-07-24
+### 追加
+- **CI（GitHub Actions）を導入**。PR の作成・更新と master への push ごとに、以下を自動実行し、壊れた変更のマージを防ぐ（PR の Checks タブに結果が表示される）:
+  - **ESLint**（`eslint-config-next` ベース。静的エクスポート構成に合わせ `no-img-element` 等は無効化）
+  - **型チェック**（`tsc --noEmit`）と**静的エクスポートビルド**（`next build`）
+  - **内部リンク切れチェック**（linkinator でビルド成果物 `out/` のページ間リンク・アセット参照の 404 を検出）
+  - **Lighthouse CI**（主要4ページのアクセシビリティ・SEO・ベストプラクティスをしきい値 0.9 で検証。パフォーマンスは警告のみ。レポートは Actions の Artifacts に保存）
+  - ローカルでも `pnpm lint` / `pnpm typecheck` / `pnpm check:links` / `pnpm check:lighthouse` で同じチェックを実行できる。
+
 ## 2026-07-23
 ### 追加
 - **英語版ページ（`/en/`）を公開**。トップ・ツール一覧・単語ルーレット（Word Roulette）・オンラインサイコロ（Web Dice）・お問い合わせ・利用規約・プライバシーポリシーの全ページを英語で提供。日本語版の URL は従来どおり変更なし。

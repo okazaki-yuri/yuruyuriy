@@ -115,6 +115,8 @@ npx serve apps/web/out
 | `pnpm build` が `@yuruyuriy/core` の型/import で失敗 | `next.config.js` の設定漏れ | `transpilePackages: ['@yuruyuriy/core']` が必要（生TSを取り込むため） |
 | ポート 3000 が使用中 | 既存プロセスが占有 | 表示された別ポートを開く、または占有プロセスを終了 |
 | `--frozen-lockfile` で失敗 | `pnpm-lock.yaml` と依存が不整合 | 依存を変えたなら通常の `pnpm install` で lockfile を更新してコミット |
+| `pnpm typecheck` が `.next/types/...` の `Cannot find module` で失敗 | ブランチ切替等で古い `.next/types`（別ブランチのページの生成型）が残留 | `pnpm build` で再生成するか、`apps/web/.next/` を削除して再実行 |
+| `pnpm check:lighthouse` が `Unable to connect to Chrome` で失敗 | WSL2 から Windows 側 Chrome のデバッグポートに接続できない | ローカル（WSL2）では実行不可。CI（GitHub Actions）で実行されるためそちらで確認する |
 
 ---
 
@@ -123,6 +125,10 @@ npx serve apps/web/out
 ```bash
 pnpm install                 # 依存インストール（ルートで実行）
 pnpm dev                     # 開発サーバー（http://localhost:3000）
+pnpm lint                    # ESLint（設定は apps/web/eslint.config.mjs。CI でも PR ごとに実行される）
+pnpm typecheck               # 型チェック（tsc --noEmit。CI でも PR ごとに実行される）
 pnpm build                   # 静的エクスポート（apps/web/out/ を生成）
+pnpm check:links             # out/ の内部リンク切れチェック（要ビルド済み。設定は linkinator.config.json）
+pnpm check:lighthouse        # Lighthouse 計測（要ビルド済み・要ローカル Chrome。設定は lighthouserc.cjs）
 npx serve apps/web/out       # 静的成果物をローカル配信して最終確認
 ```
