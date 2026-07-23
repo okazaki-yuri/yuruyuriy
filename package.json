@@ -4,6 +4,7 @@
   "packageManager": "pnpm@11.15.1",
   "scripts": {
     "dev": "pnpm --filter web dev",
-    "build": "pnpm --filter web build"
+    "build": "pnpm --filter web build",
+    "typecheck": "pnpm --filter web typecheck"
   }
 }

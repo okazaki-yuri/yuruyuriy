@@ -3,6 +3,10 @@
 本プロジェクトの主な変更点を記録する。フォーマットは [Keep a Changelog](https://keepachangelog.com/ja/1.1.0/) に準拠する。
 日付は YYYY-MM-DD（JST）。
 
+## 2026-07-24
+### 追加
+- **CI（GitHub Actions）を導入**。PR の作成・更新と master への push ごとに、型チェック（`tsc --noEmit`）と静的エクスポートビルド（`next build`）を自動実行し、壊れた変更のマージを防ぐ（PR の Checks タブに結果が表示される）。ローカルでも `pnpm typecheck` で同じ型チェックを実行できる。
+
 ## 2026-07-23
 ### 追加
 - **英語版ページ（`/en/`）を公開**。トップ・ツール一覧・単語ルーレット（Word Roulette）・オンラインサイコロ（Web Dice）・お問い合わせ・利用規約・プライバシーポリシーの全ページを英語で提供。日本語版の URL は従来どおり変更なし。
