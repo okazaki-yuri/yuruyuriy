@@ -30,7 +30,7 @@
 3. **円形ルーレット（`.wheel-wrap`）** … ホイール式のときのみ表示（`RouletteWheel`）。
 4. **抽選結果表示（`.result-box`）** … 演出中は `spin`、確定時は `final` クラスが付く。テキスト式の演出中は高頻度で仮のことばに更新されるため live region にはせず、**確定結果のみ**を視覚非表示の通知領域（`role="status"` / `aria-live="polite"`、`.visually-hidden`）からスクリーンリーダーへ1回通知する。
 5. **入力モード切替タブ（`.tab-container`）** … 「ことば入力」（1語ずつ）／「まとめて入力」（改行区切りで一括）。
-6. **入力エリア（`.input-area`）** … 単語入力 `#wordInput`（最大50文字、Enterで追加可。**IME 変換確定の Enter では追加しない**＝`isComposing` と `keyCode 229` で判定）／一括入力 `#multiInput`（textarea）／「追加」「ルーレット」ボタン（抽選中は「抽選中…」表示で無効化）。
+6. **入力エリア（`.input-area`）** … 単語入力 `#wordInput`（最大50文字＝`MAX_WORD_LENGTH`、Enterで追加可。**IME 変換確定の Enter では追加しない**＝`isComposing` と `keyCode 229` で判定）／一括入力 `#multiInput`（textarea。**行ごとに同じ50文字上限へ切り詰めて登録**）／「追加」「ルーレット」ボタン（抽選中は「抽選中…」表示で無効化）。
 7. **並び順・抽選時間コントロール（`.sort-controls`）** … 登録が1件以上のとき表示。昇順／降順ソート、抽選時間セレクト。
 8. **ことば一覧（`.word-list`）** … 登録単語をタグ表示。各タグに削除ボタン（×）。
 9. **リセットボタン（`.reset-area`）** … 登録が1件以上のとき表示。確認後に全削除。

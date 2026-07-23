@@ -73,6 +73,24 @@ export default function WebDice({ locale }: { locale: Locale }) {
       return;
     }
 
+    // 結果の確定と履歴保存
+    const finalize = () => {
+      const results = rollDice({ min, max, count });
+      setCurrentDice(results);
+      setHistory((prev) => {
+        const next = [results, ...prev].slice(0, HISTORY_LIMIT);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        return next;
+      });
+      setRolling(false);
+    };
+
+    // OS の「視差効果を減らす」設定時は演出を行わず即時確定する（ホイール式ルーレットと同じ方針）
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      finalize();
+      return;
+    }
+
     setRolling(true);
 
     // 演出：確定までランダムな出目を切り替え表示する
@@ -82,16 +100,7 @@ export default function WebDice({ locale }: { locale: Locale }) {
 
     timeoutRef.current = setTimeout(() => {
       if (intervalRef.current) clearInterval(intervalRef.current);
-      const results = rollDice({ min, max, count });
-      setCurrentDice(results);
-
-      // 履歴保存
-      setHistory((prev) => {
-        const next = [results, ...prev].slice(0, HISTORY_LIMIT);
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-        return next;
-      });
-      setRolling(false);
+      finalize();
     }, durationMs);
   };
 

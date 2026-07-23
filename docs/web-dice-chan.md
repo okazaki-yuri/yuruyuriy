@@ -55,7 +55,7 @@
 ### UI ロジック（`WebDice.tsx`）
 | 関数 / 処理 | 役割 |
 | --- | --- |
-| `roll()` | 入力値の検証（違反時はアラートで中断）→ 演出（`setInterval` で100msごとに仮の出目を描画）→ `setTimeout` で確定 → 履歴保存 |
+| `roll()` | 入力値の検証（違反時はアラートで中断）→ 演出（`setInterval` で100msごとに仮の出目を描画）→ `setTimeout` で確定 → 履歴保存。**`prefers-reduced-motion: reduce` 設定時は演出せず即時確定**する（ホイール式ルーレットと同じ方針） |
 | `resetHistory()` | 確認後に履歴を全削除し表示をクリア |
 | `statsText(results)` | 統計の表示文字列を生成（1個のときは非表示） |
 | `shareText()` | シェア本文の組み立て（結果未確定なら空 → シェアボタン無効化） |

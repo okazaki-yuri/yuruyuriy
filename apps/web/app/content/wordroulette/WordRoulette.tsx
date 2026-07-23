@@ -8,6 +8,8 @@ import RouletteWheel from './RouletteWheel';
 
 const STORAGE_KEY = 'wordrouletteWords';
 const MODE_STORAGE_KEY = 'wordrouletteDisplayMode';
+// 1語あたりの最大文字数（1語入力の maxLength と、まとめて入力の行ごとの切り詰めで共用）
+const MAX_WORD_LENGTH = 50;
 
 type DisplayMode = 'text' | 'wheel';
 
@@ -77,7 +79,8 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
     } else {
       const newWords = multiInput
         .split('\n')
-        .map((w) => w.trim())
+        // 1語入力の maxLength と同じ上限を適用（超過分は入力欄と同様に切り詰める）
+        .map((w) => w.trim().slice(0, MAX_WORD_LENGTH))
         .filter((w) => w.length > 0);
       const next = [...words];
       newWords.forEach((word) => {
@@ -288,7 +291,7 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
         <div className={`tab-content${activeTab === 'single' ? '' : ' hidden'}`}>
           <input
             id="wordInput"
-            maxLength={50}
+            maxLength={MAX_WORD_LENGTH}
             placeholder={t.singlePlaceholder}
             value={singleInput}
             onChange={(e) => setSingleInput(e.target.value)}
