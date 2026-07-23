@@ -129,6 +129,8 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
     };
+    // マウント時の復元のみ行う（fitGoals は辞書 t に依存するが、復元は初回のみでよい）
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /** はしごを破棄して入力編集中の状態へ戻す（覗き見後の編集によるイカサマ防止） */
@@ -339,7 +341,6 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
 
   // スタート前のプレビュー用はしご。1人でも登録されたらはしごを表示する
   // （抽選に使う実体はスタート時に別途生成される。人数が変わったときだけ作り直す）
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const previewLadder = useMemo(
     () => (participants.length > 0 ? generateLadder(participants.length) : null),
     [participants.length]
