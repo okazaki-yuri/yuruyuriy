@@ -13,7 +13,7 @@ const routes: { path: string; priority: number; lastmod: { ja: string; en: strin
   { path: 'tools/', priority: 0.8, lastmod: { ja: '2026-07-23', en: '2026-07-23' } },
   { path: 'tools/wordroulette-chan/', priority: 0.7, lastmod: { ja: '2026-07-23', en: '2026-07-23' } },
   { path: 'tools/web-dice-chan/', priority: 0.7, lastmod: { ja: '2026-07-23', en: '2026-07-23' } },
-  { path: 'tools/amidakuji-chan/', priority: 0.7, lastmod: { ja: '2026-07-23', en: '2026-07-23' } },
+  { path: 'tools/amidakuji-chan/', priority: 0.7, lastmod: { ja: '2026-07-24', en: '2026-07-24' } },
   { path: 'contact/', priority: 0.5, lastmod: { ja: '2026-07-23', en: '2026-07-23' } },
   { path: 'legal/privacy-policy/', priority: 0.3, lastmod: { ja: '2026-07-23', en: '2026-07-23' } },
   { path: 'legal/terms-of-service/', priority: 0.3, lastmod: { ja: '2026-07-23', en: '2026-07-23' } },
