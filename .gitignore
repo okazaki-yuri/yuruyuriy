@@ -16,3 +16,7 @@ apps/web/public/assets/icon-192.png
 apps/web/public/assets/icon-512.png
 # ルート /favicon.ico はビルド時に assets/favicon.ico から複製する（ソースは assets 側）
 apps/web/public/favicon.ico
+
+# Lighthouse CI の作業ディレクトリ・レポート出力（lighthouserc.cjs）
+.lighthouseci/
+.lighthouseci-reports/
