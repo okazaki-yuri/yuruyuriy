@@ -23,7 +23,7 @@
    - タイトル「🛠 ツール一覧」と説明文
 2. **ツールカード一覧（`.tool-list-container`）** … カードを横並び（`flex` / 折り返し）で表示
    - **公開中ツール（`.tool-card.active-tool`）**: `tools` 配列から `map` で生成。リンク付き。ホバーで浮き上がる演出。
-   - **準備中ツール（`.tool-card.coming-soon`）**: リンクなし・半透明表示。プレースホルダ枠（現在2枚）を `Array.from` で生成。
+   - **準備中ツール（`.tool-card.coming-soon`）**: リンクなし・半透明表示。プレースホルダ枠（現在1枚）を `Array.from` で生成。
 
 ## 4. カードの構造
 各カードは以下で構成される（`tools.json` の `icon` / `name` / `description` / `href` に対応）。

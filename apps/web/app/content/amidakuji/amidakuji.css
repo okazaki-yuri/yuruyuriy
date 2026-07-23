@@ -1,0 +1,467 @@
+/* --- あみだくじちゃん専用CSS --- */
+
+/* 全体の設定
+================================================== */
+* {
+  box-sizing: border-box;
+}
+
+/* 結果の表示方式（一括表示／1人ずつ）切替タブ
+================================================== */
+.mode-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  width: fit-content;
+  margin: 0 auto 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  background-color: var(--surface-alt);
+}
+.mode-tab {
+  padding: 0.4rem 1.2rem;
+  border: none;
+  background: none;
+  color: var(--text-muted);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.mode-tab:hover:not(:disabled) {
+  background-color: var(--border);
+}
+.mode-tab.active {
+  background-color: var(--primary);
+  color: var(--on-primary);
+}
+.mode-tab:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+/* あみだくじ本体（はしご SVG と参加者ピッカー）
+================================================== */
+.amida-wrap {
+  /* 縦線・横棒の色 */
+  --amida-line: #a89f94;
+  /* 経路の塗り分けパレット（サイト配色に合わせたくすみトーン6色） */
+  --amida-path-1: #c76a76; /* ローズ */
+  --amida-path-2: #6f9a67; /* グリーン */
+  --amida-path-3: #c9973f; /* アンバー */
+  --amida-path-4: #5f87a8; /* ブルー */
+  --amida-path-5: #9a6fae; /* パープル */
+  --amida-path-6: #c07a4d; /* テラコッタ */
+
+  width: 100%;
+  max-width: var(--panel);
+  margin: 0 auto 1rem;
+}
+
+.amida-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.amida-rail {
+  stroke: var(--amida-line);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.amida-rung {
+  stroke: var(--amida-line);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.amida-trace {
+  fill: none;
+  stroke-width: 3.5;
+  stroke-opacity: 0.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.amida-label {
+  fill: var(--text);
+  font-weight: var(--fw-medium);
+  user-select: none;
+}
+
+.amida-goal-hidden {
+  fill: var(--text-faint);
+}
+
+.amida-empty {
+  fill: var(--surface-alt);
+  stroke: var(--border);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+}
+
+.amida-empty-text {
+  fill: var(--text-faint);
+  font-size: 11px;
+}
+
+/* 参加者ピッカー（1人ずつモード）。SVG は横幅を列数で等分しているため、
+   同じ列数の grid にすると各ボタンが縦線の真上に揃う */
+.amida-pick-hint {
+  margin: 0 auto 0.4rem;
+  max-width: var(--panel);
+  font-size: var(--fs-xs);
+  color: var(--text-muted);
+  text-align: center;
+}
+.amida-pickers {
+  display: grid;
+  grid-template-columns: repeat(var(--cols), 1fr);
+  gap: 2px;
+  width: 100%;
+  max-width: var(--panel);
+  margin: 0 auto 0.4rem;
+}
+.amida-pickers button {
+  min-width: 0;
+  padding: 0.4rem 0.2rem;
+  font-size: var(--fs-xs);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: background-color 0.2s;
+}
+.amida-pickers button:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+.amida-pickers button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* 結果一覧
+================================================== */
+.amida-results {
+  margin: 0 auto 1rem;
+  padding: 1rem;
+  border: 2px dashed var(--primary);
+  border-radius: var(--radius);
+  background-color: var(--surface);
+  width: 100%;
+  max-width: var(--panel);
+  text-align: center;
+}
+.amida-results ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.amida-results li {
+  font-size: var(--fs-md);
+  color: var(--text);
+  line-height: var(--lh-base);
+  word-break: break-word;
+  animation: amida-result-in 0.4s ease-out;
+}
+@keyframes amida-result-in {
+  0% { transform: scale(1.15); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* 案内文の文言はハードコードせず、data 属性（辞書由来。Amidakuji.tsx が設定）から表示する */
+.amida-results:empty::before {
+  content: attr(data-placeholder);
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+/* 入力モード切替用のタブ
+================================================== */
+.tab-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+  max-width: var(--panel);
+  margin-left: auto;
+  margin-right: auto;
+}
+.tab-button {
+  flex: 1;
+  padding: 0.6rem 1rem;
+  background-color: var(--surface-alt);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  color: var(--text-muted);
+  font-weight: var(--fw-bold);
+  cursor: pointer;
+}
+.tab-button:hover {
+  background-color: var(--border);
+}
+.tab-button.active {
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+
+/* なまえ入力エリア
+================================================== */
+.input-area {
+  width: 100%;
+  max-width: var(--panel);
+  margin: 0 auto 1rem;
+  text-align: center;
+}
+#nameInput,
+#multiInput {
+  width: 100%;
+  font-size: var(--fs-base);
+  padding: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+/* 追加＆スタート系ボタン
+================================================== */
+.button-row {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1rem;
+}
+.button-row button {
+  flex: 1;
+  min-width: 30%;
+  padding: 0.7rem;
+  font-size: var(--fs-base);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.button-row button:hover:not(:disabled) {
+  background-color: var(--primary-hover);
+}
+.button-row button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 参加者数エラー（インライン表示）
+================================================== */
+.amida-error {
+  margin: -0.5rem auto 1rem;
+  max-width: var(--panel);
+  font-size: var(--fs-sm);
+  color: var(--primary);
+  text-align: center;
+}
+
+/* 結果のことば入力
+================================================== */
+.goals-area {
+  width: 100%;
+  max-width: var(--panel);
+  margin: 0 auto 1rem;
+  text-align: left;
+}
+.goals-area label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  color: var(--text-muted);
+}
+#goalsInput {
+  width: 100%;
+  font-size: var(--fs-base);
+  padding: 0.6rem;
+  margin-bottom: 0.3rem;
+}
+.goals-hint {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--text-faint);
+}
+
+/* 演出時間セレクト
+================================================== */
+.duration-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+.duration-label {
+  font-weight: var(--fw-medium);
+}
+.duration-select {
+  padding: 0.2rem 0.4rem;
+  font-size: var(--fs-sm);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.duration-select:hover {
+  background: var(--surface-alt);
+}
+
+/* 参加者一覧
+================================================== */
+.word-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.word-tag {
+  background-color: var(--surface-alt);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  font-size: var(--fs-sm);
+  border: 1px solid var(--border);
+}
+.word-tag button {
+  margin-left: 0.6rem;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: none;
+  border-radius: 50%;
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: var(--fs-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: 0;
+}
+.word-tag button:hover {
+  background: var(--primary-hover);
+}
+
+/* リセットボタン
+================================================== */
+.reset-area {
+  margin-top: 1rem;
+  text-align: center;
+}
+.reset-area button {
+  padding: 0.6rem 1.5rem;
+  background-color: var(--accent);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+.reset-area button:hover {
+  background-color: var(--accent-hover);
+}
+
+/* 検索意図に合わせたリード文
+================================================== */
+.tool-lead {
+  max-width: var(--panel);
+  margin: 0 auto 1.5rem;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-base);
+  color: var(--text-muted);
+  text-align: left;
+}
+
+/* 利用シーン一覧
+================================================== */
+.usecase-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+  line-height: var(--lh-base);
+}
+.usecase-list li {
+  margin-bottom: 0.6rem;
+}
+
+/* よくある質問（FAQ）
+================================================== */
+.faq-area {
+  max-width: var(--panel);
+  margin: var(--space-lg) auto;
+  padding: 1.5rem;
+  background-color: var(--surface-alt);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  font-size: var(--fs-sm);
+  color: var(--text);
+}
+.faq-area h2 {
+  font-size: var(--fs-md);
+  margin-bottom: 1rem;
+  color: var(--primary);
+  text-align: center;
+}
+.faq-item {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--border);
+}
+.faq-item:last-child {
+  border-bottom: none;
+}
+.faq-item dt {
+  font-weight: var(--fw-bold);
+  margin-bottom: 0.4rem;
+  color: var(--text);
+}
+.faq-item dd {
+  margin: 0;
+  line-height: var(--lh-base);
+  color: var(--text-muted);
+}
+
+/* 画面表示制御用
+================================================== */
+.hidden {
+  display: none;
+}
+
+.tab-content.hidden {
+  display: none;
+}
+
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                   スマホ表示対応
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< */
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+  .button-row button {
+    font-size: var(--fs-sm);
+    padding: 0.6rem;
+  }
+  .amida-pickers button {
+    font-size: var(--fs-2xs);
+    padding: 0.35rem 0.1rem;
+  }
+}

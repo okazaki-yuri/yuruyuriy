@@ -167,6 +167,67 @@ export type Dictionary = {
       hashtags: string[];
     };
   };
+  amidakuji: {
+    metaTitle: string;
+    metaDescription: string;
+    ogTitle: string;
+    ogDescription: string;
+    /** JSON-LD（WebApplication）と h1・パンくずのツール名 */
+    name: string;
+    ldDescription: string;
+    heading: string;
+    lead: string;
+    aboutHeading: string;
+    aboutLines: string[];
+    usecaseHeading: string;
+    usecases: string[];
+    howtoHeading: string;
+    howtoItems: string[];
+    /** 使い方ガイド末尾の利用規約リンク行 */
+    howtoTermsItem: LinkedText;
+    faqHeading: string;
+    faqs: FaqItem[];
+    widget: {
+      modeTabsLabel: string;
+      modeBatch: string;
+      modeOne: string;
+      /** はしご未生成のときの案内文 */
+      ladderEmptyText: string;
+      /** 1人ずつモードで参加者ボタンを選ぶ案内文 */
+      pickHint: string;
+      tabSingle: string;
+      tabMulti: string;
+      singlePlaceholder: string;
+      multiPlaceholder: string;
+      addButton: string;
+      goalsLabel: string;
+      goalsPlaceholder: string;
+      /** ゴール空欄・不足時の自動採番の説明 */
+      goalsHint: string;
+      startButton: string;
+      restartButton: string;
+      revealButton: string;
+      revealingButton: string;
+      /** 参加者数が範囲外（2〜12人）のときのインラインエラー */
+      countError: string;
+      durationLabel: string;
+      durationNone: string;
+      durationSeconds: (n: number) => string;
+      /** 結果一覧が空のときの案内文（CSS の ::before から attr(data-placeholder) で参照） */
+      resultsPlaceholder: string;
+      /** 結果一覧の1行（例: 「名前 → ゴール」） */
+      resultPair: (name: string, goal: string) => string;
+      /** シェア・読み上げ用サマリで結果ペアをつなぐ区切り文字 */
+      pairSeparator: string;
+      /** 1人ずつモードの確定通知（スクリーンリーダー向け） */
+      statusOne: (name: string, goal: string) => string;
+      confirmDuplicate: (name: string) => string;
+      resetButton: string;
+      confirmReset: string;
+      shareText: (summary: string) => string;
+      hashtags: string[];
+    };
+  };
   dice: {
     metaTitle: string;
     metaDescription: string;
