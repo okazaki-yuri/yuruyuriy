@@ -250,17 +250,20 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
         <RouletteWheel words={words} rotation={wheelRotation} durationSec={wheelDuration} emptyText={t.wheelEmptyText} />
       )}
 
-      {/* 抽選結果表示（確定値をスクリーンリーダーへ通知）。
+      {/* 抽選結果表示（視覚表示）。テキスト式の演出中は高頻度で仮のことばに更新されるため、
+          live region にはせず、確定結果のみ下の視覚非表示領域から通知する。
           空のとき・抽選中の案内文は CSS の ::before が data 属性から表示する（辞書由来） */}
       <div
         className={`result-box${resultState ? ` ${resultState}` : ''}`}
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
         data-placeholder={t.resultPlaceholder}
         data-spinning={t.resultSpinning}
       >
         {result}
+      </div>
+
+      {/* スクリーンリーダー向け通知：確定した結果だけを1回読み上げる（演出中は空のまま） */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {spinning || result === '' ? '' : t.shareText(result)}
       </div>
 
       {/* 入力モード切替用のタブ */}
@@ -290,7 +293,10 @@ export default function WordRoulette({ locale }: { locale: Locale }) {
             value={singleInput}
             onChange={(e) => setSingleInput(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter') addWord();
+              // IME の変換確定 Enter では追加しない。
+              // isComposing … Chrome/Firefox（macOS）は変換確定も key==='Enter' で発火するため除外
+              // keyCode 229 … Safari は compositionend 後に isComposing=false で発火するため併用
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing && e.keyCode !== 229) addWord();
             }}
           />
         </div>

@@ -151,12 +151,19 @@ export default function WebDice({ locale }: { locale: Locale }) {
         <button disabled={rolling} onClick={roll}>{t.rollButton}</button>
       </section>
 
-      <section id="dice-area" role="status" aria-live="polite" aria-atomic="true">
+      {/* 出目カード（視覚表示）。演出中は100msごとに仮の出目で更新されるため、
+          live region にはせず、確定結果のみ下の視覚非表示領域から通知する */}
+      <section id="dice-area">
         {currentDice.map((val, i) => (
           <div className="dice-card" key={i}>{val}</div>
         ))}
       </section>
       <div id="dice-stats">{statsText(currentDice, t.statsText)}</div>
+
+      {/* スクリーンリーダー向け通知：確定した結果だけを1回読み上げる（演出中は空のまま） */}
+      <div role="status" aria-live="polite" aria-atomic="true" className="visually-hidden">
+        {rolling ? '' : shareText()}
+      </div>
 
       <section id="history-area">
         <h2>{t.historyHeading}</h2>
