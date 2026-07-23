@@ -72,7 +72,8 @@ apps/web/app/(en)/en/tools/<tool-slug>/
 - 保存する値に個人を特定する情報を含めない（[プライバシーポリシー](./privacy-policy.md) 5項に整合させる）。
 
 ## 7. SEO 反映（`apps/web/app/sitemap.ts`）
-- `sitemap.ts` はパスの手動リスト。新ツールのパスを追記する。
+- `sitemap.ts` はパスの手動リスト。新ツールのパスを追記する（1パス追記すれば日英2エントリ + hreflang が自動生成される。`lastmod` は言語別に実更新日を指定）。
+- `robots.txt`（`app/robots.ts`）は全パス許可のため**更新不要**。
 
 ```ts
 // apps/web/app/sitemap.ts の配列に追加

@@ -18,5 +18,15 @@
     },
     "href": "/tools/web-dice-chan/",
     "icon": "🎲"
+  },
+  {
+    "slug": "amidakuji-chan",
+    "name": { "ja": "あみだくじちゃん", "en": "Amidakuji" },
+    "description": {
+      "ja": "名前を入れるだけで引けるWEBあみだくじです。",
+      "en": "Draw a ghost leg lottery just by entering names."
+    },
+    "href": "/tools/amidakuji-chan/",
+    "icon": "🪜"
   }
 ]
