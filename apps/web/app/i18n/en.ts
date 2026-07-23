@@ -131,6 +131,8 @@ export const en = {
       '🧹 "Reset" removes all registered words.',
       '🔀 Use "A→Z / Z→A" to sort your words.',
       '🕒 Use "Duration" to adjust how long the draw takes.',
+      '🚫 Check "Remove the winner from the list" to automatically take each winner off the list — handy for deciding order or drawing without repeats.',
+      '🕘 Results are kept in the History section (stored only in your browser).',
     ],
     howtoTermsItem: {
       pre: '📄 For full terms of use, please see our ',
@@ -145,7 +147,7 @@ export const en = {
       },
       {
         q: 'Are the words I enter saved?',
-        a: 'Your words are stored in your own browser and remain on your next visit. Nothing is sent to a server, so you can use it with peace of mind.',
+        a: 'Your words and draw history are stored in your own browser and remain on your next visit. Nothing is sent to a server, so you can use it with peace of mind.',
       },
       {
         q: 'Does it work on smartphones?',
@@ -176,6 +178,10 @@ export const en = {
       durationLabel: 'Duration:',
       durationNone: 'None',
       durationSeconds: (n) => (n === 1 ? '1 second' : `${n} seconds`),
+      removeWinnerLabel: 'Remove the winner from the list',
+      historyHeading: 'History',
+      historyResetButton: 'Clear history',
+      confirmHistoryReset: 'Delete all history?',
       resetButton: 'Reset',
       confirmDuplicate: (word) => `"${word}" is already on the list. Add it anyway?`,
       confirmReset: 'Delete all words?',
@@ -218,6 +224,7 @@ export const en = {
       'Press "Roll Dice" to start.',
     ],
     howtoNotes: [
+      'Use the "Quick presets" buttons to set common dice ranges with one tap.',
       'You cannot roll if the minimum is greater than the maximum.',
       'When rolling two or more dice, the total, average, max, and min are also displayed.',
     ],
@@ -255,8 +262,10 @@ export const en = {
       durationHint: 'Choose how long the roll animation lasts.',
       durationSeconds: (n) => (n === 1 ? '1 second' : `${n} seconds`),
       rollButton: 'Roll Dice',
+      presetsLabel: 'Quick presets:',
       historyHeading: 'History',
       historyResultLabel: 'Result: ',
+      historyConfig: (min, max, count) => `(${min}–${max} × ${count} ${count === 1 ? 'die' : 'dice'})`,
       resetButton: 'Clear history',
       confirmReset: 'Delete all history?',
       statsText: (stats) =>
