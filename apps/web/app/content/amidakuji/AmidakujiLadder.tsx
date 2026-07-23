@@ -11,7 +11,7 @@ import type { AmidakujiLadder, TraceResult } from '@yuruyuriy/core';
 type Props = {
   /** はしご（未生成時は null でプレースホルダーを表示） */
   ladder: AmidakujiLadder | null;
-  /** 全参加者の経路（出発列順。ladder とセットで渡す） */
+  /** 全参加者の経路（出発列順）。スタート前のプレビュー表示では null */
   traces: TraceResult[] | null;
   /** 経路を表示する参加者 index の一覧 */
   revealed: number[];
@@ -89,8 +89,8 @@ export default function AmidakujiLadderView({
     };
   }, [revealed, durationSec]);
 
-  if (!ladder || !traces) {
-    // はしご未生成：プレースホルダー枠に案内文を表示する
+  if (!ladder) {
+    // はしご未生成（参加者0人）：プレースホルダー枠に案内文を表示する
     return (
       <div className="amida-wrap" aria-hidden="true">
         <svg className="amida-svg" viewBox="0 0 300 150">
@@ -156,7 +156,7 @@ export default function AmidakujiLadderView({
 
         {/* 公開された参加者の経路（stroke-dashoffset の遷移で線をなぞる演出） */}
         {revealed.map((i) => {
-          const trace = traces[i];
+          const trace = traces?.[i];
           if (!trace) return null;
           const px = trace.points.map((p) => ({ x: colX(p.col), y: rowY(p.y) }));
           // 経路は軸平行なので全長は座標差の和で求まる（getTotalLength 不要 = SSR 安全）

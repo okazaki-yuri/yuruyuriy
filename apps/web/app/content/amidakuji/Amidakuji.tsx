@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import {
+  AMIDAKUJI_LIMITS,
   generateLadder,
   normalizeGoals,
   traceAll,
@@ -59,7 +60,8 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
   const [confirmed, setConfirmed] = useState<number[]>([]);
   // 現在の公開演出に使う秒数（reduced-motion 適用後）。はしご側の transition に渡す
   const [traceDuration, setTraceDuration] = useState(0);
-  const [countError, setCountError] = useState(false);
+  // インラインエラーの種別（count: 人数不足 / max: 上限超過）
+  const [errorKey, setErrorKey] = useState<'' | 'count' | 'max'>('');
   // スクリーンリーダー向け通知文（確定時のみ更新して1回読み上げる）
   const [announced, setAnnounced] = useState('');
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -146,15 +148,20 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
     const nextGoals = fitGoals(goals, next.length);
     setGoals(nextGoals);
     localStorage.setItem(GOALS_STORAGE_KEY, JSON.stringify(nextGoals));
-    setCountError(false);
+    setErrorKey('');
     resetRound();
   };
 
-  /** 参加者一覧になまえを追加する */
+  /** 参加者一覧になまえを追加する（上限12人。超える分は追加せずエラー表示） */
   const addParticipant = () => {
+    const max = AMIDAKUJI_LIMITS.participantsMax;
     if (activeTab === 'single') {
       const name = singleInput.trim();
       if (!name) return;
+      if (participants.length >= max) {
+        setErrorKey('max');
+        return;
+      }
       if (participants.includes(name)) {
         if (!confirm(t.confirmDuplicate(name))) return;
       }
@@ -167,7 +174,12 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
         .map((w) => w.trim().slice(0, MAX_NAME_LENGTH))
         .filter((w) => w.length > 0);
       const next = [...participants];
+      let overflowed = false;
       newNames.forEach((name) => {
+        if (next.length >= max) {
+          overflowed = true;
+          return;
+        }
         if (!next.includes(name)) {
           next.push(name);
         } else {
@@ -178,6 +190,8 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
       });
       updateParticipants(next);
       setMultiInput('');
+      // updateParticipants がエラーをクリアするため、上限超過の表示は後から立てる
+      if (overflowed) setErrorKey('max');
     }
   };
 
@@ -208,13 +222,13 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
     localStorage.setItem(DURATION_STORAGE_KEY, value);
   };
 
-  /** あみだくじを作成する（スタート／作り直す） */
+  /** あみだくじを作成する（スタート／再抽選する） */
   const startLadder = () => {
     if (validateParticipantCount(participants.length).length > 0) {
-      setCountError(true);
+      setErrorKey('count');
       return;
     }
-    setCountError(false);
+    setErrorKey('');
     if (timerRef.current) clearTimeout(timerRef.current);
     // 空欄は「1, 2, 3…」の連番で補完する
     const nextGoals = normalizeGoals(goals, participants.length);
@@ -294,19 +308,31 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
       setGoals([]);
       localStorage.removeItem(PARTICIPANTS_STORAGE_KEY);
       localStorage.removeItem(GOALS_STORAGE_KEY);
-      setCountError(false);
+      setErrorKey('');
       resetRound();
     }
   };
 
   const revealing = phase === 'revealing';
+
+  // スタート前のプレビュー用はしご。1人でも登録されたらはしごを表示する
+  // （抽選に使う実体はスタート時に別途生成される。人数が変わったときだけ作り直す）
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const previewLadder = useMemo(
+    () => (participants.length > 0 ? generateLadder(participants.length) : null),
+    [participants.length]
+  );
+  const displayLadder = ladder ?? previewLadder;
+
   // 下ラベル：結果が確定した参加者の到達列だけゴールを公開し、それ以外は「?」で伏せる
   const goalLabels =
     assignedGoals && traces
       ? assignedGoals.map((goal, col) =>
           confirmed.some((i) => traces[i].goalIndex === col) ? goal : '?'
         )
-      : null;
+      : displayLadder
+        ? Array.from({ length: displayLadder.columns }, () => '?')
+        : null;
 
   return (
     <>
@@ -354,9 +380,10 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
         </>
       )}
 
-      {/* はしご（SVG）。結果はこの下の結果一覧と通知領域で読み上げるため装飾扱い */}
+      {/* はしご（SVG）。スタート前も1人以上いればプレビューを表示する。
+          結果はこの下の結果一覧と通知領域で読み上げるため装飾扱い */}
       <AmidakujiLadderView
-        ladder={ladder}
+        ladder={displayLadder}
         traces={traces}
         revealed={revealed}
         durationSec={traceDuration}
@@ -429,7 +456,7 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
         {/* 追加＆スタート系ボタン */}
         <div className="button-row">
           <button onClick={addParticipant}>{t.addButton}</button>
-          <button disabled={revealing} onClick={startLadder}>
+          <button className="start-button" disabled={revealing} onClick={startLadder}>
             {phase === 'idle' ? t.startButton : t.restartButton}
           </button>
           {revealMode === 'batch' && phase !== 'idle' && phase !== 'revealed' && (
@@ -440,8 +467,10 @@ export default function Amidakuji({ locale }: { locale: Locale }) {
         </div>
       </div>
 
-      {/* 参加者数エラー */}
-      {countError && <p className="amida-error">{t.countError}</p>}
+      {/* 参加者数エラー（人数不足／上限超過） */}
+      {errorKey && (
+        <p className="amida-error">{errorKey === 'max' ? t.maxCountError : t.countError}</p>
+      )}
 
       {/* ゴール（結果のことば）入力。参加者の数だけ欄が並び、既定はアタリ×1 + 残りハズレ */}
       {participants.length > 0 && (

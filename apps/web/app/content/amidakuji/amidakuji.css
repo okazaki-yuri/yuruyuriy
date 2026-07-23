@@ -256,6 +256,17 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+/* スタート／再抽選ボタンはメインアクションとして強調する */
+.button-row .start-button {
+  flex: 1.4;
+  background-color: var(--primary-hover);
+  font-weight: var(--fw-bold);
+  border: 2px solid var(--primary-hover);
+  box-shadow: var(--shadow-hover);
+}
+.button-row .start-button:hover:not(:disabled) {
+  background-color: var(--primary);
+}
 
 /* 参加者数エラー（インライン表示）
 ================================================== */

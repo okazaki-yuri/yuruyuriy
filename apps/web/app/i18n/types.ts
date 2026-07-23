@@ -214,6 +214,8 @@ export type Dictionary = {
       revealingButton: string;
       /** 参加者数が範囲外（2〜12人）のときのインラインエラー */
       countError: string;
+      /** 追加ボタンで上限（12人）を超えようとしたときのインラインエラー */
+      maxCountError: string;
       durationLabel: string;
       durationNone: string;
       durationSeconds: (n: number) => string;
