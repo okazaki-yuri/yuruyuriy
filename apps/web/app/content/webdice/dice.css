@@ -53,6 +53,40 @@
   max-width: 90vw;
 }
 
+/* よく使う範囲のプリセットボタン
+   （.controls button の主ボタン色を打ち消すチップ調。specificity のため .controls を付ける） */
+.preset-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.preset-label {
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.controls .preset-button {
+  padding: 0.2rem 0.7rem;
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+}
+
+.controls .preset-button:hover {
+  background-color: var(--surface-alt);
+}
+
+.controls .preset-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 .controls button {
   padding: 0.5rem 1.2rem;
   background-color: var(--primary);
@@ -118,6 +152,13 @@
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--surface);
+}
+
+/* 履歴に付記する抽選条件（例: （1〜6 × 2個）） */
+.history-config {
+  margin-left: 0.4rem;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
 }
 
 #history-area button {

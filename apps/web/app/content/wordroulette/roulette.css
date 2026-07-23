@@ -308,6 +308,76 @@
   background: var(--primary-hover);
 }
 
+/* 当選除外オプション
+================================================== */
+.spin-options {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+  font-size: var(--fs-sm);
+  color: var(--text-muted);
+}
+
+.remove-winner-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.remove-winner-label input[type='checkbox'] {
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+/* 抽選履歴（WEBサイコロちゃんの履歴エリアと同じトーン）
+================================================== */
+.history-area {
+  max-width: var(--panel);
+  margin: 20px auto;
+  width: 100%;
+  background-color: var(--surface-alt);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  padding: 10px;
+  text-align: left;
+}
+
+.history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.history-item {
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  font-size: var(--fs-sm);
+}
+
+.history-area button {
+  margin-top: 10px;
+  padding: 0.4rem 1rem;
+  background-color: var(--accent);
+  color: var(--on-primary);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.history-area button:hover {
+  background-color: var(--accent-hover);
+}
+
+.history-area button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 /* リセットボタン
 ================================================== */
 .reset-area {

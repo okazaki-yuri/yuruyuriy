@@ -155,6 +155,11 @@ export type Dictionary = {
       durationLabel: string;
       durationNone: string;
       durationSeconds: (n: number) => string;
+      /** 当選したことばを一覧から自動で除外するオプションのラベル */
+      removeWinnerLabel: string;
+      historyHeading: string;
+      historyResetButton: string;
+      confirmHistoryReset: string;
       resetButton: string;
       confirmDuplicate: (word: string) => string;
       confirmReset: string;
@@ -193,8 +198,12 @@ export type Dictionary = {
       durationHint: string;
       durationSeconds: (n: number) => string;
       rollButton: string;
+      /** よく使う出目範囲のプリセットボタン群のラベル */
+      presetsLabel: string;
       historyHeading: string;
       historyResultLabel: string;
+      /** 履歴に付記する抽選条件（括弧込み。例: （1〜6 × 2個）） */
+      historyConfig: (min: number, max: number, count: number) => string;
       resetButton: string;
       confirmReset: string;
       /** 「合計 / 平均 / 最大 / 最小」の表示文字列 */

@@ -130,6 +130,8 @@ export const ja = {
       '🧹 「リセット」で登録された「ことば」をすべて削除します。',
       '🔀 「昇順／降順」切替で「ことば」の並び替えができます。',
       '🕒 「抽選時間」切替で演出の時間を調整できます。',
+      '🚫 「当選したことばを一覧から除外」にチェックすると、当選したことばが自動で一覧から外れます（順番決めや重複なしの抽選に便利）。',
+      '🕘 抽選結果は「履歴」に残ります（お使いのブラウザ内にのみ保存）。',
     ],
     howtoTermsItem: {
       pre: '📄 そのほか詳しいご利用条件は',
@@ -144,7 +146,7 @@ export const ja = {
       },
       {
         q: '入力した単語（ことば）は保存されますか？',
-        a: '入力内容はお使いのブラウザ内に保存され、次回アクセス時も残ります。サーバーには送信されないため安心してご利用いただけます。',
+        a: '入力内容と抽選結果の履歴はお使いのブラウザ内に保存され、次回アクセス時も残ります。サーバーには送信されないため安心してご利用いただけます。',
       },
       {
         q: 'スマホでも使えますか？',
@@ -175,6 +177,10 @@ export const ja = {
       durationLabel: '抽選時間：',
       durationNone: 'なし',
       durationSeconds: (n) => `${n}秒`,
+      removeWinnerLabel: '当選したことばを一覧から除外',
+      historyHeading: '履歴',
+      historyResetButton: '履歴をリセット',
+      confirmHistoryReset: '履歴をすべて削除しますか？',
       resetButton: 'リセット',
       confirmDuplicate: (word) => `「${word}」はすでにあります。追加しますか？`,
       confirmReset: 'ことばをすべて削除しますか？',
@@ -217,6 +223,7 @@ export const ja = {
       '「サイコロを振る」ボタンを押すと抽選が始まります。',
     ],
     howtoNotes: [
+      '「よく使う範囲」のプリセットボタンで、出目の範囲をワンタップで設定できます。',
       '最小値が最大値より大きい場合は抽選できません。',
       '2個以上のサイコロを振った場合は「合計」「平均」「最大」「最小」も表示されます。',
     ],
@@ -254,8 +261,10 @@ export const ja = {
       durationHint: '演出時間を指定できます。',
       durationSeconds: (n) => `${n}秒`,
       rollButton: 'サイコロを振る',
+      presetsLabel: 'よく使う範囲：',
       historyHeading: '履歴',
       historyResultLabel: '結果：',
+      historyConfig: (min, max, count) => `（${min}〜${max} × ${count}個）`,
       resetButton: '履歴をリセット',
       confirmReset: '履歴をすべて削除しますか？',
       statsText: (stats) =>
