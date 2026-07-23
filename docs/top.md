@@ -21,7 +21,7 @@
    - サイトのコンセプト文（個人開発、趣味のツール公開、「かわいい！！」）
 3. **各ページリンク（`.top-section-links`）**
    - ツール一覧ボックス … `/tools/` への遷移ボタン
-   - ブログボックス … `https://yl-yuriy.com/`（別タブ）への遷移ボタン
+   - ブログボックス … `https://yl-yuriy.com/`（別タブ）への遷移ボタン。ヘッダーの `showBlog` フラグの対象外で**全言語に表示する**（en は辞書文言内の「(In Japanese)」注記で言語を明示。[i18n.md](./i18n.md) §2）
 4. **外部リンク（`.external-links`）**
    - リンクカード形式で、X / Instagram / YouTube への導線（すべて別タブ・`rel="noopener"`）
    - 各カードはアイコン画像（`/assets/*_icon.png`）とサービス名で構成

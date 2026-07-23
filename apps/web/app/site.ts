@@ -1,10 +1,16 @@
 // サイト共通の定数とメタデータ生成ヘルパー。
 // 従来は各ページで SITE_URL や openGraph の定型をコピペしていたが、ここに集約する。
 import type { Metadata } from 'next';
-import { getDictionary, localizePath, type Locale } from './i18n';
+import { LOCALES, getDictionary, localizePath, type Locale } from './i18n';
 import { OG_IMAGE, OG_IMAGE_EN } from './og';
 
 export const SITE_URL = 'https://tools.yl-yuriy.com';
+
+/** og:locale の表記（`言語_地域` 形式）。ロケール追加時はここにも列挙する */
+const OG_LOCALES: Record<Locale, string> = {
+  ja: 'ja_JP',
+  en: 'en_US',
+};
 
 /**
  * 各ページの alternates（canonical + hreflang）を組み立てる。
@@ -48,5 +54,8 @@ export function buildOpenGraph({
     siteName: getDictionary(locale).meta.siteName,
     images: [locale === 'ja' ? OG_IMAGE : OG_IMAGE_EN],
     type: 'website',
+    // og:locale / og:locale:alternate（hreflang と対応する言語シグナル）
+    locale: OG_LOCALES[locale],
+    alternateLocale: LOCALES.filter((l) => l !== locale).map((l) => OG_LOCALES[l]),
   };
 }

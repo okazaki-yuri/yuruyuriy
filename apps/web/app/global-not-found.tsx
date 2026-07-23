@@ -5,7 +5,7 @@
 // （next.config.js の experimental.globalNotFound と対）。表示言語はデフォルトロケール（ja）。
 import type { Metadata } from 'next';
 import RootDocument, { buildRootMetadata } from './content/root';
-import { getDictionary } from './i18n';
+import { getDictionary, localizePath } from './i18n';
 
 const d = getDictionary('ja');
 const dEn = getDictionary('en');
@@ -31,11 +31,11 @@ export default function GlobalNotFound() {
         <h1>{d.notFound.heading}</h1>
         <p>
           {d.notFound.line1}<br />
-          {d.notFound.line2.pre}<a href="/">{d.notFound.line2.linkText}</a>{d.notFound.line2.post}
+          {d.notFound.line2.pre}<a href={localizePath('ja', '/')}>{d.notFound.line2.linkText}</a>{d.notFound.line2.post}
         </p>
         <p lang="en">
           {dEn.notFound.line1}<br />
-          {dEn.notFound.line2.pre}<a href="/en/">{dEn.notFound.line2.linkText}</a>{dEn.notFound.line2.post}
+          {dEn.notFound.line2.pre}<a href={localizePath('en', '/')}>{dEn.notFound.line2.linkText}</a>{dEn.notFound.line2.post}
         </p>
       </main>
     </RootDocument>
