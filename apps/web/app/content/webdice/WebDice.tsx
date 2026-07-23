@@ -6,7 +6,10 @@ import ShareButtons from '../../components/ShareButtons';
 import { getDictionary, type Locale } from '../../i18n';
 
 const STORAGE_KEY = 'diceHistory';
+const DURATION_STORAGE_KEY = 'diceDuration';
 const HISTORY_LIMIT = 50; // 履歴の保持上限（localStorage の無制限肥大を防ぐ）
+// 演出時間セレクトの選択肢（ミリ秒）。localStorage 復元時の検証にも使う
+const DURATION_OPTIONS = ['500', '1000', '2000', '3000'] as const;
 
 // よく使う出目範囲のプリセット（最小値・最大値をワンタップで設定する）
 const PRESETS = [
@@ -87,6 +90,11 @@ export default function WebDice({ locale }: { locale: Locale }) {
         localStorage.removeItem(STORAGE_KEY);
       }
     }
+    // 演出時間の復元
+    const savedDuration = localStorage.getItem(DURATION_STORAGE_KEY);
+    if (savedDuration && (DURATION_OPTIONS as readonly string[]).includes(savedDuration)) {
+      setDuration(savedDuration);
+    }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -138,6 +146,12 @@ export default function WebDice({ locale }: { locale: Locale }) {
       if (intervalRef.current) clearInterval(intervalRef.current);
       finalize();
     }, durationMs);
+  };
+
+  /** 演出時間の変更と localStorage 保存 */
+  const changeDuration = (value: string) => {
+    setDuration(value);
+    localStorage.setItem(DURATION_STORAGE_KEY, value);
   };
 
   /** 履歴リセット */
@@ -202,11 +216,11 @@ export default function WebDice({ locale }: { locale: Locale }) {
         {/* 演出時間 */}
         <div className="control-group">
           <label>{t.durationLabel}</label>
-          <select value={duration} onChange={(e) => setDuration(e.target.value)}>
-            <option value="500">{t.durationSeconds(0.5)}</option>
-            <option value="1000">{t.durationSeconds(1)}</option>
-            <option value="2000">{t.durationSeconds(2)}</option>
-            <option value="3000">{t.durationSeconds(3)}</option>
+          {/* 選択は localStorage に保存され次回も復元される */}
+          <select value={duration} onChange={(e) => changeDuration(e.target.value)}>
+            {DURATION_OPTIONS.map((ms) => (
+              <option key={ms} value={ms}>{t.durationSeconds(Number(ms) / 1000)}</option>
+            ))}
           </select>
           <small>{t.durationHint}</small>
         </div>
