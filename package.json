@@ -5,6 +5,13 @@
   "scripts": {
     "dev": "pnpm --filter web dev",
     "build": "pnpm --filter web build",
-    "typecheck": "pnpm --filter web typecheck"
+    "typecheck": "pnpm --filter web typecheck",
+    "lint": "pnpm --filter web lint",
+    "check:links": "linkinator apps/web/out",
+    "check:lighthouse": "lhci autorun"
+  },
+  "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "linkinator": "^8.0.1"
   }
 }

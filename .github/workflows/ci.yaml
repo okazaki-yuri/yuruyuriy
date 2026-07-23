@@ -26,8 +26,25 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Lint
+        run: pnpm lint                   # eslint（設定は apps/web/eslint.config.mjs）
+
       - name: Typecheck
         run: pnpm typecheck              # tsc --noEmit（ビルドより先に型エラーを検出）
 
       - name: Build (static export)
         run: pnpm build                  # OG画像/アイコン生成 + next build → apps/web/out/
+
+      - name: Check internal links
+        run: pnpm check:links            # out/ 内のページ間リンク・アセット参照の404を検出（外部リンクは対象外）
+
+      - name: Lighthouse CI
+        run: pnpm check:lighthouse       # 主要4ページを計測（しきい値は lighthouserc.cjs。performance は warn のみ）
+
+      - name: Upload Lighthouse reports
+        if: always()                     # アサーション失敗時もレポートを確認できるように保存
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-reports
+          path: .lighthouseci-reports/
+          if-no-files-found: ignore

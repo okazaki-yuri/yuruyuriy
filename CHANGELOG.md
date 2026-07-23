@@ -5,7 +5,12 @@
 
 ## 2026-07-24
 ### 追加
-- **CI（GitHub Actions）を導入**。PR の作成・更新と master への push ごとに、型チェック（`tsc --noEmit`）と静的エクスポートビルド（`next build`）を自動実行し、壊れた変更のマージを防ぐ（PR の Checks タブに結果が表示される）。ローカルでも `pnpm typecheck` で同じ型チェックを実行できる。
+- **CI（GitHub Actions）を導入**。PR の作成・更新と master への push ごとに、以下を自動実行し、壊れた変更のマージを防ぐ（PR の Checks タブに結果が表示される）:
+  - **ESLint**（`eslint-config-next` ベース。静的エクスポート構成に合わせ `no-img-element` 等は無効化）
+  - **型チェック**（`tsc --noEmit`）と**静的エクスポートビルド**（`next build`）
+  - **内部リンク切れチェック**（linkinator でビルド成果物 `out/` のページ間リンク・アセット参照の 404 を検出）
+  - **Lighthouse CI**（主要4ページのアクセシビリティ・SEO・ベストプラクティスをしきい値 0.9 で検証。パフォーマンスは警告のみ。レポートは Actions の Artifacts に保存）
+  - ローカルでも `pnpm lint` / `pnpm typecheck` / `pnpm check:links` / `pnpm check:lighthouse` で同じチェックを実行できる。
 
 ## 2026-07-23
 ### 追加

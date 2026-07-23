@@ -4,3 +4,5 @@ packages:
 # 静的エクスポート（images.unoptimized）のため sharp のネイティブビルドは不要
 allowBuilds:
   sharp: false
+  # eslint-config-next 経由の依存。プリビルドバイナリ同梱のためビルド不要
+  unrs-resolver: false
